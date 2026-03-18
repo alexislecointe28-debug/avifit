@@ -1,22 +1,180 @@
 import Navbar from '@/components/Navbar'
+import { createServiceClient } from '@/lib/supabase'
+import type { Seance } from '@/types'
+import Link from 'next/link'
 
-export default function PlanningPage() {
+export const revalidate = 60
+
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr + 'T00:00:00')
+  return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
+}
+
+function formatHeure(h: string) {
+  return h.slice(0, 5)
+}
+
+function tagConfig(seance: Seance) {
+  const dispo = seance.places_max - seance.places_reservees
+  if (seance.statut === 'complet' || dispo === 0) return { label: 'Complet', cls: 'bg-red-100 text-red-700' }
+  if (dispo <= 2) return { label: `${dispo} place${dispo > 1 ? 's' : ''}`, cls: 'bg-yellow-100 text-yellow-700' }
+  return { label: `${dispo} places`, cls: 'bg-green-100 text-green-700' }
+}
+
+function typeBadge(type: string) {
+  const map: Record<string, string> = {
+    avifit_debutant: 'bg-blue-50 text-blue-600',
+    avifit_intermediaire: 'bg-purple-50 text-purple-600',
+    avifit_tous_niveaux: 'bg-teal-50 text-teal-600',
+  }
+  return map[type] ?? 'bg-gray-100 text-gray-600'
+}
+
+function typeLabel(type: string) {
+  const map: Record<string, string> = {
+    avifit_debutant: 'Débutant',
+    avifit_intermediaire: 'Intermédiaire',
+    avifit_tous_niveaux: 'Tous niveaux',
+  }
+  return map[type] ?? type
+}
+
+export default async function PlanningPage() {
+  const supabase = createServiceClient()
+
+  const today = new Date().toISOString().split('T')[0]
+  const { data: seances, error } = await supabase
+    .from('seances')
+    .select('*')
+    .gte('date', today)
+    .neq('statut', 'annule')
+    .order('date', { ascending: true })
+    .order('heure_debut', { ascending: true })
+
+  if (error) console.error('Supabase error:', error)
+  const seancesList: Seance[] = seances ?? []
+
   return (
     <>
       <Navbar />
-      <main className="max-w-6xl mx-auto px-6 py-16">
-        <p className="text-xs font-semibold text-brand uppercase tracking-widest mb-2">Planning</p>
-        <h1 className="text-3xl font-semibold tracking-tight mb-4">Réservez votre séance</h1>
-        <p className="text-gray-500 text-sm mb-12">Choisissez un créneau disponible, payez en ligne — c&apos;est tout.</p>
+      <main className="bg-gray-50 min-h-screen">
+        <div className="max-w-4xl mx-auto px-6 py-12">
 
-        <div className="bg-brand-50 border border-brand-200 rounded-2xl p-8 text-center">
-          <div className="w-12 h-12 rounded-full bg-brand flex items-center justify-center mx-auto mb-4">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
+          <div className="mb-10">
+            <p className="text-xs font-semibold text-brand uppercase tracking-widest mb-2">Planning</p>
+            <h1 className="text-3xl font-semibold tracking-tight mb-3">Réservez votre séance</h1>
+            <p className="text-sm text-gray-500">Choisissez un créneau, payez en ligne — confirmation immédiate par email.</p>
           </div>
-          <h2 className="text-lg font-semibold text-brand-800 mb-2">Planning en cours de configuration</h2>
-          <p className="text-sm text-brand-600">Les créneaux seront disponibles très prochainement.</p>
+
+          {/* Légende */}
+          <div className="flex gap-3 mb-8 flex-wrap">
+            {[
+              { type: 'avifit_debutant', label: 'Débutant' },
+              { type: 'avifit_intermediaire', label: 'Intermédiaire' },
+              { type: 'avifit_tous_niveaux', label: 'Tous niveaux' },
+            ].map((t) => (
+              <span key={t.type} className={`text-xs font-medium px-3 py-1.5 rounded-full ${typeBadge(t.type)}`}>
+                {t.label}
+              </span>
+            ))}
+          </div>
+
+          {seancesList.length === 0 ? (
+            <div className="bg-brand-50 border border-brand-200 rounded-2xl p-10 text-center">
+              <div className="w-12 h-12 rounded-full bg-brand flex items-center justify-center mx-auto mb-4">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h2 className="text-lg font-semibold text-brand-800 mb-2">Aucun créneau disponible</h2>
+              <p className="text-sm text-brand-600">De nouveaux créneaux seront ajoutés prochainement.</p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-3">
+              {seancesList.map((seance) => {
+                const tag = tagConfig(seance)
+                const dispo = seance.places_max - seance.places_reservees
+                const pct = Math.round((seance.places_reservees / seance.places_max) * 100)
+                const isComplet = seance.statut === 'complet' || dispo === 0
+
+                return (
+                  <div
+                    key={seance.id}
+                    className={`bg-white rounded-2xl border p-5 transition-shadow ${
+                      isComplet ? 'border-gray-100 opacity-70' : 'border-gray-200 hover:shadow-md hover:border-brand-200'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3 mb-2 flex-wrap">
+                          <span className="text-sm font-semibold text-gray-900 capitalize">
+                            {formatDate(seance.date)}
+                          </span>
+                          <span className="text-xs text-gray-400">
+                            {formatHeure(seance.heure_debut)} – {formatHeure(seance.heure_fin)}
+                          </span>
+                          <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${typeBadge(seance.type)}`}>
+                            {typeLabel(seance.type)}
+                          </span>
+                        </div>
+                        <div className="text-base font-medium text-gray-800 mb-3">{seance.titre}</div>
+                        <div className="flex items-center gap-4 text-xs text-gray-400 mb-3">
+                          <span>1h · 10 personnes max</span>
+                          <span>{(seance.prix / 100).toFixed(0)}€ / séance</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full ${isComplet ? 'bg-red-400' : 'bg-brand'}`}
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                          <span className="text-xs text-gray-400 min-w-[70px] text-right">
+                            {seance.places_reservees}/{seance.places_max} inscrits
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col items-end gap-3 flex-shrink-0">
+                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${tag.cls}`}>
+                          {tag.label}
+                        </span>
+                        {isComplet ? (
+                          <span className="text-xs text-gray-400">Séance complète</span>
+                        ) : (
+                          <Link
+                            href={`/reserver/${seance.id}`}
+                            className="bg-brand text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-brand-700 transition-colors"
+                          >
+                            Réserver
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+
+          {/* Tarifs */}
+          <div className="mt-10 bg-white rounded-2xl border border-gray-200 p-6">
+            <h3 className="text-sm font-semibold mb-4">Tarifs</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <div className="text-2xl font-bold text-gray-900 tracking-tight">10€</div>
+                <div className="text-xs text-gray-400 mt-1">Séance à l&apos;unité</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-gray-900 tracking-tight">80€</div>
+                <div className="text-xs text-gray-400 mt-1">Forfait 10 séances (8€/séance)</div>
+              </div>
+            </div>
+            <p className="text-xs text-gray-400 mt-4 pt-4 border-t border-gray-100">
+              Licence FFA annuelle 45€ requise si non-licencié — ajoutée automatiquement au checkout.
+            </p>
+          </div>
+
         </div>
       </main>
     </>
