@@ -8,11 +8,11 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex flex-col gap-0.5">
           <Image
-            src="/avifit-logo.svg"
+            src="/avifit-logo.png"
             alt="Avifit FFA"
-            width={100}
-            height={32}
-            className="h-8 w-auto object-contain"
+            width={120}
+            height={40}
+            className="h-10 w-auto object-contain"
             priority
           />
           <span className="text-[10px] text-gray-400 tracking-wide pl-0.5">
