@@ -73,8 +73,8 @@ export default function ReservationForm({ seance }: Props) {
               className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${avecLicence === opt.value ? 'border-brand bg-brand-50' : 'border-gray-200'}`}>
               <input type="radio" name="licence" checked={avecLicence === opt.value} onChange={() => setAvecLicence(opt.value)} className="accent-brand" />
               <div className="flex-1">
-                <div className="text-sm font-medium">{opt.label}</div>
-                <div className="text-xs text-gray-400">{opt.sub}</div>
+                <div className="text-sm font-semibold">{opt.label}</div>
+                <div className="text-xs text-gray-500 font-medium">{opt.sub}</div>
               </div>
               <span className={`text-sm font-semibold ${opt.prixClass}`}>{opt.prix}</span>
             </label>

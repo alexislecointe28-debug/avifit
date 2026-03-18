@@ -15,11 +15,11 @@ export default function HomePage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0" />
                 Labellisé Avifit® · Fédération Française d&apos;Aviron
               </div>
-              <h1 className="text-4xl md:text-5xl font-semibold leading-tight tracking-tight text-gray-900 mb-5">
+              <h1 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight text-gray-900 mb-5">
                 L&apos;aviron indoor<br />
                 pour <span className="text-brand">tout le monde.</span>
               </h1>
-              <p className="text-base text-gray-500 leading-relaxed mb-8 max-w-md">
+              <p className="text-lg text-gray-600 leading-relaxed font-medium mb-8 max-w-md">
                 Cours collectifs sur ergomètre, 1h, 10 personnes max. Encadré par un coach certifié FFA. Aucun prérequis — aucun matériel.
               </p>
               <div className="flex gap-3 flex-wrap">
@@ -70,7 +70,7 @@ export default function HomePage() {
               { num: 'FFA', label: 'Labellisé fédération' },
             ].map((s) => (
               <div key={s.num} className="py-7 px-6 text-center">
-                <div className="text-3xl font-semibold text-brand tracking-tight">{s.num}</div>
+                <div className="text-4xl font-bold text-brand tracking-tight">{s.num}</div>
                 <div className="text-xs text-gray-400 mt-1.5">{s.label}</div>
               </div>
             ))}
@@ -95,8 +95,8 @@ export default function HomePage() {
         {/* PHOTOS */}
         <section className="bg-gray-50 border-b border-gray-200 py-16 px-6">
           <div className="max-w-6xl mx-auto">
-            <p className="text-xs font-semibold text-brand uppercase tracking-widest mb-2">L&apos;ambiance</p>
-            <h2 className="text-3xl font-semibold tracking-tight mb-8">Venez transpirer.</h2>
+            <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">L&apos;ambiance</p>
+            <h2 className="text-4xl font-bold tracking-tight mb-8">Venez transpirer.</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
                 <img
@@ -120,9 +120,9 @@ export default function HomePage() {
         <section id="concept" className="bg-white border-b border-gray-200 py-16 px-6">
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14">
             <div>
-              <p className="text-xs font-semibold text-brand uppercase tracking-widest mb-2">Une séance type</p>
-              <h2 className="text-3xl font-semibold mb-4 tracking-tight">Ce qui vous attend</h2>
-              <p className="text-sm text-gray-500 leading-relaxed mb-6">Chaque séance est structurée, rythmée par la musique, et adaptée à votre niveau.</p>
+              <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Une séance type</p>
+              <h2 className="text-4xl font-bold mb-4 tracking-tight">Ce qui vous attend</h2>
+              <p className="text-base text-gray-600 leading-relaxed mb-6">Chaque séance est structurée, rythmée par la musique, et adaptée à votre niveau.</p>
               <div className="flex flex-col gap-3">
                 {[
                   { time: "10'", name: 'Échauffement', desc: 'Mobilité articulaire, activation musculaire, prise en main ergo' },
@@ -134,16 +134,16 @@ export default function HomePage() {
                     <span className="text-xl font-semibold text-brand min-w-[48px]">{b.time}</span>
                     <div>
                       <div className="text-sm font-medium mb-0.5">{b.name}</div>
-                      <div className="text-xs text-gray-400 leading-relaxed">{b.desc}</div>
+                      <div className="text-xs text-gray-500 leading-relaxed font-medium">{b.desc}</div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
             <div>
-              <p className="text-xs font-semibold text-brand uppercase tracking-widest mb-2">Pourquoi l&apos;aviron indoor</p>
-              <h2 className="text-3xl font-semibold mb-4 tracking-tight">Un sport vraiment complet</h2>
-              <p className="text-sm text-gray-500 leading-relaxed mb-6">Sans impact articulaire, accessible dès la première séance, efficace pour tous.</p>
+              <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Pourquoi l&apos;aviron indoor</p>
+              <h2 className="text-4xl font-bold mb-4 tracking-tight">Un sport vraiment complet</h2>
+              <p className="text-base text-gray-600 leading-relaxed mb-6">Sans impact articulaire, accessible dès la première séance, efficace pour tous.</p>
               <div className="grid grid-cols-2 gap-3">
                 {[
                   { title: 'Cardio intense', desc: 'FC élevée sans abîmer les articulations.' },
@@ -155,7 +155,7 @@ export default function HomePage() {
                 ].map((b) => (
                   <div key={b.title} className="border-l-[3px] border-brand pl-4 py-3 bg-white rounded-r-lg border border-gray-100">
                     <div className="text-sm font-medium mb-1">{b.title}</div>
-                    <div className="text-xs text-gray-400 leading-relaxed">{b.desc}</div>
+                    <div className="text-xs text-gray-500 leading-relaxed font-medium">{b.desc}</div>
                   </div>
                 ))}
               </div>
@@ -166,8 +166,8 @@ export default function HomePage() {
         {/* 3 ÉTAPES */}
         <section className="bg-gray-50 border-b border-gray-200 py-16 px-6">
           <div className="max-w-6xl mx-auto">
-            <p className="text-xs font-semibold text-brand uppercase tracking-widest mb-2">Réserver</p>
-            <h2 className="text-3xl font-semibold mb-10 tracking-tight">En 3 étapes</h2>
+            <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Réserver</p>
+            <h2 className="text-4xl font-bold mb-10 tracking-tight">En 3 étapes</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {[
                 { n: '1', title: 'Choisissez un créneau', desc: 'Planning en temps réel avec les places disponibles. Débutant, intermédiaire ou tous niveaux.' },
@@ -176,8 +176,8 @@ export default function HomePage() {
               ].map((s) => (
                 <div key={s.n} className="bg-white rounded-xl border border-gray-200 p-6">
                   <div className="w-8 h-8 rounded-full bg-brand-50 border border-brand-200 flex items-center justify-center text-sm font-semibold text-brand mb-4">{s.n}</div>
-                  <div className="text-base font-semibold mb-2">{s.title}</div>
-                  <div className="text-sm text-gray-500 leading-relaxed">{s.desc}</div>
+                  <div className="text-base font-bold mb-2">{s.title}</div>
+                  <div className="text-sm text-gray-700 leading-relaxed font-medium">{s.desc}</div>
                 </div>
               ))}
             </div>
@@ -187,8 +187,8 @@ export default function HomePage() {
         {/* TARIFS */}
         <section id="tarifs" className="bg-white border-b border-gray-200 py-16 px-6">
           <div className="max-w-6xl mx-auto">
-            <p className="text-xs font-semibold text-brand uppercase tracking-widest mb-2">Tarifs</p>
-            <h2 className="text-3xl font-semibold mb-10 tracking-tight">Simple et transparent</h2>
+            <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Tarifs</p>
+            <h2 className="text-4xl font-bold mb-10 tracking-tight">Simple et transparent</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
                 {
@@ -220,7 +220,7 @@ export default function HomePage() {
                   <div className="h-px bg-gray-100 mb-5" />
                   <ul className="flex flex-col gap-2.5 mb-6">
                     {p.items.map((item) => (
-                      <li key={item} className="flex items-center gap-2.5 text-sm text-gray-600">
+                      <li key={item} className="flex items-center gap-2.5 text-sm text-gray-700 font-medium">
                         <span className="w-4 h-4 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
                           <span className="w-1.5 h-1.5 rounded-full bg-green-600" />
                         </span>

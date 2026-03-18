@@ -63,7 +63,7 @@ export default async function PlanningPage() {
           <div className="mb-10">
             <p className="text-xs font-semibold text-brand uppercase tracking-widest mb-2">Planning</p>
             <h1 className="text-3xl font-semibold tracking-tight mb-3">Réservez votre séance</h1>
-            <p className="text-sm text-gray-500">Choisissez un créneau, payez en ligne — confirmation immédiate par email.</p>
+            <p className="text-sm text-gray-700 font-medium">Choisissez un créneau, payez en ligne — confirmation immédiate par email.</p>
           </div>
 
           {/* Légende */}
@@ -110,7 +110,7 @@ export default async function PlanningPage() {
                           <span className="text-sm font-semibold text-gray-900 capitalize">
                             {formatDate(seance.date)}
                           </span>
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-gray-500 font-medium">
                             {formatHeure(seance.heure_debut)} – {formatHeure(seance.heure_fin)}
                           </span>
                           <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${typeBadge(seance.type)}`}>
@@ -140,7 +140,7 @@ export default async function PlanningPage() {
                           {tag.label}
                         </span>
                         {isComplet ? (
-                          <span className="text-xs text-gray-400">Séance complète</span>
+                          <span className="text-xs text-gray-500 font-medium">Séance complète</span>
                         ) : (
                           <Link
                             href={`/reserver/${seance.id}`}
