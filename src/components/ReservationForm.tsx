@@ -66,7 +66,7 @@ export default function ReservationForm({ seance }: Props) {
         <p className="text-xs font-semibold text-brand uppercase tracking-widest mb-4">Licence FFA</p>
         <div className="flex flex-col gap-3">
           {([
-            { value: false, label: 'Je suis déjà licencié FFA', sub: 'Licencié UNL ou autre club FFA', prix: 'Inclus', prixClass: 'text-green-600' },
+            { value: false, label: 'Je suis déjà licencié FFA', sub: 'Licencié AUNL ou autre club FFA', prix: 'Inclus', prixClass: 'text-green-600' },
             { value: true, label: "Je n'ai pas de licence FFA", sub: 'Licence annuelle obligatoire', prix: `+${prixLicence}€`, prixClass: 'text-gray-900' },
           ] as const).map((opt) => (
             <label key={String(opt.value)}

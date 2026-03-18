@@ -12,14 +12,14 @@ export default function HomePage() {
         <section className="relative border-b border-gray-200 py-20 px-6 overflow-hidden">
           {/* Background photo */}
           <div className="absolute inset-0">
-            <Image src="/photo-unl-coach.jpg" alt="Coach Avifit UNL Lyon" fill className="object-cover object-center" priority />
+            <Image src="/photo-unl-coach.jpg" alt="Coach Avifit AUNL" fill className="object-cover object-center" priority />
             <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px]" />
           </div>
           <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
             <div>
               <div className="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-xs font-medium px-3 py-1.5 rounded-full border border-brand-200 mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0" />
-                Labellisé Avifit® · Fédération Française d&apos;Aviron
+                Labellisé Avifit® · FFA
               </div>
               <h1 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight text-gray-900 mb-5">
                 L&apos;aviron indoor<br />
@@ -102,13 +102,13 @@ export default function HomePage() {
         <section className="bg-gray-50 border-b border-gray-200 py-16 px-6">
           <div className="max-w-6xl mx-auto">
             <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">L&apos;ambiance</p>
-            <h2 className="text-4xl font-bold tracking-tight mb-8">À l&apos;UNL Lyon.</h2>
+            <h2 className="text-4xl font-bold tracking-tight mb-8">À l&apos;AUNL.</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div className="relative overflow-hidden rounded-2xl aspect-[4/3] col-span-2 md:col-span-1 md:row-span-2 md:aspect-auto md:min-h-[400px]">
-                <Image src="/photo-unl-seance.jpg" alt="Séance collective sur ergomètre Concept2 — UNL Lyon" fill className="object-cover hover:scale-105 transition-transform duration-500" />
+                <Image src="/photo-unl-seance.jpg" alt="Séance collective sur ergomètre Concept2 — AUNL" fill className="object-cover hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
-                <Image src="/photo-unl-ergo.jpg" alt="Ergomètres Concept2 — UNL Lyon" fill className="object-cover hover:scale-105 transition-transform duration-500" />
+                <Image src="/photo-unl-ergo.jpg" alt="Ergomètres Concept2 — AUNL" fill className="object-cover hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
                 <Image src="/photo-ergo-collectif.webp" alt="Séance Avifit collective" fill className="object-cover hover:scale-105 transition-transform duration-500" />
@@ -173,7 +173,7 @@ export default function HomePage() {
               {[
                 { n: '1', title: 'Choisissez un créneau', desc: 'Planning en temps réel avec les places disponibles. Débutant, intermédiaire ou tous niveaux.' },
                 { n: '2', title: 'Payez en ligne', desc: "Séance à l'unité (10€) ou forfait 10 séances (80€). Paiement sécurisé Stripe. Licence FFA ajoutée si besoin." },
-                { n: '3', title: 'Venez transpirer', desc: "Confirmation par email. On vous accueille à l'UNL bord de Saône. Juste de l'eau à apporter." },
+                { n: '3', title: 'Venez transpirer', desc: "Confirmation par email. On vous accueille à l'AUNL bord de Saône. Juste de l'eau à apporter." },
               ].map((s) => (
                 <div key={s.n} className="bg-white rounded-xl border border-gray-200 p-6">
                   <div className="w-8 h-8 rounded-full bg-brand-50 border border-brand-200 flex items-center justify-center text-sm font-semibold text-brand mb-4">{s.n}</div>
@@ -203,7 +203,7 @@ export default function HomePage() {
                   featured: true,
                 },
                 {
-                  name: 'Licencié UNL', desc: 'Déjà licencié FFA · tarif adhérent', price: '8€', unit: 'par séance',
+                  name: 'Licencié AUNL', desc: 'Déjà licencié FFA · tarif adhérent', price: '8€', unit: 'par séance',
                   items: ['Licence FFA déjà incluse', 'Priorité sur les créneaux', 'Forfait 10 séances à 70€'],
                   featured: false,
                 },
@@ -239,7 +239,7 @@ export default function HomePage() {
               ))}
             </div>
             <p className="text-xs text-gray-400 mt-4">
-              * Licence FFA annuelle 45€ requise si non-licencié — ajoutée automatiquement au checkout. Licenciés UNL : déjà couverts.
+              * Licence FFA annuelle 45€ requise si non-licencié — ajoutée automatiquement au checkout. Licenciés AUNL : déjà couverts.
             </p>
           </div>
         </section>
@@ -259,8 +259,8 @@ export default function HomePage() {
         {/* FOOTER */}
         <footer className="bg-white border-t border-gray-200 px-6 py-6">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
-            <span className="text-xs text-gray-400">© 2025 Union Nautique de Lyon — Avifit</span>
-            <span className="text-xs text-gray-400">Labellisé Avifit® · Fédération Française d&apos;Aviron</span>
+            <span className="text-xs text-gray-400">© 2025 AUNL — Avifit</span>
+            <span className="text-xs text-gray-400">Labellisé Avifit® · FFA</span>
           </div>
         </footer>
 

@@ -6,18 +6,28 @@ export default function Navbar() {
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex flex-col gap-0.5">
+        <Link href="/" className="flex items-center gap-3">
+          <div className="flex flex-col gap-0.5">
+            <Image
+              src="/avifit-logo.png"
+              alt="Avifit FFA"
+              width={120}
+              height={40}
+              className="h-10 w-auto object-contain"
+              priority
+            />
+            <span className="text-[10px] text-gray-400 tracking-wide pl-0.5">
+              by Alexis
+            </span>
+          </div>
+          <div className="w-px h-8 bg-gray-200 mx-1" />
           <Image
-            src="/avifit-logo.png"
-            alt="Avifit FFA"
-            width={120}
-            height={40}
+            src="/aunl-logo.png"
+            alt="Aviron Union Nautique de Lyon"
+            width={36}
+            height={44}
             className="h-10 w-auto object-contain"
-            priority
           />
-          <span className="text-[10px] text-gray-400 tracking-wide pl-0.5">
-            by Alexis
-          </span>
         </Link>
 
         {/* Links */}
