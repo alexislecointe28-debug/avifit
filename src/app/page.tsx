@@ -92,6 +92,30 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* PHOTOS */}
+        <section className="bg-gray-50 border-b border-gray-200 py-16 px-6">
+          <div className="max-w-6xl mx-auto">
+            <p className="text-xs font-semibold text-brand uppercase tracking-widest mb-2">L&apos;ambiance</p>
+            <h2 className="text-3xl font-semibold tracking-tight mb-8">Venez transpirer.</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
+                <img
+                  src="/photo-ergo-collectif.webp"
+                  alt="Séance Avifit collective sur ergomètre"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
+                <img
+                  src="/photo-ergo-detail.webp"
+                  alt="Détail prise en main ergomètre Avifit"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* CONCEPT */}
         <section id="concept" className="bg-white border-b border-gray-200 py-16 px-6">
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14">
