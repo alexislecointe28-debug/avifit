@@ -1,101 +1,83 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe, PRICES } from '@/lib/stripe'
+import { stripe } from '@/lib/stripe'
 import { createServiceClient } from '@/lib/supabase'
-import type Stripe from 'stripe'
 
 export async function POST(req: NextRequest) {
   try {
-    const { seanceId, format, licenceFFA, nom, prenom, email } = await req.json()
+    const body = await req.json()
+    const { seanceId, nom, prenom, email, format, avecLicenceFfa } = body
 
-    if (!seanceId || !format || !email || !nom || !prenom) {
-      return NextResponse.json({ error: 'Paramètres manquants' }, { status: 400 })
+    if (!seanceId || !nom || !prenom || !email || !format) {
+      return NextResponse.json({ error: 'Champs manquants' }, { status: 400 })
     }
 
     const supabase = createServiceClient()
-    const { data: seance, error } = await supabase
-      .from('seances')
-      .select('*')
-      .eq('id', seanceId)
-      .single()
+    const { data: seance, error: seanceError } = await supabase
+      .from('seances').select('*').eq('id', seanceId).single()
 
-    if (error || !seance) {
+    if (seanceError || !seance) {
       return NextResponse.json({ error: 'Séance introuvable' }, { status: 404 })
     }
 
-    if (seance.statut === 'complet' || seance.places_reservees >= seance.places_max) {
-      return NextResponse.json({ error: 'Cette séance est complète' }, { status: 400 })
+    const dispo = seance.places_max - seance.places_reservees
+    if (seance.statut === 'complet' || dispo <= 0) {
+      return NextResponse.json({ error: 'Cette séance est complète' }, { status: 409 })
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://avifit.vercel.app'
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
-    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = []
+    type LineItem = {
+      price_data: { currency: string; product_data: { name: string; description?: string }; unit_amount: number }
+      quantity: number
+    }
+    const lineItems: LineItem[] = []
 
-    if (format === 'forfait') {
+    if (format === 'seance') {
       lineItems.push({
-        price_data: {
-          currency: 'eur',
-          product_data: { name: PRICES.forfait.label, description: PRICES.forfait.description },
-          unit_amount: PRICES.forfait.amount,
-        },
+        price_data: { currency: 'eur', product_data: { name: 'Séance Avifit', description: `${seance.titre} — ${seance.date}` }, unit_amount: seance.prix },
         quantity: 1,
       })
     } else {
       lineItems.push({
-        price_data: {
-          currency: 'eur',
-          product_data: {
-            name: PRICES.seance.label,
-            description: `${seance.titre} — ${seance.date} ${String(seance.heure_debut).slice(0, 5)}`,
-          },
-          unit_amount: seance.prix as number,
-        },
+        price_data: { currency: 'eur', product_data: { name: 'Forfait 10 séances Avifit', description: 'Valable 3 mois · 8€/séance' }, unit_amount: 8000 },
         quantity: 1,
       })
     }
 
-    if (licenceFFA) {
+    if (avecLicenceFfa) {
       lineItems.push({
-        price_data: {
-          currency: 'eur',
-          product_data: { name: PRICES.licence_ffa.label, description: PRICES.licence_ffa.description },
-          unit_amount: PRICES.licence_ffa.amount,
-        },
+        price_data: { currency: 'eur', product_data: { name: 'Licence FFA annuelle', description: 'Obligatoire si non-licencié' }, unit_amount: 4500 },
         quantity: 1,
       })
+    }
+
+    const montantTotal = lineItems.reduce((sum, item) => sum + item.price_data.unit_amount * item.quantity, 0)
+
+    const { data: reservation, error: reservationError } = await supabase
+      .from('reservations')
+      .insert({ seance_id: seanceId, client_email: email, client_nom: nom, client_prenom: prenom, statut: 'pending', avec_licence_ffa: avecLicenceFfa, montant_total: montantTotal })
+      .select().single()
+
+    if (reservationError || !reservation) {
+      return NextResponse.json({ error: 'Erreur création réservation' }, { status: 500 })
     }
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
+      line_items: lineItems,
       mode: 'payment',
       customer_email: email,
-      line_items: lineItems,
-      metadata: { seanceId, format, licenceFFA: licenceFFA ? 'true' : 'false', nom, prenom, email },
+      metadata: { reservation_id: reservation.id, seance_id: seanceId, format, client_nom: nom, client_prenom: prenom },
       success_url: `${appUrl}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${appUrl}/reserver/${seanceId}?cancelled=true`,
+      cancel_url: `${appUrl}/reserver/${seanceId}?cancelled=1`,
       locale: 'fr',
     })
 
-    const montantTotal = lineItems.reduce((sum: number, item: Stripe.Checkout.SessionCreateParams.LineItem) => {
-      return sum + ((item.price_data?.unit_amount ?? 0) as number)
-    }, 0)
-
-    await supabase.from('reservations').insert({
-      seance_id: seanceId,
-      client_email: email,
-      client_nom: nom,
-      client_prenom: prenom,
-      statut: 'pending',
-      stripe_session_id: session.id,
-      avec_licence_ffa: licenceFFA,
-      montant_total: montantTotal,
-    })
+    await supabase.from('reservations').update({ stripe_session_id: session.id }).eq('id', reservation.id)
 
     return NextResponse.json({ url: session.url })
   } catch (err) {
     console.error('Checkout error:', err)
-    return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Erreur serveur' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
