@@ -175,6 +175,19 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* AUNL CLUB */}
+        <section className="relative h-64 md:h-80 overflow-hidden border-y border-gray-200">
+          <Image src="/photo-aunl-club.jpg" alt="Aviron Union Nautique de Lyon — bord de Saône" fill className="object-cover object-center" />
+          <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/40 to-transparent" />
+          <div className="absolute inset-0 flex items-center px-10">
+            <div>
+              <div className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Le lieu</div>
+              <h3 className="text-3xl font-bold tracking-tight text-gray-900 mb-1">Bord de Saône, Lyon</h3>
+              <p className="text-sm text-gray-600 font-medium">Aviron Union Nautique de Lyon · Champion de France</p>
+            </div>
+          </div>
+        </section>
+
         {/* 3 ÉTAPES */}
         <section className="bg-gray-50 border-b border-gray-200 py-16 px-6">
           <div className="max-w-6xl mx-auto">
