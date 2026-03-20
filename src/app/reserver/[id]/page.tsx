@@ -13,14 +13,7 @@ function formatHeure(h: string) {
   return h.slice(0, 5)
 }
 
-function typeLabel(type: string) {
-  const map: Record<string, string> = {
-    avifit_debutant: 'Débutant',
-    avifit_intermediaire: 'Intermédiaire',
-    avifit_tous_niveaux: 'Tous niveaux',
-  }
-  return map[type] ?? type
-}
+
 
 export default async function ReserverPage({ params }: { params: { id: string } }) {
   const supabase = createServiceClient()
@@ -56,8 +49,6 @@ export default async function ReserverPage({ params }: { params: { id: string } 
               <span className="capitalize">{formatDate(s.date)}</span>
               <span>·</span>
               <span>{formatHeure(s.heure_debut)} – {formatHeure(s.heure_fin)}</span>
-              <span>·</span>
-              <span>{typeLabel(s.type)}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
               <span className="text-gray-400">{s.places_reservees}/{s.places_max} inscrits</span>

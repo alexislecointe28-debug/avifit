@@ -21,23 +21,7 @@ function tagConfig(seance: Seance) {
   return { label: `${dispo} places`, cls: 'bg-green-100 text-green-700' }
 }
 
-function typeBadge(type: string) {
-  const map: Record<string, string> = {
-    avifit_debutant: 'bg-blue-50 text-blue-600',
-    avifit_intermediaire: 'bg-purple-50 text-purple-600',
-    avifit_tous_niveaux: 'bg-teal-50 text-teal-600',
-  }
-  return map[type] ?? 'bg-gray-100 text-gray-600'
-}
 
-function typeLabel(type: string) {
-  const map: Record<string, string> = {
-    avifit_debutant: 'Débutant',
-    avifit_intermediaire: 'Intermédiaire',
-    avifit_tous_niveaux: 'Tous niveaux',
-  }
-  return map[type] ?? type
-}
 
 export default async function PlanningPage() {
   const supabase = createServiceClient()
@@ -66,18 +50,7 @@ export default async function PlanningPage() {
             <p className="text-sm text-gray-700 font-medium">Choisissez un créneau, payez en ligne — confirmation immédiate par email.</p>
           </div>
 
-          {/* Légende */}
-          <div className="flex gap-3 mb-8 flex-wrap">
-            {[
-              { type: 'avifit_debutant', label: 'Débutant' },
-              { type: 'avifit_intermediaire', label: 'Intermédiaire' },
-              { type: 'avifit_tous_niveaux', label: 'Tous niveaux' },
-            ].map((t) => (
-              <span key={t.type} className={`text-xs font-medium px-3 py-1.5 rounded-full ${typeBadge(t.type)}`}>
-                {t.label}
-              </span>
-            ))}
-          </div>
+
 
           {seancesList.length === 0 ? (
             <div className="bg-brand-50 border border-brand-200 rounded-2xl p-10 text-center">
@@ -113,9 +86,7 @@ export default async function PlanningPage() {
                           <span className="text-xs text-gray-500 font-medium">
                             {formatHeure(seance.heure_debut)} – {formatHeure(seance.heure_fin)}
                           </span>
-                          <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${typeBadge(seance.type)}`}>
-                            {typeLabel(seance.type)}
-                          </span>
+
                         </div>
                         <div className="text-base font-medium text-gray-800 mb-3">{seance.titre}</div>
                         <div className="flex items-center gap-4 text-xs text-gray-400 mb-3">
