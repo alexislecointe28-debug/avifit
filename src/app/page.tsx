@@ -15,53 +15,64 @@ export default function HomePage() {
             <Image src="/photo-unl-coach.jpg" alt="Coach Avifit AUNL" fill className="object-cover object-center" priority />
             <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px]" />
           </div>
-          <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
+          <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <div>
-              <div className="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-xs font-medium px-3 py-1.5 rounded-full border border-brand-200 mb-6">
+              <div className="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-xs font-medium px-3 py-1.5 rounded-full border border-brand-200 mb-5">
                 <span className="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0" />
                 Labellisé Avifit® · FFA
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight text-gray-900 mb-5">
+              <h1 className="text-4xl md:text-5xl font-bold leading-tight tracking-tight text-gray-900 mb-4">
                 L&apos;aviron indoor<br />
                 pour <span className="text-brand">tout le monde.</span>
               </h1>
-              <p className="text-lg text-gray-600 leading-relaxed font-medium mb-8 max-w-md">
-                Cours collectifs sur ergomètre, 1h, 10 personnes max. Encadré par un coach certifié FFA. Aucun prérequis — aucun matériel.
+              <p className="text-base text-gray-600 leading-relaxed font-medium mb-6 max-w-md">
+                Cours collectifs sur ergomètre, 1h, 10 personnes max. Encadré par un coach certifié FFA. Aucun prérequis.
               </p>
               <div className="flex gap-3 flex-wrap">
-                <Link href="/planning" className="bg-brand text-white text-sm font-medium px-6 py-3 rounded-lg hover:bg-brand-700 transition-colors">
+                <Link href="/planning" className="bg-brand text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-brand-700 transition-colors">
                   Voir le planning
                 </Link>
-                <a href="#concept" className="border border-brand text-brand text-sm font-medium px-6 py-3 rounded-lg hover:bg-brand-50 transition-colors">
+                <a href="#concept" className="border border-brand text-brand text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-brand-50 transition-colors">
                   En savoir plus
                 </a>
               </div>
             </div>
 
-            {/* Planning widget */}
-            <div className="bg-brand-50 rounded-2xl border border-brand-200 p-6">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">Prochaines séances</p>
-              {[
-                { titre: 'Avifit — Débutant', jour: 'Mardi 19h00', tag: '3 places', tagClass: 'bg-green-100 text-green-700', pct: 70 },
-                { titre: 'Avifit — Intermédiaire', jour: 'Jeudi 18h30', tag: '2 places', tagClass: 'bg-yellow-100 text-yellow-700', pct: 80 },
-                { titre: 'Avifit — Tous niveaux', jour: 'Samedi 10h00', tag: 'Complet', tagClass: 'bg-red-100 text-red-700', pct: 100 },
-              ].map((s) => (
-                <div key={s.titre} className="bg-white rounded-xl border border-gray-100 p-4 mb-3 last:mb-0 hover:shadow-sm transition-shadow">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium">{s.titre}</span>
-                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${s.tagClass}`}>{s.tag}</span>
+            <div className="flex flex-col gap-3">
+              {/* Planning widget */}
+              <div className="bg-brand-50 rounded-xl border border-brand-200 p-4">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Prochaines séances</p>
+                {[
+                  { jour: 'Mardi 19h00', tag: '3 places', tagClass: 'bg-green-100 text-green-700', pct: 70 },
+                  { jour: 'Jeudi 18h30', tag: '2 places', tagClass: 'bg-yellow-100 text-yellow-700', pct: 80 },
+                  { jour: 'Samedi 10h00', tag: 'Complet', tagClass: 'bg-red-100 text-red-700', pct: 100 },
+                ].map((s) => (
+                  <div key={s.jour} className="flex items-center gap-3 bg-white rounded-lg border border-gray-100 px-3 py-2.5 mb-2 last:mb-0">
+                    <span className="text-sm font-semibold text-gray-900 flex-1">{s.jour}</span>
+                    <span className="text-xs text-gray-400">1h</span>
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${s.tagClass}`}>{s.tag}</span>
                   </div>
-                  <div className="flex gap-4 text-xs text-gray-400 mb-2">
-                    <span>{s.jour}</span><span>1h · 10 pers max</span>
+                ))}
+                <Link href="/planning" className="block mt-3 text-center text-xs font-semibold text-brand hover:underline">
+                  Voir tous les créneaux →
+                </Link>
+              </div>
+
+              {/* Tarifs inline */}
+              <div className="bg-white rounded-xl border border-gray-200 p-4">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Tarifs</p>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="bg-gray-50 rounded-lg px-3 py-2.5">
+                    <div className="text-xl font-bold text-gray-900">10€</div>
+                    <div className="text-xs text-gray-500 font-medium mt-0.5">Séance à l&apos;unité</div>
                   </div>
-                  <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-brand rounded-full" style={{ width: `${s.pct}%` }} />
+                  <div className="bg-brand-50 rounded-lg px-3 py-2.5 border border-brand-100">
+                    <div className="text-xl font-bold text-brand">80€</div>
+                    <div className="text-xs text-brand-600 font-medium mt-0.5">Forfait 10 séances</div>
                   </div>
                 </div>
-              ))}
-              <Link href="/planning" className="block mt-4 text-center text-sm font-medium text-brand hover:underline">
-                Voir tous les créneaux →
-              </Link>
+                <p className="text-xs text-gray-400 mt-2">Licence FFA +45€ si non-licencié</p>
+              </div>
             </div>
           </div>
         </section>
