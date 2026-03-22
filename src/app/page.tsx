@@ -157,7 +157,7 @@ export default async function HomePage() {
             </div>
             <div>
               <div className="text-sm font-semibold text-brand-700">Programme Avifit® — Fédération Française d&apos;Aviron</div>
-              <div className="text-xs text-brand-500">Cours collectifs en musique · Coach diplômé · Plus de 100 clubs en France</div>
+              <div className="text-xs text-brand-500">Séances en musique · Coach diplômé FFA · Plus de 100 clubs en France</div>
             </div>
           </div>
         </div>

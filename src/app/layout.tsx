@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Avifit AUNL — Cours collectifs sur ergomètre',
-  description: 'Cours collectifs sur ergomètre labellisés FFA. 1h, 10 personnes max, tous niveaux. Aviron Union Nautique de Lyon.',
-  keywords: ['avifit', 'ergomètre', 'aviron indoor', 'FFA', 'Lyon', 'cours collectifs'],
+  title: 'Avifit AUNL — Séances sur ergomètre · Lyon',
+  description: 'Séances sur ergomètre labellisées FFA. 1h, 10 personnes max. Aviron Union Nautique de Lyon.',
+  keywords: ['avifit', 'ergomètre', 'aviron indoor', 'FFA', 'Lyon', 'avifit lyon'],
 }
 
 export default function RootLayout({
