@@ -222,7 +222,7 @@ export default function HomePage() {
                   featured: false,
                 },
                 {
-                  name: 'Abonnement mercredi', desc: 'Grand public · place auto chaque semaine', price: '8€', unit: '/ semaine · 1 mois min',
+                  name: 'Abonnement mercredi', desc: 'Grand public · place auto chaque semaine', price: '8€', unit: '/ semaine · 1 mois min', href: '/abonnement',
                   items: ['Place réservée automatiquement', 'Prélèvement hebdomadaire', 'Résiliation libre après 1 mois', 'Licence FFA si besoin (+45€)'],
                   featured: true,
                 },
