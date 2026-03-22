@@ -64,14 +64,14 @@ export default function HomePage() {
                 <div className="grid grid-cols-2 gap-2">
                   <div className="bg-gray-50 rounded-lg px-3 py-2.5">
                     <div className="text-xl font-bold text-gray-900">10€</div>
-                    <div className="text-xs text-gray-500 font-medium mt-0.5">Séance à l&apos;unité</div>
+                    <div className="text-xs text-gray-500 font-medium mt-0.5">Séance unique</div>
                   </div>
                   <div className="bg-brand-50 rounded-lg px-3 py-2.5 border border-brand-100">
-                    <div className="text-xl font-bold text-brand">80€</div>
-                    <div className="text-xs text-brand-600 font-medium mt-0.5">Forfait 10 séances</div>
+                    <div className="text-xl font-bold text-brand">8€<span className="text-sm font-medium text-brand-400">/sem</span></div>
+                    <div className="text-xs text-brand-600 font-medium mt-0.5">Abonnement mercredi</div>
                   </div>
                 </div>
-                <p className="text-xs text-gray-400 mt-2">Licence FFA +45€ si non-licencié</p>
+                <p className="text-xs text-gray-400 mt-2">Adhérent AUNL : 5€ / 4€ par sem · Licence FFA +45€ si besoin</p>
               </div>
             </div>
           </div>
@@ -217,18 +217,18 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
                 {
-                  name: 'Séance', desc: "Grand public · à l'unité", price: '10€', unit: 'par séance',
+                  name: 'Séance unique', desc: 'Grand public · à la séance', price: '10€', unit: 'par séance',
                   items: ['1 séance 1h', 'Réservation en ligne', 'Confirmation email', 'Licence FFA si besoin (+45€)'],
                   featured: false,
                 },
                 {
-                  name: 'Forfait 10 séances', desc: 'Grand public · le plus populaire', price: '80€', unit: 'soit 8€ / séance',
-                  items: ['10 séances au choix', 'Valable 3 mois', 'Réservation flexible', 'Licence FFA si besoin (+45€)'],
+                  name: 'Abonnement mercredi', desc: 'Grand public · place auto chaque semaine', price: '8€', unit: '/ semaine · 1 mois min',
+                  items: ['Place réservée automatiquement', 'Prélèvement hebdomadaire', 'Résiliation libre après 1 mois', 'Licence FFA si besoin (+45€)'],
                   featured: true,
                 },
                 {
-                  name: 'Licencié AUNL', desc: 'Déjà licencié FFA · tarif adhérent', price: '8€', unit: 'par séance',
-                  items: ['Licence FFA déjà incluse', 'Priorité sur les créneaux', 'Forfait 10 séances à 70€'],
+                  name: 'Adhérent AUNL', desc: 'Licencié FFA · tarif club', price: '5€', unit: 'par séance (4€/sem en abonnement)',
+                  items: ['Licence FFA déjà incluse', 'Tarif automatique à la réservation', 'Séance ou abonnement'],
                   featured: false,
                 },
               ].map((p) => (
@@ -263,7 +263,7 @@ export default function HomePage() {
               ))}
             </div>
             <p className="text-xs text-gray-400 mt-4">
-              * Licence FFA annuelle 45€ requise si non-licencié — ajoutée automatiquement au checkout. Licenciés AUNL : déjà couverts.
+              * Licence FFA annuelle 45€ requise si non-licencié — ajoutée au checkout. Adhérents AUNL : tarif 5€/4€ appliqué automatiquement à la réservation.
             </p>
           </div>
         </section>
@@ -284,6 +284,7 @@ export default function HomePage() {
         <footer className="bg-white border-t border-gray-200 px-6 py-6">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
             <span className="text-xs text-gray-400">© 2025 AUNL — Avifit</span>
+            <a href="/mon-abonnement" className="text-xs text-gray-400 hover:text-brand transition-colors">Mon abonnement</a>
             <span className="text-xs text-gray-400">Labellisé Avifit® · FFA</span>
           </div>
         </footer>

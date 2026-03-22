@@ -19,27 +19,116 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Signature invalide' }, { status: 400 })
   }
 
+  const supabase = createServiceClient()
+
+  // ─── PAIEMENT SÉANCE UNIQUE ───────────────────────────────────
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
-    const supabase = createServiceClient()
 
-    // Confirmer la réservation
-    await supabase
-      .from('reservations')
-      .update({ statut: 'confirmed', stripe_payment_id: session.payment_intent as string })
-      .eq('stripe_session_id', session.id)
+    if (session.mode === 'payment') {
+      // Confirmer la réservation existante
+      await supabase.from('reservations')
+        .update({ statut: 'confirmed', stripe_payment_id: session.payment_intent as string })
+        .eq('stripe_session_id', session.id)
+    }
 
-    // Si forfait : créer l'achat forfait
-    if (session.metadata?.format === 'forfait') {
-      await supabase.from('achats_forfait').insert({
-        client_email: session.customer_email,
-        client_nom: session.metadata.client_nom,
-        client_prenom: session.metadata.client_prenom,
-        seances_restantes: 10,
-        stripe_payment_id: session.payment_intent as string,
+    if (session.mode === 'subscription') {
+      // Créer l'abonnement en DB
+      const sub = session.subscription as string
+      const stripeSubscription = await stripe.subscriptions.retrieve(session.subscription as string)
+      const meta = stripeSubscription.metadata ?? {}
+
+      // Calculer la fin d'engagement (4 semaines)
+      const debut = new Date()
+      const finEngagement = new Date()
+      finEngagement.setDate(finEngagement.getDate() + 28)
+
+      await supabase.from('abonnements').insert({
+        client_email: meta.client_email,
+        client_nom: meta.client_nom,
+        client_prenom: meta.client_prenom,
+        stripe_subscription_id: sub,
+        stripe_customer_id: session.customer as string,
+        statut: 'active',
+        est_adherent: meta.estAdherent === 'true',
+        avec_licence_ffa: meta.avec_licence_ffa === 'true',
+        montant_semaine: parseInt(meta.montant_semaine ?? '800'),
+        debut_le: debut.toISOString().split('T')[0],
+        fin_engagement: finEngagement.toISOString().split('T')[0],
+      })
+
+      // Créer la première réservation (séance actuelle)
+      await supabase.from('reservations').insert({
+        seance_id: meta.seance_id,
+        client_email: meta.client_email,
+        client_nom: meta.client_nom,
+        client_prenom: meta.client_prenom,
+        statut: 'confirmed',
+        stripe_payment_id: session.payment_intent as string ?? sub,
+        avec_licence_ffa: meta.avec_licence_ffa === 'true',
+        montant_total: parseInt(meta.montant_semaine ?? '800'),
       })
     }
   }
 
+  // ─── PRÉLÈVEMENT HEBDOMADAIRE (abonnement récurrent) ──────────
+  if (event.type === 'invoice.paid') {
+    const invoice = event.data.object as Stripe.Invoice & { subscription?: string; payment_intent?: string }
+    if (!invoice.subscription) return NextResponse.json({ received: true })
+
+    // Récupérer l'abonnement en DB
+    const { data: abo } = await supabase
+      .from('abonnements')
+      .select('*')
+      .eq('stripe_subscription_id', invoice.subscription as string)
+      .single()
+
+    if (!abo || abo.statut !== 'active') return NextResponse.json({ received: true })
+
+    // Trouver la prochaine séance mercredi
+    const nextWed = getNextWednesday()
+    const { data: seance } = await supabase
+      .from('seances')
+      .select('*')
+      .gte('date', nextWed)
+      .neq('statut', 'annule')
+      .order('date')
+      .limit(1)
+      .single()
+
+    if (seance) {
+      const dispo = seance.places_max - seance.places_reservees
+      if (dispo > 0) {
+        await supabase.from('reservations').insert({
+          seance_id: seance.id,
+          client_email: abo.client_email,
+          client_nom: abo.client_nom,
+          client_prenom: abo.client_prenom,
+          statut: 'confirmed',
+          stripe_payment_id: invoice.payment_intent as string,
+          avec_licence_ffa: false,
+          montant_total: abo.montant_semaine,
+        })
+      }
+    }
+  }
+
+  // ─── RÉSILIATION ──────────────────────────────────────────────
+  if (event.type === 'customer.subscription.deleted') {
+    const sub = event.data.object as Stripe.Subscription
+    await supabase.from('abonnements')
+      .update({ statut: 'cancelled' })
+      .eq('stripe_subscription_id', sub.id)
+  }
+
   return NextResponse.json({ received: true })
+}
+
+function getNextWednesday(): string {
+  const today = new Date()
+  const day = today.getDay()
+  const daysUntilWed = (3 - day + 7) % 7 || 7
+  const wed = new Date(today)
+  wed.setDate(today.getDate() + daysUntilWed)
+  return wed.toISOString().split('T')[0]
 }

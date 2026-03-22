@@ -6,20 +6,18 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export const PRICES = {
   seance: {
-    amount: 1000, // 10€ en centimes
+    amount: 1000,       // 10€
+    adherent: 500,      // 5€
     label: 'Séance Avifit',
-    description: '1 séance Avifit 1h — Aviron Union Nautique de Lyon',
   },
-  forfait: {
-    amount: 8000, // 80€
-    label: 'Forfait 10 séances',
-    description: '10 séances Avifit — Aviron Union Nautique de Lyon (valable 3 mois)',
+  abonnement: {
+    amount: 800,        // 8€/semaine
+    adherent: 400,      // 4€/semaine
+    label: 'Abonnement mercredi Avifit',
+    minimum_weeks: 4,   // 1 mois minimum
   },
   licence_ffa: {
-    amount: 4500, // 45€
-    label: 'Licence FFA',
-    description: 'Licence FFA annuelle — obligatoire si non-licencié',
+    amount: 4500,       // 45€
+    label: 'Licence FFA annuelle',
   },
 } as const
-
-export type PriceKey = keyof typeof PRICES
