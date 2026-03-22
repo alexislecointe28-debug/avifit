@@ -53,12 +53,20 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    type LineItem = { price: string; quantity: number } | { price_data: { currency: string; product_data: { name: string }; unit_amount: number }; quantity: number }
-    const lineItems: LineItem[] = [{ price: price.id, quantity: 1 }]
+    // En mode subscription, les price_data sans recurring dans line_items
+    // sont automatiquement ajoutés à la 1ère facture uniquement — jamais reconduits
+    const lineItems: { price?: string; price_data?: object; quantity: number }[] = [
+      { price: price.id, quantity: 1 },
+    ]
 
     if (avecLicenceFfa) {
       lineItems.push({
-        price_data: { currency: 'eur', product_data: { name: 'Licence FFA annuelle' }, unit_amount: 4500 },
+        price_data: {
+          currency: 'eur',
+          product_data: { name: 'Licence FFA annuelle (une seule fois)' },
+          unit_amount: 4500,
+          // Pas de "recurring" → Stripe l'ajoute uniquement sur la 1ère facture
+        },
         quantity: 1,
       })
     }
@@ -66,7 +74,8 @@ export async function POST(req: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       customer: customer.id,
-      line_items: lineItems,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      line_items: lineItems as any,
       mode: 'subscription',
       subscription_data: {
         metadata: {
