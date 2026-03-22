@@ -13,11 +13,6 @@ function placesTag(max: number, reservees: number) {
   return { label: `${dispo} places`, cls: 'bg-green-100 text-green-700' }
 }
 
-function formatJourHeure(date: string, heure: string) {
-  const d = new Date(date + 'T00:00:00')
-  const jour = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
-  return `${jour.charAt(0).toUpperCase() + jour.slice(1)} · ${heure.slice(0, 5)}`
-}
 
 export default async function HomePage() {
   const supabase = createServiceClient()
