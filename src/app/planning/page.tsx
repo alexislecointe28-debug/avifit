@@ -35,7 +35,8 @@ function isProchaine(date: string, index: number) {
 export default async function PlanningPage() {
   const supabase = createServiceClient()
 
-  const today = new Date().toISOString().split('T')[0]
+  const now = new Date()
+  const today = now.toISOString().split('T')[0]
   const { data: seances, error } = await supabase
     .from('seances')
     .select('*')
@@ -44,8 +45,14 @@ export default async function PlanningPage() {
     .order('date', { ascending: true })
     .order('heure_debut', { ascending: true })
 
+  // Filtrer côté JS : exclure les séances dont le début est dans moins d'1h
+  const cutoff = new Date(now.getTime() + 60 * 60 * 1000) // now + 1h
+
   if (error) console.error('Supabase error:', error)
-  const seancesList: Seance[] = seances ?? []
+  const seancesList: Seance[] = (seances ?? []).filter((s) => {
+    const debut = new Date(`${s.date}T${s.heure_debut}`)
+    return debut > cutoff
+  })
 
   return (
     <>

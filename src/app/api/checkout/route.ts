@@ -21,6 +21,11 @@ export async function POST(req: NextRequest) {
     const dispo = seance.places_max - seance.places_reservees
     if (seance.statut === 'complet' || dispo <= 0) return NextResponse.json({ error: 'Cette séance est complète' }, { status: 409 })
 
+    // Bloquer si la séance commence dans moins d'1h
+    const debutSeance = new Date(`${seance.date}T${seance.heure_debut}`)
+    const cutoff = new Date(Date.now() + 60 * 60 * 1000)
+    if (debutSeance <= cutoff) return NextResponse.json({ error: 'Les inscriptions sont closes 1h avant la séance' }, { status: 409 })
+
     // Vérifier adhérent côté serveur
     const { data: adherentData } = await supabase
       .from('adherents').select('id').eq('email', email.toLowerCase().trim()).single()
