@@ -84,7 +84,7 @@ export async function sendConfirmationAbonnement({
   await resend.emails.send({
     from: FROM,
     to,
-    subject: '✓ Abonnement mercredi activé — Avifit AUNL',
+    subject: '✓ Formule illimitée activée — Avifit AUNL',
     html: `
 <!DOCTYPE html>
 <html lang="fr">
@@ -100,7 +100,7 @@ export async function sendConfirmationAbonnement({
       <p style="color:#374151;font-size:15px;margin:0 0 24px;">Votre formule illimitée est active. Votre place est désormais réservée automatiquement chaque semaine.</p>
 
       <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:20px;margin-bottom:24px;">
-        <div style="font-size:14px;color:#374151;margin-bottom:8px;">📅 <strong>Chaque mercredi</strong> — place réservée automatiquement</div>
+        <div style="font-size:14px;color:#374151;margin-bottom:8px;">📅 <strong>Chaque semaine</strong> — place réservée automatiquement</div>
         <div style="font-size:14px;color:#374151;margin-bottom:8px;">💳 <strong>${montantSemaine / 100}€ prélevés</strong> chaque semaine</div>
         <div style="font-size:14px;color:#374151;margin-bottom:8px;">🔒 <strong>Engagement 4 semaines</strong> minimum</div>
         <div style="font-size:14px;color:#374151;">📍 AUNL — 59 quai Clémenceau, Caluire-et-Cuire</div>

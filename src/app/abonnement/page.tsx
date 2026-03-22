@@ -10,14 +10,14 @@ export default function AbonnementPage() {
           <div className="flex items-center gap-2 text-xs text-gray-400 mb-8">
             <a href="/" className="hover:text-brand transition-colors">Accueil</a>
             <span>›</span>
-            <span className="text-gray-600">Abonnement mercredi</span>
+            <span className="text-gray-600">Formule illimitée</span>
           </div>
 
           <div className="mb-8">
             <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Formule illimitée</p>
-            <h1 className="text-3xl font-bold tracking-tight mb-3">Venez chaque mercredi.<br />Sans jamais réserver.</h1>
+            <h1 className="text-3xl font-bold tracking-tight mb-3">Inscrivez-vous une fois.<br />Venez quand vous voulez.</h1>
             <p className="text-sm text-gray-600 font-medium leading-relaxed">
-              Inscrivez-vous une fois. Votre place est là chaque mercredi — que vous pensiez à réserver ou non.
+              Votre place est réservée automatiquement à chaque séance. Vous n&apos;avez plus jamais à y penser.
             </p>
           </div>
 
@@ -25,7 +25,7 @@ export default function AbonnementPage() {
           <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-5">
             <div className="grid grid-cols-2 gap-4">
               {[
-                ['📅', 'Chaque mercredi', 'Votre place vous attend — rien à faire'],
+                ['📅', 'Chaque séance', 'Votre place vous attend — rien à faire'],
                 ['💳', '8€ / semaine', 'Prélevé automatiquement'],
                 ['🔒', 'Sans engagement', 'après 1 mois minimum'],
                 ['✉️', 'Confirmation email', 'Rappel avant chaque séance'],

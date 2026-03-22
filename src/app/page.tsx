@@ -249,7 +249,7 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {[
                 { n: '1', title: 'Choisissez un créneau', desc: 'Planning en temps réel avec les places disponibles. Réservez en 2 minutes.' },
-                { n: '2', title: 'Payez en ligne', desc: "Séance à l'unité (10€) ou formule illimitée mercredi (8€/sem). Paiement sécurisé Stripe. Licence FFA ajoutée si besoin." },
+                { n: '2', title: 'Payez en ligne', desc: "Séance à l'unité (10€) ou formule illimitée (8€/sem). Paiement sécurisé Stripe. Licence FFA ajoutée si besoin." },
                 { n: '3', title: 'Venez transpirer', desc: "Confirmation par email. On vous accueille à l'AUNL — 59 quai Clémenceau, Caluire-et-Cuire. Juste de l'eau à apporter." },
               ].map((s) => (
                 <div key={s.n} className="bg-white rounded-xl border border-gray-200 p-6">
@@ -275,8 +275,8 @@ export default async function HomePage() {
                   featured: false,
                 },
                 {
-                  name: 'Formule illimitée mercredi', desc: 'Venez tous les mercredis, sans réserver', price: '8€', unit: '/ semaine · 1 mois min', href: '/formule illimitée',
-                  items: ['Votre place chaque mercredi automatiquement', '8€ prélevés chaque semaine', 'Sans engagement après 1 mois', 'Licence FFA si besoin (+45€)'],
+                  name: 'Formule illimitée', desc: 'Votre place réservée auto chaque semaine', price: '8€', unit: '/ semaine · 1 mois min', href: '/abonnement',
+                  items: ['Votre place réservée automatiquement', '8€ prélevés chaque semaine', 'Sans engagement après 1 mois', 'Licence FFA si besoin (+45€)'],
                   featured: true,
                 },
                 {
@@ -341,7 +341,7 @@ export default async function HomePage() {
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Navigation</div>
                 <div className="flex flex-col gap-2">
                   <a href="/planning" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Planning</a>
-                  <a href="/formule illimitée" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Formule illimitée mercredi</a>
+                  <a href="/abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Formule illimitée</a>
                   <a href="/#tarifs" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Tarifs</a>
                 </div>
               </div>

@@ -93,8 +93,8 @@ export default function ReservationForm({ seance }: Props) {
           <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
             <p className="text-xs font-semibold text-blue-700 mb-1">Comment ça marche</p>
             <ul className="text-xs text-blue-600 space-y-1">
-              <li>→ Votre place du mercredi est réservée automatiquement chaque semaine</li>
-              <li>→ Prélèvement de {PRIX.abonnement}€ chaque mercredi sur votre carte</li>
+              <li>→ Votre place est réservée automatiquement à chaque séance</li>
+              <li>→ Prélèvement de {PRIX.abonnement}€ à chaque séance</li>
               <li>→ Engagement minimum 4 semaines (1 mois), puis résiliation libre</li>
               <li>→ Aucun prélèvement les semaines où la séance est annulée</li>
             </ul>
@@ -166,7 +166,7 @@ export default function ReservationForm({ seance }: Props) {
       <div className="bg-white rounded-2xl border border-gray-200 p-6">
         <div className="flex justify-between mb-2 text-sm">
           <span className="text-gray-600 font-medium">
-            {format === 'seance' ? '1 séance' : `Abonnement mercredi · ${PRIX.abonnement}€/semaine`}
+            {format === 'seance' ? '1 séance' : `Formule illimitée · ${PRIX.abonnement}€/semaine`}
           </span>
           <span className="font-semibold">{format === 'seance' ? `${montantBase}€` : `${PRIX.abonnement}€/sem`}</span>
         </div>
@@ -191,7 +191,7 @@ export default function ReservationForm({ seance }: Props) {
         </div>
         {format === 'abonnement' && (
           <p className="text-xs text-gray-400 mb-4">
-            Puis {PRIX.abonnement}€ prélevés automatiquement chaque mercredi · Engagement 4 semaines minimum
+            Puis {PRIX.abonnement}€ prélevés automatiquement chaque semaine · Engagement 4 semaines minimum
           </p>
         )}
         {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3 mb-4 font-medium">{error}</div>}

@@ -13,7 +13,7 @@ export const PRICES = {
   abonnement: {
     amount: 800,        // 8€/semaine
     adherent: 400,      // 4€/semaine
-    label: 'Abonnement mercredi Avifit',
+    label: 'Formule illimitée Avifit',
     minimum_weeks: 4,   // 1 mois minimum
   },
   licence_ffa: {

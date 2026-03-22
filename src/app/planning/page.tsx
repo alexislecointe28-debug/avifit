@@ -170,7 +170,7 @@ export default async function PlanningPage() {
               <div>
                 <div className="text-2xl font-bold text-brand tracking-tight">8€<span className="text-sm font-medium text-gray-400">/sem</span></div>
                 <div className="text-xs text-gray-400 mt-1">
-                  <a href="/formule illimitée" className="text-brand font-semibold hover:underline">Formule illimitée mercredi →</a>
+                  <a href="/abonnement" className="text-brand font-semibold hover:underline">Formule illimitée →</a>
                 </div>
               </div>
             </div>
