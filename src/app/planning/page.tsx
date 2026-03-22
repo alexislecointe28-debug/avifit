@@ -17,8 +17,17 @@ function formatHeure(h: string) {
 function tagConfig(seance: Seance) {
   const dispo = seance.places_max - seance.places_reservees
   if (seance.statut === 'complet' || dispo === 0) return { label: 'Complet', cls: 'bg-red-100 text-red-700' }
-  if (dispo <= 2) return { label: `${dispo} place${dispo > 1 ? 's' : ''}`, cls: 'bg-yellow-100 text-yellow-700' }
+  if (dispo === 1) return { label: 'Dernière place !', cls: 'bg-red-100 text-red-700' }
+  if (dispo === 2) return { label: 'Plus que 2 places', cls: 'bg-orange-100 text-orange-700' }
+  if (dispo <= 4) return { label: `${dispo} places`, cls: 'bg-yellow-100 text-yellow-700' }
   return { label: `${dispo} places`, cls: 'bg-green-100 text-green-700' }
+}
+
+function isProchaine(date: string, index: number) {
+  const today = new Date()
+  const seanceDate = new Date(date + 'T00:00:00')
+  const diffDays = Math.ceil((seanceDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+  return index === 0 && diffDays <= 7
 }
 
 
@@ -64,19 +73,28 @@ export default async function PlanningPage() {
             </div>
           ) : (
             <div className="flex flex-col gap-3">
-              {seancesList.map((seance) => {
+              {seancesList.map((seance, index) => {
                 const tag = tagConfig(seance)
                 const dispo = seance.places_max - seance.places_reservees
                 const pct = Math.round((seance.places_reservees / seance.places_max) * 100)
                 const isComplet = seance.statut === 'complet' || dispo === 0
+                const isNext = isProchaine(seance.date, index)
 
                 return (
                   <div
                     key={seance.id}
                     className={`bg-white rounded-2xl border p-5 transition-shadow ${
-                      isComplet ? 'border-gray-100 opacity-70' : 'border-gray-200 hover:shadow-md hover:border-brand-200'
+                      isComplet ? 'border-gray-100 opacity-70' :
+                      isNext ? 'border-brand border-2 shadow-sm shadow-brand/10' :
+                      'border-gray-200 hover:shadow-md hover:border-brand-200'
                     }`}
                   >
+                    {isNext && !isComplet && (
+                      <div className="inline-flex items-center gap-1.5 bg-brand text-white text-[10px] font-bold px-2.5 py-1 rounded-full mb-3 uppercase tracking-wider">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                        Prochaine séance
+                      </div>
+                    )}
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-2 flex-wrap">

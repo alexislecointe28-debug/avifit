@@ -1,8 +1,35 @@
 import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
+import { createServiceClient } from '@/lib/supabase'
 
-export default function HomePage() {
+export const dynamic = 'force-dynamic'
+
+function placesTag(max: number, reservees: number) {
+  const dispo = max - reservees
+  if (dispo === 0) return { label: 'Complet', cls: 'bg-red-100 text-red-700' }
+  if (dispo <= 2) return { label: `Plus que ${dispo} place${dispo > 1 ? 's' : ''}`, cls: 'bg-orange-100 text-orange-700' }
+  if (dispo <= 4) return { label: `${dispo} places`, cls: 'bg-yellow-100 text-yellow-700' }
+  return { label: `${dispo} places`, cls: 'bg-green-100 text-green-700' }
+}
+
+function formatJourHeure(date: string, heure: string) {
+  const d = new Date(date + 'T00:00:00')
+  const jour = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
+  return `${jour.charAt(0).toUpperCase() + jour.slice(1)} · ${heure.slice(0, 5)}`
+}
+
+export default async function HomePage() {
+  const supabase = createServiceClient()
+  const today = new Date().toISOString().split('T')[0]
+  const { data: prochainesSeances } = await supabase
+    .from('seances')
+    .select('*')
+    .gte('date', today)
+    .neq('statut', 'annule')
+    .order('date', { ascending: true })
+    .order('heure_debut', { ascending: true })
+    .limit(3)
   return (
     <>
       <Navbar />
@@ -39,20 +66,28 @@ export default function HomePage() {
             </div>
 
             <div className="flex flex-col gap-3">
-              {/* Planning widget */}
+              {/* Planning widget — données réelles Supabase */}
               <div className="bg-brand-50 rounded-xl border border-brand-200 p-4">
                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Prochaines séances</p>
-                {[
-                  { jour: 'Mardi 19h00', tag: '3 places', tagClass: 'bg-green-100 text-green-700', pct: 70 },
-                  { jour: 'Jeudi 18h30', tag: '2 places', tagClass: 'bg-yellow-100 text-yellow-700', pct: 80 },
-                  { jour: 'Samedi 10h00', tag: 'Complet', tagClass: 'bg-red-100 text-red-700', pct: 100 },
-                ].map((s) => (
-                  <div key={s.jour} className="flex items-center gap-3 bg-white rounded-lg border border-gray-100 px-3 py-2.5 mb-2 last:mb-0">
-                    <span className="text-sm font-semibold text-gray-900 flex-1">{s.jour}</span>
-                    <span className="text-xs text-gray-400">1h</span>
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${s.tagClass}`}>{s.tag}</span>
-                  </div>
-                ))}
+                {prochainesSeances && prochainesSeances.length > 0 ? (
+                  prochainesSeances.map((s) => {
+                    const tag = placesTag(s.places_max, s.places_reservees)
+                    const dispo = s.places_max - s.places_reservees
+                    return (
+                      <div key={s.id} className="flex items-center gap-3 bg-white rounded-lg border border-gray-100 px-3 py-2.5 mb-2 last:mb-0">
+                        <span className="text-sm font-semibold text-gray-900 flex-1 leading-tight">{formatJourHeure(s.date, s.heure_debut)}</span>
+                        {dispo > 0 ? (
+                          <Link href={`/reserver/${s.id}`} className="text-xs font-bold text-brand hover:underline shrink-0">
+                            Réserver
+                          </Link>
+                        ) : null}
+                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 ${tag.cls}`}>{tag.label}</span>
+                      </div>
+                    )
+                  })
+                ) : (
+                  <p className="text-sm text-gray-400 text-center py-3 font-medium">Aucune séance programmée pour le moment</p>
+                )}
                 <Link href="/planning" className="block mt-3 text-center text-xs font-semibold text-brand hover:underline">
                   Voir tous les créneaux →
                 </Link>
@@ -182,7 +217,7 @@ export default function HomePage() {
           <div className="absolute inset-0 flex items-center px-10">
             <div>
               <div className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Le lieu</div>
-              <h3 className="text-3xl font-bold tracking-tight text-gray-900 mb-1">Bord de Saône, Lyon</h3>
+              <h3 className="text-3xl font-bold tracking-tight text-gray-900 mb-1">AUNL · Caluire-et-Cuire</h3>
               <p className="text-sm text-gray-600 font-medium">59 quai Clémenceau, Caluire-et-Cuire</p>
             </div>
           </div>
@@ -195,8 +230,8 @@ export default function HomePage() {
             <h2 className="text-4xl font-bold mb-10 tracking-tight">En 3 étapes</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {[
-                { n: '1', title: 'Choisissez un créneau', desc: 'Planning en temps réel avec les places disponibles. Débutant, intermédiaire ou tous niveaux.' },
-                { n: '2', title: 'Payez en ligne', desc: "Séance à l'unité (10€) ou forfait 10 séances (80€). Paiement sécurisé Stripe. Licence FFA ajoutée si besoin." },
+                { n: '1', title: 'Choisissez un créneau', desc: 'Planning en temps réel avec les places disponibles. Réservez en 2 minutes.' },
+                { n: '2', title: 'Payez en ligne', desc: "Séance à l'unité (10€) ou abonnement mercredi (8€/sem). Paiement sécurisé Stripe. Licence FFA ajoutée si besoin." },
                 { n: '3', title: 'Venez transpirer', desc: "Confirmation par email. On vous accueille à l'AUNL — 59 quai Clémenceau, Caluire-et-Cuire. Juste de l'eau à apporter." },
               ].map((s) => (
                 <div key={s.n} className="bg-white rounded-xl border border-gray-200 p-6">
