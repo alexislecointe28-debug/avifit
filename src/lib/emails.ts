@@ -1,7 +1,7 @@
 import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const FROM = 'Avifit AUNL <noreply@avifit.vercel.app>'
+const FROM = 'Avifit AUNL <onboarding@resend.dev>'
 
 function formatDate(dateStr: string) {
   return new Date(dateStr + 'T00:00:00').toLocaleDateString('fr-FR', {
