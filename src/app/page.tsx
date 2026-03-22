@@ -330,6 +330,7 @@ export default async function HomePage() {
               <div>
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Mon compte</div>
                 <div className="flex flex-col gap-2">
+                  <a href="/mes-seances" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Mes séances</a>
                   <a href="/mon-abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Mon abonnement</a>
                   <a href="/faq" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">FAQ</a>
                   <a href="/cgv" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">CGV</a>

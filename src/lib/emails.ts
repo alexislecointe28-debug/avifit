@@ -63,7 +63,7 @@ export async function sendConfirmationSeance({
       </div>
 
       <p style="font-size:13px;color:#9CA3AF;text-align:center;margin:0;">
-        Questions ? Répondez à cet email ou contactez Alexis directement.
+        Questions ? Répondez à cet email.<br>Pour annuler (jusqu'à 24h avant) : <a href="${process.env.NEXT_PUBLIC_APP_URL}/mes-seances" style="color:#2563EB">Mes séances</a>
       </p>
     </div>
     <div style="background:#F9FAFB;padding:16px;text-align:center;border-top:1px solid #E5E7EB;">
