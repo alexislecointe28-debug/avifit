@@ -281,11 +281,41 @@ export default function HomePage() {
         </section>
 
         {/* FOOTER */}
-        <footer className="bg-white border-t border-gray-200 px-6 py-6">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
-            <span className="text-xs text-gray-400">© 2025 AUNL — Avifit</span>
-            <a href="/mon-abonnement" className="text-xs text-gray-400 hover:text-brand transition-colors">Mon abonnement</a>
-            <span className="text-xs text-gray-400">Labellisé Avifit® · FFA</span>
+        <footer className="bg-white border-t border-gray-200 px-6 py-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+              <div>
+                <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Navigation</div>
+                <div className="flex flex-col gap-2">
+                  <a href="/planning" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Planning</a>
+                  <a href="/abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Abonnement mercredi</a>
+                  <a href="/#tarifs" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Tarifs</a>
+                </div>
+              </div>
+              <div>
+                <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Mon compte</div>
+                <div className="flex flex-col gap-2">
+                  <a href="/mon-abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Mon abonnement</a>
+                  <a href="/faq" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">FAQ</a>
+                  <a href="/cgv" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">CGV</a>
+                </div>
+              </div>
+              <div>
+                <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Aussi par Alexis</div>
+                <div className="flex flex-col gap-2">
+                  <a href="https://rowning.vercel.app" target="_blank" rel="noopener noreferrer" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">
+                    RoWning — Offre entreprise →
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Label</div>
+                <div className="text-xs text-gray-500 font-medium">Labellisé Avifit® · FFA<br />Aviron Union Nautique de Lyon</div>
+              </div>
+            </div>
+            <div className="border-t border-gray-100 pt-4 text-xs text-gray-400 text-center">
+              © 2025 Alexis Lecointe — Avifit AUNL Lyon
+            </div>
           </div>
         </footer>
 

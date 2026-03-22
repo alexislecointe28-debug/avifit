@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { createServiceClient } from '@/lib/supabase'
+import { sendConfirmationSeance, sendConfirmationAbonnement } from '@/lib/emails'
 import Stripe from 'stripe'
 
 export async function POST(req: NextRequest) {
@@ -42,6 +43,16 @@ export async function POST(req: NextRequest) {
       const debut = new Date()
       const finEngagement = new Date()
       finEngagement.setDate(finEngagement.getDate() + 28)
+
+      // Email de confirmation abonnement
+      if (session.customer_email) {
+        await sendConfirmationAbonnement({
+          to: session.customer_email,
+          prenom: meta.client_prenom ?? '',
+          montantSemaine: parseInt(meta.montant_semaine ?? '800'),
+          avecLicence: meta.avec_licence_ffa === 'true',
+        }).catch(console.error)
+      }
 
       await supabase.from('abonnements').insert({
         client_email: meta.client_email,
