@@ -4,6 +4,10 @@ import type { Seance } from '@/types'
 import { notFound } from 'next/navigation'
 import ReservationForm from '@/components/ReservationForm'
 
+function cleanTitre(titre: string) {
+  return titre.replace(/\s*—\s*(Débutant|Intermédiaire|Tous niveaux|Tous les niveaux)/gi, '').trim()
+}
+
 function formatDate(dateStr: string) {
   const d = new Date(dateStr + 'T00:00:00')
   return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
@@ -44,7 +48,7 @@ export default async function ReserverPage({ params }: { params: { id: string } 
 
           <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
             <p className="text-xs font-semibold text-brand uppercase tracking-widest mb-3">Votre séance</p>
-            <h1 className="text-xl font-semibold mb-1">{s.titre}</h1>
+            <h1 className="text-xl font-semibold mb-1">{cleanTitre(s.titre)}</h1>
             <div className="flex flex-wrap gap-3 text-sm text-gray-500 mb-4">
               <span className="capitalize">{formatDate(s.date)}</span>
               <span>·</span>

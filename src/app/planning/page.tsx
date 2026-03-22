@@ -14,6 +14,12 @@ function formatHeure(h: string) {
   return h.slice(0, 5)
 }
 
+function cleanTitre(titre: string) {
+  return titre
+    .replace(/\s*—\s*(Débutant|Intermédiaire|Tous niveaux|Tous les niveaux)/gi, '')
+    .trim()
+}
+
 function tagConfig(seance: Seance) {
   const dispo = seance.places_max - seance.places_reservees
   if (seance.statut === 'complet' || dispo === 0) return { label: 'Complet', cls: 'bg-red-100 text-red-700' }
@@ -113,7 +119,7 @@ export default async function PlanningPage() {
                           </span>
 
                         </div>
-                        <div className="text-base font-medium text-gray-800 mb-3">{seance.titre}</div>
+                        <div className="text-base font-medium text-gray-800 mb-3">{cleanTitre(seance.titre)}</div>
                         <div className="flex items-center gap-4 text-xs text-gray-400 mb-3">
                           <span>1h · 10 personnes max</span>
                           <span>{(seance.prix / 100).toFixed(0)}€ / séance</span>
