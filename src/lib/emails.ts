@@ -40,7 +40,7 @@ export async function sendConfirmationSeance({
         <div style="display:flex;flex-direction:column;gap:6px;">
           <div style="font-size:14px;color:#374151;">📅 <strong style="text-transform:capitalize">${formatDate(date)}</strong></div>
           <div style="font-size:14px;color:#374151;">🕐 ${heureDebut.slice(0,5)} – ${heureFin.slice(0,5)}</div>
-          <div style="font-size:14px;color:#374151;">📍 AUNL — bord de Saône, Lyon</div>
+          <div style="font-size:14px;color:#374151;">📍 AUNL — 59 quai Clémenceau, Caluire-et-Cuire</div>
         </div>
       </div>
 
@@ -103,7 +103,7 @@ export async function sendConfirmationAbonnement({
         <div style="font-size:14px;color:#374151;margin-bottom:8px;">📅 <strong>Chaque mercredi</strong> — place réservée automatiquement</div>
         <div style="font-size:14px;color:#374151;margin-bottom:8px;">💳 <strong>${montantSemaine / 100}€ prélevés</strong> chaque semaine</div>
         <div style="font-size:14px;color:#374151;margin-bottom:8px;">🔒 <strong>Engagement 4 semaines</strong> minimum</div>
-        <div style="font-size:14px;color:#374151;">📍 AUNL — bord de Saône, Lyon</div>
+        <div style="font-size:14px;color:#374151;">📍 AUNL — 59 quai Clémenceau, Caluire-et-Cuire</div>
       </div>
 
       ${avecLicence ? `<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:14px;margin-bottom:24px;font-size:13px;color:#166534;">✓ Licence FFA annuelle incluse dans ce premier prélèvement</div>` : ''}
@@ -157,7 +157,7 @@ export async function sendRappelSeance({
         <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:8px;">${titre}</div>
         <div style="font-size:14px;color:#374151;margin-bottom:4px;">📅 <span style="text-transform:capitalize">${formatDate(date)}</span></div>
         <div style="font-size:14px;color:#374151;margin-bottom:4px;">🕐 ${heureDebut.slice(0,5)} – ${heureFin.slice(0,5)}</div>
-        <div style="font-size:14px;color:#374151;">📍 AUNL — bord de Saône, Lyon</div>
+        <div style="font-size:14px;color:#374151;">📍 AUNL — 59 quai Clémenceau, Caluire-et-Cuire</div>
       </div>
 
       <div style="background:#FFF7ED;border-radius:8px;padding:14px;font-size:13px;color:#92400E;">

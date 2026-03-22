@@ -183,7 +183,7 @@ export default function HomePage() {
             <div>
               <div className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Le lieu</div>
               <h3 className="text-3xl font-bold tracking-tight text-gray-900 mb-1">Bord de Saône, Lyon</h3>
-              <p className="text-sm text-gray-600 font-medium">Aviron Union Nautique de Lyon · Champion de France</p>
+              <p className="text-sm text-gray-600 font-medium">59 quai Clémenceau, Caluire-et-Cuire</p>
             </div>
           </div>
         </section>
@@ -197,7 +197,7 @@ export default function HomePage() {
               {[
                 { n: '1', title: 'Choisissez un créneau', desc: 'Planning en temps réel avec les places disponibles. Débutant, intermédiaire ou tous niveaux.' },
                 { n: '2', title: 'Payez en ligne', desc: "Séance à l'unité (10€) ou forfait 10 séances (80€). Paiement sécurisé Stripe. Licence FFA ajoutée si besoin." },
-                { n: '3', title: 'Venez transpirer', desc: "Confirmation par email. On vous accueille à l'AUNL bord de Saône. Juste de l'eau à apporter." },
+                { n: '3', title: 'Venez transpirer', desc: "Confirmation par email. On vous accueille à l'AUNL — 59 quai Clémenceau, Caluire-et-Cuire. Juste de l'eau à apporter." },
               ].map((s) => (
                 <div key={s.n} className="bg-white rounded-xl border border-gray-200 p-6">
                   <div className="w-8 h-8 rounded-full bg-brand-50 border border-brand-200 flex items-center justify-center text-sm font-semibold text-brand mb-4">{s.n}</div>

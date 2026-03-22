@@ -9,7 +9,7 @@ const FAQ = [
   { q: "Que se passe-t-il pendant les vacances scolaires ?", r: "Les séances sont annulées pendant les vacances scolaires de la Zone A (Lyon). Aucun prélèvement n'est effectué les semaines sans séance." },
   { q: "Comment fonctionne le tarif adhérent AUNL ?", r: "Si votre email est dans la liste des membres de l'AUNL, le tarif 5€ (ou 4€/semaine en abonnement) s'applique automatiquement quand vous entrez votre email à la réservation. Aucune démarche supplémentaire." },
   { q: "Combien de personnes par séance ?", r: "10 personnes maximum. Au-delà, les places sont indiquées comme 'Complet' sur le planning." },
-  { q: "Où se situe l'AUNL ?", r: "L'Aviron Union Nautique de Lyon est situé bord de Saône, à Lyon. Champion de France d'aviron." },
+  { q: "Où se situe l'AUNL ?", r: "L'Aviron Union Nautique de Lyon est situé bord de Saône, à Lyon. 59 quai Clémenceau, Caluire-et-Cuire." },
 ]
 
 export default function FaqPage() {
