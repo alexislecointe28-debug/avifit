@@ -254,10 +254,10 @@ export default function HomePage() {
                     ))}
                   </ul>
                   <Link
-                    href="/planning"
+                    href={('href' in p && p.href) ? p.href : '/planning'}
                     className={`block w-full text-center py-2.5 rounded-lg text-sm font-medium transition-colors ${p.featured ? 'bg-brand text-white hover:bg-brand-700' : 'border border-brand text-brand hover:bg-brand-50'}`}
                   >
-                    Réserver
+                    {('href' in p && p.href) ? "S'abonner" : 'Réserver'}
                   </Link>
                 </div>
               ))}
