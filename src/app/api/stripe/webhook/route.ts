@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { createServiceClient } from '@/lib/supabase'
-import { sendConfirmationSeance, sendConfirmationAbonnement } from '@/lib/emails'
+import { sendConfirmationAbonnement } from '@/lib/emails'
 import Stripe from 'stripe'
 
 export async function POST(req: NextRequest) {

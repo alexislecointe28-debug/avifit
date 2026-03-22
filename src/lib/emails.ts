@@ -11,9 +11,9 @@ function formatDate(dateStr: string) {
 
 // ─── CONFIRMATION SÉANCE ─────────────────────────────────────────────────────
 export async function sendConfirmationSeance({
-  to, prenom, nom, titre, date, heureDebut, heureFin, avecLicence, montant,
+  to, prenom, titre, date, heureDebut, heureFin, avecLicence, montant,
 }: {
-  to: string; prenom: string; nom: string; titre: string
+  to: string; prenom: string; titre: string
   date: string; heureDebut: string; heureFin: string
   avecLicence: boolean; montant: number
 }) {
