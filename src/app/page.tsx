@@ -79,39 +79,55 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              <div className="bg-white/25 backdrop-blur-md rounded-2xl border border-white/40 p-5">
-                <p className="text-xs font-bold text-white/70 uppercase tracking-widest mb-4">Prochaines séances</p>
-                {prochainesSeances && prochainesSeances.length > 0 ? (
-                  prochainesSeances.map((s) => {
-                    const tag = placesTag(s.places_max, s.places_reservees)
-                    const dispo = s.places_max - s.places_reservees
-                    return (
-                      <div key={s.id} className="flex items-center gap-3 bg-white/20 hover:bg-white/30 transition-colors rounded-xl px-4 py-3 mb-2 last:mb-0">
-                        <span className="text-sm font-semibold text-white flex-1 leading-tight">{formatJourHeure(s.date, s.heure_debut)}</span>
-                        {dispo > 0 && (
-                          <Link href={`/reserver/${s.id}`} className="text-xs font-bold text-brand-300 hover:text-white transition-colors shrink-0">
-                            Réserver →
-                          </Link>
-                        )}
-                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 ${tag.cls}`}>{tag.label}</span>
-                      </div>
-                    )
-                  })
-                ) : (
-                  <p className="text-sm text-white/40 text-center py-3">Aucune séance programmée</p>
-                )}
-                <Link href="/planning" className="block mt-4 text-center text-xs font-bold text-white/60 hover:text-white transition-colors">
+              <div className="bg-white/20 backdrop-blur-md rounded-2xl border border-white/30 overflow-hidden">
+                {/* Header widget */}
+                <div className="px-5 pt-5 pb-3">
+                  <p className="text-[11px] font-black text-white/50 uppercase tracking-widest">Prochaines séances</p>
+                </div>
+
+                {/* Liste séances */}
+                <div className="px-3 pb-3">
+                  {prochainesSeances && prochainesSeances.length > 0 ? (
+                    prochainesSeances.map((s, i) => {
+                      const tag = placesTag(s.places_max, s.places_reservees)
+                      const dispo = s.places_max - s.places_reservees
+                      const d = new Date(s.date + 'T00:00:00')
+                      const jour = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
+                      const jourCapital = jour.charAt(0).toUpperCase() + jour.slice(1)
+                      return (
+                        <div key={s.id} className={`flex items-center gap-3 rounded-xl px-3 py-3 mb-1 last:mb-0 ${i === 0 ? 'bg-white/25' : 'bg-white/10 hover:bg-white/15'} transition-colors`}>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-white font-bold text-sm leading-none mb-1 truncate">{jourCapital}</div>
+                            <div className="text-white/50 text-xs font-medium">{s.heure_debut.slice(0,5)} · 1h</div>
+                          </div>
+                          <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full shrink-0 ${tag.cls}`}>{tag.label}</span>
+                          {dispo > 0 && (
+                            <Link href={`/reserver/${s.id}`} className="shrink-0 bg-brand text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-brand-700 transition-colors">
+                              Réserver
+                            </Link>
+                          )}
+                        </div>
+                      )
+                    })
+                  ) : (
+                    <p className="text-sm text-white/40 text-center py-4">Aucune séance programmée</p>
+                  )}
+                </div>
+
+                <Link href="/planning" className="block text-center text-xs font-bold text-white/50 hover:text-white/90 transition-colors py-3 border-t border-white/10">
                   Voir tous les créneaux →
                 </Link>
-                <div className="mt-4 pt-4 border-t border-white/10 grid grid-cols-2 gap-2">
-                  <div className="bg-white/20 rounded-xl px-3 py-2.5 text-center">
-                    <div className="text-xl font-black text-white">10€</div>
-                    <div className="text-xs text-white/50 mt-0.5">la séance</div>
-                  </div>
-                  <div className="bg-brand/20 border border-brand/40 rounded-xl px-3 py-2.5 text-center">
-                    <div className="text-xl font-black text-brand-300">8€<span className="text-sm font-medium">/sem</span></div>
-                    <div className="text-xs text-brand-400 mt-0.5">formule illimitée</div>
-                  </div>
+
+                {/* Tarifs */}
+                <div className="grid grid-cols-2 border-t border-white/10">
+                  <Link href="/planning" className="flex flex-col items-center justify-center py-4 hover:bg-white/10 transition-colors border-r border-white/10">
+                    <span className="text-2xl font-black text-white leading-none">10€</span>
+                    <span className="text-[11px] text-white/50 font-medium mt-1">la séance</span>
+                  </Link>
+                  <Link href="/abonnement" className="flex flex-col items-center justify-center py-4 bg-brand/25 hover:bg-brand/35 transition-colors">
+                    <span className="text-2xl font-black text-white leading-none">8€<span className="text-sm font-medium text-white/60">/sem</span></span>
+                    <span className="text-[11px] text-brand-300 font-bold mt-1">Formule illimitée</span>
+                  </Link>
                 </div>
               </div>
 
