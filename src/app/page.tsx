@@ -79,14 +79,14 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-5">
-                <p className="text-xs font-bold text-white/50 uppercase tracking-widest mb-4">Prochaines séances</p>
+              <div className="bg-white/25 backdrop-blur-md rounded-2xl border border-white/40 p-5">
+                <p className="text-xs font-bold text-white/70 uppercase tracking-widest mb-4">Prochaines séances</p>
                 {prochainesSeances && prochainesSeances.length > 0 ? (
                   prochainesSeances.map((s) => {
                     const tag = placesTag(s.places_max, s.places_reservees)
                     const dispo = s.places_max - s.places_reservees
                     return (
-                      <div key={s.id} className="flex items-center gap-3 bg-white/10 hover:bg-white/20 transition-colors rounded-xl px-4 py-3 mb-2 last:mb-0">
+                      <div key={s.id} className="flex items-center gap-3 bg-white/20 hover:bg-white/30 transition-colors rounded-xl px-4 py-3 mb-2 last:mb-0">
                         <span className="text-sm font-semibold text-white flex-1 leading-tight">{formatJourHeure(s.date, s.heure_debut)}</span>
                         {dispo > 0 && (
                           <Link href={`/reserver/${s.id}`} className="text-xs font-bold text-brand-300 hover:text-white transition-colors shrink-0">
@@ -100,11 +100,11 @@ export default async function HomePage() {
                 ) : (
                   <p className="text-sm text-white/40 text-center py-3">Aucune séance programmée</p>
                 )}
-                <Link href="/planning" className="block mt-4 text-center text-xs font-bold text-white/40 hover:text-white transition-colors">
+                <Link href="/planning" className="block mt-4 text-center text-xs font-bold text-white/60 hover:text-white transition-colors">
                   Voir tous les créneaux →
                 </Link>
                 <div className="mt-4 pt-4 border-t border-white/10 grid grid-cols-2 gap-2">
-                  <div className="bg-white/10 rounded-xl px-3 py-2.5 text-center">
+                  <div className="bg-white/20 rounded-xl px-3 py-2.5 text-center">
                     <div className="text-xl font-black text-white">10€</div>
                     <div className="text-xs text-white/50 mt-0.5">la séance</div>
                   </div>
