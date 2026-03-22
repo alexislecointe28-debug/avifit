@@ -9,20 +9,14 @@ interface Props {
   mode: 'create' | 'edit'
 }
 
-const TYPE_OPTIONS = [
-  { value: 'avifit_debutant', label: 'Débutant' },
-  { value: 'avifit_intermediaire', label: 'Intermédiaire' },
-  { value: 'avifit_tous_niveaux', label: 'Tous niveaux' },
-]
-
 export default function SeanceForm({ seance, mode }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   const [form, setForm] = useState({
-    titre: seance?.titre ?? 'Avifit — Débutant',
-    type: seance?.type ?? 'avifit_debutant',
+    titre: seance?.titre ?? 'Avifit',
+    type: 'avifit_tous_niveaux' as import('@/types').SeanceType,
     date: seance?.date ?? '',
     heure_debut: seance?.heure_debut?.slice(0, 5) ?? '19:00',
     heure_fin: seance?.heure_fin?.slice(0, 5) ?? '20:00',
@@ -30,11 +24,6 @@ export default function SeanceForm({ seance, mode }: Props) {
     prix: seance ? seance.prix / 100 : 10,
     statut: seance?.statut ?? 'disponible',
   })
-
-  function handleTypeChange(type: string) {
-    const label = TYPE_OPTIONS.find(t => t.value === type)?.label ?? ''
-    setForm(f => ({ ...f, type: type as import('@/types').SeanceType, titre: `Avifit — ${label}` }))
-  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -78,20 +67,6 @@ export default function SeanceForm({ seance, mode }: Props) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-5 max-w-xl">
 
       <div className="bg-white rounded-xl border border-gray-200 p-6 flex flex-col gap-4">
-        {/* Type */}
-        <div>
-          <label className="text-xs font-bold text-gray-600 mb-1.5 block uppercase tracking-wide">Type de séance</label>
-          <select
-            value={form.type}
-            onChange={(e) => handleTypeChange(e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm font-medium focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand"
-          >
-            {TYPE_OPTIONS.map(t => (
-              <option key={t.value} value={t.value}>{t.label}</option>
-            ))}
-          </select>
-        </div>
-
         {/* Date */}
         <div>
           <label className="text-xs font-bold text-gray-600 mb-1.5 block uppercase tracking-wide">Date</label>
