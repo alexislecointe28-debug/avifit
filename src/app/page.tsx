@@ -35,79 +35,86 @@ export default async function HomePage() {
       <Navbar />
       <main>
 
-        {/* HERO */}
-        <section className="relative border-b border-gray-200 py-20 px-6 overflow-hidden">
-          {/* Background photo */}
+        {/* HERO — full bleed */}
+        <section className="relative min-h-[92vh] flex flex-col justify-end overflow-hidden">
           <div className="absolute inset-0">
-            <Image src="/photo-unl-coach.jpg" alt="Coach Avifit AUNL" fill className="object-cover object-center" priority />
-            <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px]" />
+            <Image src="/photo-unl-seance.jpg" alt="Séance Avifit AUNL" fill className="object-cover object-center" priority />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/70 to-gray-950/20" />
           </div>
-          <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-            <div>
-              <div className="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-xs font-medium px-3 py-1.5 rounded-full border border-brand-200 mb-5">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0" />
-                Labellisé Avifit® · FFA
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold leading-tight tracking-tight text-gray-900 mb-4">
-                L&apos;aviron indoor<br />
-                pour <span className="text-brand">tout le monde.</span>
-              </h1>
-              <p className="text-base text-gray-600 leading-relaxed font-medium mb-6 max-w-md">
-                Cours collectifs sur ergomètre, 1h, 10 personnes max. Encadré par un coach certifié FFA. Aucun prérequis.
-              </p>
-              <div className="flex gap-3 flex-wrap">
-                <Link href="/planning" className="bg-brand text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-brand-700 transition-colors">
-                  Voir le planning
-                </Link>
-                <a href="#concept" className="border border-brand text-brand text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-brand-50 transition-colors">
-                  En savoir plus
-                </a>
-              </div>
-            </div>
 
-            <div className="flex flex-col gap-3">
-              {/* Planning widget — données réelles Supabase */}
-              <div className="bg-brand-50 rounded-xl border border-brand-200 p-4">
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Prochaines séances</p>
+          {/* Badge FFA */}
+          <div className="absolute top-6 left-6 md:left-12">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full border border-white/20">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+              Labellisé Avifit® · FFA
+            </div>
+          </div>
+
+          <div className="relative px-6 md:px-12 pb-12 md:pb-16 max-w-6xl mx-auto w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-end">
+
+              <div>
+                <h1 className="text-[clamp(52px,8vw,96px)] font-black leading-[0.9] tracking-tight text-white mb-6">
+                  L&apos;aviron<br />indoor.<br />
+                  <span className="text-brand">Pour tous.</span>
+                </h1>
+                <p className="text-white/70 text-base leading-relaxed mb-8 max-w-sm">
+                  1h sur ergo. 10 personnes max. Coach certifié FFA.<br />Aucun prérequis — aucun matériel.
+                </p>
+                <div className="flex gap-3 flex-wrap">
+                  <Link href="/planning" className="bg-brand text-white text-sm font-bold px-7 py-3.5 rounded-xl hover:bg-brand-700 transition-colors shadow-lg shadow-brand/30">
+                    Réserver une séance
+                  </Link>
+                  <Link href="/abonnement" className="bg-white/10 backdrop-blur-sm text-white text-sm font-semibold px-7 py-3.5 rounded-xl border border-white/20 hover:bg-white/20 transition-colors">
+                    S&apos;abonner — 8€/sem
+                  </Link>
+                </div>
+                <div className="flex gap-8 mt-10 pt-8 border-t border-white/10">
+                  {([['10', 'places max'], ['1h', 'par séance'], ['86%', 'muscles actifs'], ['FFA', 'labellisé']] as const).map(([n, l]) => (
+                    <div key={n}>
+                      <div className="text-2xl font-black text-white tracking-tight">{n}</div>
+                      <div className="text-xs text-white/50 mt-0.5">{l}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-5">
+                <p className="text-xs font-bold text-white/50 uppercase tracking-widest mb-4">Prochaines séances</p>
                 {prochainesSeances && prochainesSeances.length > 0 ? (
                   prochainesSeances.map((s) => {
                     const tag = placesTag(s.places_max, s.places_reservees)
                     const dispo = s.places_max - s.places_reservees
                     return (
-                      <div key={s.id} className="flex items-center gap-3 bg-white rounded-lg border border-gray-100 px-3 py-2.5 mb-2 last:mb-0">
-                        <span className="text-sm font-semibold text-gray-900 flex-1 leading-tight">{formatJourHeure(s.date, s.heure_debut)}</span>
-                        {dispo > 0 ? (
-                          <Link href={`/reserver/${s.id}`} className="text-xs font-bold text-brand hover:underline shrink-0">
-                            Réserver
+                      <div key={s.id} className="flex items-center gap-3 bg-white/10 hover:bg-white/20 transition-colors rounded-xl px-4 py-3 mb-2 last:mb-0">
+                        <span className="text-sm font-semibold text-white flex-1 leading-tight">{formatJourHeure(s.date, s.heure_debut)}</span>
+                        {dispo > 0 && (
+                          <Link href={`/reserver/${s.id}`} className="text-xs font-bold text-brand-300 hover:text-white transition-colors shrink-0">
+                            Réserver →
                           </Link>
-                        ) : null}
+                        )}
                         <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 ${tag.cls}`}>{tag.label}</span>
                       </div>
                     )
                   })
                 ) : (
-                  <p className="text-sm text-gray-400 text-center py-3 font-medium">Aucune séance programmée pour le moment</p>
+                  <p className="text-sm text-white/40 text-center py-3">Aucune séance programmée</p>
                 )}
-                <Link href="/planning" className="block mt-3 text-center text-xs font-semibold text-brand hover:underline">
+                <Link href="/planning" className="block mt-4 text-center text-xs font-bold text-white/40 hover:text-white transition-colors">
                   Voir tous les créneaux →
                 </Link>
-              </div>
-
-              {/* Tarifs inline */}
-              <div className="bg-white rounded-xl border border-gray-200 p-4">
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Tarifs</p>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-gray-50 rounded-lg px-3 py-2.5">
-                    <div className="text-xl font-bold text-gray-900">10€</div>
-                    <div className="text-xs text-gray-500 font-medium mt-0.5">Séance unique</div>
+                <div className="mt-4 pt-4 border-t border-white/10 grid grid-cols-2 gap-2">
+                  <div className="bg-white/10 rounded-xl px-3 py-2.5 text-center">
+                    <div className="text-xl font-black text-white">10€</div>
+                    <div className="text-xs text-white/50 mt-0.5">la séance</div>
                   </div>
-                  <div className="bg-brand-50 rounded-lg px-3 py-2.5 border border-brand-100">
-                    <div className="text-xl font-bold text-brand">8€<span className="text-sm font-medium text-brand-400">/sem</span></div>
-                    <div className="text-xs text-brand-600 font-medium mt-0.5">Abonnement mercredi</div>
+                  <div className="bg-brand/20 border border-brand/40 rounded-xl px-3 py-2.5 text-center">
+                    <div className="text-xl font-black text-brand-300">8€<span className="text-sm font-medium">/sem</span></div>
+                    <div className="text-xs text-brand-400 mt-0.5">abonnement</div>
                   </div>
                 </div>
-                <p className="text-xs text-gray-400 mt-2">Adhérent AUNL : 5€ / 4€ par sem · Licence FFA +45€ si besoin</p>
               </div>
+
             </div>
           </div>
         </section>
