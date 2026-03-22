@@ -13,19 +13,19 @@ export default function CgvPage() {
             <p>Les présentes CGV régissent les ventes de séances Avifit proposées par Alexis Lecointe, auto-entrepreneur, dans les locaux de l&apos;Aviron Union Nautique de Lyon (AUNL), Lyon.</p>
 
             <h2>2. Tarifs</h2>
-            <p>Séance unitaire : 10€. Abonnement mercredi : 8€/semaine. Tarif adhérent AUNL : 5€/séance ou 4€/semaine. Licence FFA annuelle : 45€ (obligatoire si non-licencié). Tous les prix sont TTC.</p>
+            <p>Séance unitaire : 10€. Formule illimitée mercredi : 8€/semaine. Tarif adhérent AUNL : 5€/séance ou 4€/semaine. Licence FFA annuelle : 45€ (obligatoire si non-licencié). Tous les prix sont TTC.</p>
 
             <h2>3. Réservation et paiement</h2>
             <p>La réservation est effective après paiement en ligne via Stripe. Une confirmation par email est envoyée immédiatement. Les paiements sont sécurisés par Stripe.</p>
 
-            <h2>4. Abonnement</h2>
-            <p>L&apos;abonnement mercredi engage le client pour une durée minimale de 4 semaines. Les prélèvements sont hebdomadaires. Après la période d&apos;engagement, la résiliation est possible à tout moment depuis la page &quot;Mon abonnement&quot; ou par email, avec effet à la fin de la semaine en cours.</p>
+            <h2>4. Formule illimitée</h2>
+            <p>L&apos;formule illimitée mercredi engage le client pour une durée minimale de 4 semaines. Les prélèvements sont hebdomadaires. Après la période d&apos;engagement, la résiliation est possible à tout moment depuis la page &quot;Mon formule illimitée&quot; ou par email, avec effet à la fin de la semaine en cours.</p>
 
             <h2>5. Annulation par le prestataire</h2>
             <p>En cas d&apos;annulation de séance (vacances scolaires, force majeure, maladie), aucun prélèvement n&apos;est effectué pour les abonnés. Les réservations à l&apos;unité sont remboursées intégralement.</p>
 
             <h2>6. Annulation par le client</h2>
-            <p>Toute réservation à l&apos;unité peut être annulée et remboursée jusqu&apos;à 24h avant la séance. Passé ce délai, aucun remboursement n&apos;est possible. Les abonnements ne sont pas remboursables pour les semaines déjà prélevées.</p>
+            <p>Toute réservation à l&apos;unité peut être annulée et remboursée jusqu&apos;à 24h avant la séance. Passé ce délai, aucun remboursement n&apos;est possible. Les formule illimitées ne sont pas remboursables pour les semaines déjà prélevées.</p>
 
             <h2>7. Licence FFA</h2>
             <p>La pratique de l&apos;Avifit nécessite une licence FFA. Elle est prélevée une seule fois lors de la première réservation si le client n&apos;est pas déjà licencié. Sa validité est annuelle.</p>

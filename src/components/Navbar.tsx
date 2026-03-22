@@ -8,7 +8,7 @@ const LINKS = [
   { href: '/#concept', label: 'Concept' },
   { href: '/planning', label: 'Planning' },
   { href: '/#tarifs', label: 'Tarifs' },
-  { href: '/abonnement', label: 'Abonnement' },
+  { href: '/formule illimitée', label: 'Formule illimitée' },
 ]
 
 export default function Navbar() {

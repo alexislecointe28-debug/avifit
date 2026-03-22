@@ -111,7 +111,7 @@ export default function AbonnementForm() {
       {/* Total */}
       <div className="bg-white rounded-2xl border border-gray-200 p-6">
         <div className="flex justify-between mb-2 text-sm">
-          <span className="text-gray-600 font-medium">Abonnement mercredi</span>
+          <span className="text-gray-600 font-medium">Formule illimitée</span>
           <span className="font-semibold">{PRIX.semaine}€/semaine</span>
         </div>
         {avecLicence && (
@@ -126,12 +126,12 @@ export default function AbonnementForm() {
           <span className="text-2xl font-bold tracking-tight">{montantAujourdhui}€</span>
         </div>
         <p className="text-xs text-gray-400 mb-5">
-          Puis {PRIX.semaine}€/semaine prélevés automatiquement chaque mercredi · Engagement 4 semaines minimum · Résiliation libre ensuite depuis &ldquo;Mon abonnement&rdquo;
+          Puis {PRIX.semaine}€/semaine · Engagement 4 semaines minimum · Résiliation libre ensuite
         </p>
         {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3 mb-4 font-medium">{error}</div>}
         <button type="submit" disabled={loading}
           className="w-full bg-brand text-white font-bold py-3.5 rounded-xl hover:bg-brand-700 transition-colors disabled:opacity-60 text-sm">
-          {loading ? 'Redirection…' : `S'abonner — ${montantAujourdhui}€ aujourd'hui →`}
+          {loading ? 'Redirection…' : `Activer ma formule — ${montantAujourdhui}€ →`}
         </button>
         <p className="text-xs text-gray-400 text-center mt-3 font-medium">Paiement sécurisé · Stripe · Confirmation par email</p>
       </div>

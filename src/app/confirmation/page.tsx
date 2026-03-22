@@ -49,7 +49,7 @@ export default function ConfirmationPage({ searchParams }: Props) {
 
           {isAbonnement ? (
             <>
-              <h1 className="text-2xl font-bold mb-3 tracking-tight">Abonnement activé !</h1>
+              <h1 className="text-2xl font-bold mb-3 tracking-tight">Formule illimitée activée !</h1>
               <p className="text-gray-500 text-sm font-medium leading-relaxed mb-6">
                 Votre place du mercredi est désormais réservée automatiquement chaque semaine. Un email de confirmation vous a été envoyé.
               </p>
@@ -57,8 +57,8 @@ export default function ConfirmationPage({ searchParams }: Props) {
                 <div className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Rappel</div>
                 <div className="text-sm text-gray-600 font-medium space-y-1">
                   <div>📅 Place réservée chaque mercredi</div>
-                  <div>💳 Prélèvement automatique hebdomadaire</div>
-                  <div>🔒 Engagement 4 semaines · résiliation libre ensuite</div>
+                  <div>💳 8€/semaine prélevés automatiquement</div>
+                  <div>🔒 Sans engagement après 1 mois · résiliation libre ensuite</div>
                 </div>
               </div>
               <div className="flex gap-3 justify-center">

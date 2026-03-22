@@ -93,11 +93,11 @@ export async function sendConfirmationAbonnement({
   <div style="max-width:560px;margin:40px auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #E5E7EB;">
     <div style="background:#2563EB;padding:32px;text-align:center;">
       <div style="font-size:32px;margin-bottom:8px;">🎉</div>
-      <h1 style="color:#fff;margin:0;font-size:22px;font-weight:700;">Abonnement activé !</h1>
+      <h1 style="color:#fff;margin:0;font-size:22px;font-weight:700;">Formule illimitée activée !</h1>
     </div>
     <div style="padding:32px;">
       <p style="color:#374151;font-size:15px;margin:0 0 24px;">Bonjour <strong>${prenom}</strong>,</p>
-      <p style="color:#374151;font-size:15px;margin:0 0 24px;">Votre abonnement mercredi est actif. Votre place est désormais réservée automatiquement chaque semaine.</p>
+      <p style="color:#374151;font-size:15px;margin:0 0 24px;">Votre formule illimitée est active. Votre place est désormais réservée automatiquement chaque semaine.</p>
 
       <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:20px;margin-bottom:24px;">
         <div style="font-size:14px;color:#374151;margin-bottom:8px;">📅 <strong>Chaque mercredi</strong> — place réservée automatiquement</div>

@@ -81,7 +81,7 @@ export default function ReservationForm({ seance }: Props) {
           <button type="button" onClick={() => setFormat('abonnement')}
             className={`p-4 rounded-xl border-2 text-left transition-all ${format === 'abonnement' ? 'border-brand bg-brand-50' : 'border-gray-200 hover:border-gray-300'}`}>
             <div className="flex items-start justify-between mb-1">
-              <span className="text-sm font-semibold">Abonnement mercredi</span>
+              <span className="text-sm font-semibold">Formule illimitée</span>
               <span className="text-xs font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">-20%</span>
             </div>
             <div className={`text-2xl font-bold tracking-tight ${format === 'abonnement' ? 'text-brand' : 'text-gray-900'}`}>{PRIX.abonnement}€<span className="text-sm font-medium text-gray-400">/sem</span></div>
@@ -197,7 +197,7 @@ export default function ReservationForm({ seance }: Props) {
         {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3 mb-4 font-medium">{error}</div>}
         <button type="submit" disabled={loading}
           className="w-full bg-brand text-white font-bold py-3.5 rounded-xl hover:bg-brand-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed text-sm">
-          {loading ? 'Redirection…' : format === 'seance' ? `Payer ${montantTotal}€ →` : `S'abonner — ${montantTotal}€ aujourd'hui →`}
+          {loading ? 'Redirection…' : format === 'seance' ? `Payer ${montantTotal}€ →` : `Activer ma formule — ${montantTotal}€ →`}
         </button>
         <p className="text-xs text-gray-400 text-center mt-3 font-medium">Paiement sécurisé · Stripe · Confirmation par email</p>
       </div>

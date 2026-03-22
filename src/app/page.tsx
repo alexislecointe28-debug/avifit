@@ -65,8 +65,8 @@ export default async function HomePage() {
                   <Link href="/planning" className="bg-brand text-white text-sm font-bold px-7 py-3.5 rounded-xl hover:bg-brand-700 transition-colors shadow-lg shadow-brand/30">
                     Réserver une séance
                   </Link>
-                  <Link href="/abonnement" className="bg-white/10 backdrop-blur-sm text-white text-sm font-semibold px-7 py-3.5 rounded-xl border border-white/20 hover:bg-white/20 transition-colors">
-                    S&apos;abonner — 8€/sem
+                  <Link href="/formule illimitée" className="bg-white/10 backdrop-blur-sm text-white text-sm font-semibold px-7 py-3.5 rounded-xl border border-white/20 hover:bg-white/20 transition-colors">
+                    Formule illimitée — 8€/sem
                   </Link>
                 </div>
                 <div className="flex gap-8 mt-10 pt-8 border-t border-white/10">
@@ -110,7 +110,7 @@ export default async function HomePage() {
                   </div>
                   <div className="bg-brand/20 border border-brand/40 rounded-xl px-3 py-2.5 text-center">
                     <div className="text-xl font-black text-brand-300">8€<span className="text-sm font-medium">/sem</span></div>
-                    <div className="text-xs text-brand-400 mt-0.5">abonnement</div>
+                    <div className="text-xs text-brand-400 mt-0.5">formule illimitée</div>
                   </div>
                 </div>
               </div>
@@ -238,7 +238,7 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {[
                 { n: '1', title: 'Choisissez un créneau', desc: 'Planning en temps réel avec les places disponibles. Réservez en 2 minutes.' },
-                { n: '2', title: 'Payez en ligne', desc: "Séance à l'unité (10€) ou abonnement mercredi (8€/sem). Paiement sécurisé Stripe. Licence FFA ajoutée si besoin." },
+                { n: '2', title: 'Payez en ligne', desc: "Séance à l'unité (10€) ou formule illimitée mercredi (8€/sem). Paiement sécurisé Stripe. Licence FFA ajoutée si besoin." },
                 { n: '3', title: 'Venez transpirer', desc: "Confirmation par email. On vous accueille à l'AUNL — 59 quai Clémenceau, Caluire-et-Cuire. Juste de l'eau à apporter." },
               ].map((s) => (
                 <div key={s.n} className="bg-white rounded-xl border border-gray-200 p-6">
@@ -264,13 +264,13 @@ export default async function HomePage() {
                   featured: false,
                 },
                 {
-                  name: 'Abonnement mercredi', desc: 'Grand public · place auto chaque semaine', price: '8€', unit: '/ semaine · 1 mois min', href: '/abonnement',
-                  items: ['Place réservée automatiquement', 'Prélèvement hebdomadaire', 'Résiliation libre après 1 mois', 'Licence FFA si besoin (+45€)'],
+                  name: 'Formule illimitée mercredi', desc: 'Venez tous les mercredis, sans réserver', price: '8€', unit: '/ semaine · 1 mois min', href: '/formule illimitée',
+                  items: ['Votre place chaque mercredi automatiquement', '8€ prélevés chaque semaine', 'Sans engagement après 1 mois', 'Licence FFA si besoin (+45€)'],
                   featured: true,
                 },
                 {
-                  name: 'Adhérent AUNL', desc: 'Licencié FFA · tarif club', price: '5€', unit: 'par séance (4€/sem en abonnement)',
-                  items: ['Licence FFA déjà incluse', 'Tarif automatique à la réservation', 'Séance ou abonnement'],
+                  name: 'Adhérent AUNL', desc: 'Licencié FFA · tarif club', price: '5€', unit: 'par séance (4€/sem en formule illimitée)',
+                  items: ['Licence FFA déjà incluse', 'Tarif automatique à la réservation', 'Séance ou formule illimitée'],
                   featured: false,
                 },
               ].map((p) => (
@@ -330,7 +330,7 @@ export default async function HomePage() {
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Navigation</div>
                 <div className="flex flex-col gap-2">
                   <a href="/planning" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Planning</a>
-                  <a href="/abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Abonnement mercredi</a>
+                  <a href="/formule illimitée" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Formule illimitée mercredi</a>
                   <a href="/#tarifs" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Tarifs</a>
                 </div>
               </div>
@@ -338,7 +338,7 @@ export default async function HomePage() {
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Mon compte</div>
                 <div className="flex flex-col gap-2">
                   <a href="/mes-seances" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Mes séances</a>
-                  <a href="/mon-abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Mon abonnement</a>
+                  <a href="/mon-formule illimitée" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Mon formule illimitée</a>
                   <a href="/faq" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">FAQ</a>
                   <a href="/cgv" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">CGV</a>
                 </div>

@@ -36,9 +36,9 @@ export default function MonAbonnementPage() {
       <main className="bg-gray-50 min-h-screen flex items-center justify-center px-6">
         <div className="max-w-md w-full">
           <div className="bg-white rounded-2xl border border-gray-200 p-8">
-            <h1 className="text-xl font-bold tracking-tight mb-2">Mon abonnement</h1>
+            <h1 className="text-xl font-bold tracking-tight mb-2">Ma formule illimitée</h1>
             <p className="text-sm text-gray-500 font-medium mb-6">
-              Entrez votre email pour gérer ou résilier votre abonnement mercredi.
+              Entrez votre email pour gérer ou résilier votre formule illimitée.
             </p>
 
             {message ? (
@@ -57,7 +57,7 @@ export default function MonAbonnementPage() {
                 {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
                 <button type="submit" disabled={loading}
                   className="w-full border border-red-200 text-red-600 font-semibold py-2.5 rounded-lg hover:bg-red-50 transition-colors text-sm disabled:opacity-60">
-                  {loading ? 'Vérification…' : 'Résilier mon abonnement'}
+                  {loading ? 'Vérification…' : 'Résilier ma formule'}
                 </button>
                 <p className="text-xs text-gray-400 text-center">
                   La résiliation est effective à la fin de votre engagement minimum (4 semaines).

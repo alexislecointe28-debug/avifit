@@ -170,12 +170,12 @@ export default async function PlanningPage() {
               <div>
                 <div className="text-2xl font-bold text-brand tracking-tight">8€<span className="text-sm font-medium text-gray-400">/sem</span></div>
                 <div className="text-xs text-gray-400 mt-1">
-                  <a href="/abonnement" className="text-brand font-semibold hover:underline">Abonnement mercredi →</a>
+                  <a href="/formule illimitée" className="text-brand font-semibold hover:underline">Formule illimitée mercredi →</a>
                 </div>
               </div>
             </div>
             <p className="text-xs text-gray-400 mt-4 pt-4 border-t border-gray-100">
-              Adhérent AUNL : 5€/séance · 4€/sem en abonnement · Licence FFA +45€ si non-licencié
+              Adhérent AUNL : 5€/séance · 4€/sem en formule illimitée · Licence FFA +45€ si non-licencié
             </p>
           </div>
 
