@@ -5,7 +5,7 @@ import { createServiceClient } from '@/lib/supabase'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { seanceId, nom, prenom, email, format, avecLicenceFfa, isAdherent } = body
+    const { seanceId, nom, prenom, email, format, avecLicenceFfa } = body
 
     if (!seanceId || !nom || !prenom || !email || !format) {
       return NextResponse.json({ error: 'Champs manquants' }, { status: 400 })
