@@ -8,6 +8,7 @@ const NAV = [
   { href: '/admin', label: 'Dashboard', icon: '▦' },
   { href: '/admin/seances', label: 'Séances', icon: '📅' },
   { href: '/admin/reservations', label: 'Réservations', icon: '✓' },
+  { href: '/admin/adherents', label: 'Adhérents AUNL', icon: '👥' },
 ]
 
 export default function AdminSidebar() {
