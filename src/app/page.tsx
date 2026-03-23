@@ -60,7 +60,7 @@ export default async function HomePage() {
                   <Link href="/planning" className="bg-brand text-white text-sm font-bold px-7 py-3.5 rounded-xl hover:bg-brand-700 transition-colors shadow-lg shadow-brand/30">
                     Réserver une séance
                   </Link>
-                  <Link href="/formule illimitée" className="bg-white/10 backdrop-blur-sm text-white text-sm font-semibold px-7 py-3.5 rounded-xl border border-white/20 hover:bg-white/20 transition-colors">
+                  <Link href="/abonnement" className="bg-white/10 backdrop-blur-sm text-white text-sm font-semibold px-7 py-3.5 rounded-xl border border-white/20 hover:bg-white/20 transition-colors">
                     Formule illimitée — 8€/sem
                   </Link>
                 </div>
@@ -235,8 +235,13 @@ export default async function HomePage() {
           <div className="absolute inset-0 flex items-center px-10">
             <div>
               <div className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Le lieu</div>
-              <h3 className="text-3xl font-bold tracking-tight text-gray-900 mb-1">AUNL · Caluire-et-Cuire</h3>
-              <p className="text-sm text-gray-600 font-medium">59 quai Clémenceau, Caluire-et-Cuire</p>
+              <h3 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">AUNL · Caluire-et-Cuire</h3>
+              <p className="text-sm text-gray-600 font-medium mb-4">59 quai Clémenceau, Caluire-et-Cuire</p>
+              <a href="https://maps.google.com/?q=59+quai+Clemenceau+Caluire-et-Cuire" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-white text-brand text-sm font-bold px-5 py-2.5 rounded-xl hover:bg-brand-50 transition-colors shadow-sm">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                Voir sur Google Maps
+              </a>
             </div>
           </div>
         </section>
@@ -322,6 +327,38 @@ export default async function HomePage() {
         </section>
 
         {/* CTA */}
+        {/* LE COACH */}
+        <section className="bg-white border-b border-gray-200 py-16 px-6">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
+            <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
+              <Image src="/photo-unl-coach.jpg" alt="Alexis — coach Avifit AUNL" fill className="object-cover object-top hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Le coach</p>
+              <h2 className="text-4xl font-bold tracking-tight mb-5">Alexis Lecointe</h2>
+              <div className="flex flex-col gap-3 mb-6">
+                {([
+                  ['🏅', 'CQP IF mention HM', 'Qualification professionnelle'],
+                  ['🚣', 'Rameur de compétition', 'Masters Elite — AUNL Lyon'],
+                  ['📋', 'Labellisé Avifit® FFA', 'Formateur agréé fédération'],
+                  ['📍', 'AUNL — Caluire-et-Cuire', '59 quai Clémenceau'],
+                ] as const).map(([icon, title, sub]) => (
+                  <div key={title} className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                    <span className="text-xl">{icon}</span>
+                    <div>
+                      <div className="text-sm font-bold">{title}</div>
+                      <div className="text-xs text-gray-500 font-medium">{sub}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Link href="/planning" className="inline-block bg-brand text-white font-semibold px-7 py-3 rounded-xl text-sm hover:bg-brand-700 transition-colors">
+                Réserver avec Alexis
+              </Link>
+            </div>
+          </div>
+        </section>
+
         <section className="bg-brand py-20 px-6 text-center">
           <h2 className="text-4xl font-bold text-white mb-4 tracking-tight">Première séance ?</h2>
           <p className="text-brand-200 text-base mb-8 max-w-md mx-auto leading-relaxed">
@@ -349,7 +386,7 @@ export default async function HomePage() {
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Mon compte</div>
                 <div className="flex flex-col gap-2">
                   <a href="/mes-seances" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Mes séances</a>
-                  <a href="/mon-formule illimitée" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Mon formule illimitée</a>
+                  <a href="/mon-abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Ma formule</a>
                   <a href="/faq" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">FAQ</a>
                   <a href="/cgv" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">CGV</a>
                 </div>
