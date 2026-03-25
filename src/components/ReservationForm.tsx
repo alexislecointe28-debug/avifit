@@ -18,6 +18,10 @@ export default function ReservationForm({ seance }: Props) {
   const [isAdherent, setIsAdherent] = useState<boolean | null>(null)
   const [checkingEmail, setCheckingEmail] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [codePromo, setCodePromo] = useState('')
+  const [promoStatus, setPromoStatus] = useState<{ valid: boolean; gratuit?: boolean; error?: string; description?: string } | null>(null)
+  const [checkingPromo, setCheckingPromo] = useState(false)
+  const promoDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const PRIX = {
     seance: isAdherent ? 5 : 10,
@@ -46,11 +50,42 @@ export default function ReservationForm({ seance }: Props) {
     }, 600)
   }, [email])
 
+  useEffect(() => {
+    if (promoDebounceRef.current) clearTimeout(promoDebounceRef.current)
+    if (!codePromo.trim()) { setPromoStatus(null); return }
+    promoDebounceRef.current = setTimeout(async () => {
+      setCheckingPromo(true)
+      try {
+        const res = await fetch('/api/check-promo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: codePromo }),
+        })
+        const data = await res.json()
+        setPromoStatus(data)
+      } catch { setPromoStatus(null) }
+      finally { setCheckingPromo(false) }
+    }, 500)
+  }, [codePromo])
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     setLoading(true)
     try {
+      // Si code promo gratuit → réservation directe sans Stripe
+      if (promoStatus?.valid && promoStatus?.gratuit) {
+        const res = await fetch('/api/checkout/gratuit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ seanceId: seance.id, nom, prenom, email, codePromo }),
+        })
+        const data = await res.json()
+        if (!res.ok) { setError(data.error ?? 'Une erreur est survenue'); setLoading(false); return }
+        window.location.href = '/confirmation?type=promo'
+        return
+      }
+
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -160,6 +195,34 @@ export default function ReservationForm({ seance }: Props) {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Code promo */}
+      <div className="bg-white rounded-2xl border border-gray-200 p-6">
+        <p className="text-xs font-bold text-brand uppercase tracking-widest mb-3">Code promo</p>
+        <div className="relative">
+          <input
+            type="text"
+            value={codePromo}
+            onChange={e => setCodePromo(e.target.value.toUpperCase())}
+            placeholder="ESSAI-GRATUIT"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm font-mono focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand pr-8 uppercase"
+          />
+          {checkingPromo && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">⟳</span>}
+        </div>
+        {!checkingPromo && promoStatus?.valid && (
+          <div className="mt-2 flex items-center gap-2 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+            <span className="text-green-600 text-sm">✓</span>
+            <span className="text-xs font-semibold text-green-700">
+              {promoStatus.gratuit ? 'Séance gratuite !' : promoStatus.description ?? 'Code valide'}
+            </span>
+          </div>
+        )}
+        {!checkingPromo && promoStatus && !promoStatus.valid && codePromo.trim() && (
+          <div className="mt-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+            <span className="text-xs font-semibold text-red-600">{promoStatus.error}</span>
+          </div>
+        )}
       </div>
 
       {/* Total */}
