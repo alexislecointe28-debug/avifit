@@ -11,25 +11,25 @@ export default function CgvPage() {
           <div className="bg-white rounded-xl border border-gray-200 p-8 prose prose-sm max-w-none">
 
             <h2>1. Prestataire</h2>
-            <p>Les présentes CGV régissent les réservations de séances Avifit proposées par Alexis Lecointe, dans les locaux de l&apos;Aviron Union Nautique de Lyon (AUNL), 59 quai Clémenceau, Caluire-et-Cuire. L&apos;encaissement est effectué directement par l&apos;AUNL.</p>
+            <p>Les présentes CGV régissent les réservations et ventes de séances Avifit proposées par Alexis Lecointe, dans les locaux de l&apos;Aviron Union Nautique de Lyon (AUNL), 59 quai Clémenceau, Caluire-et-Cuire. L&apos;encaissement est effectué par l&apos;AUNL.</p>
 
             <h2>2. Tarifs</h2>
             <p>Séance unitaire : 10€. Formule illimitée : 8€/semaine. Tarif adhérent AUNL : 5€/séance ou 4€/semaine. Licence FFA annuelle : 45€ si non-licencié (obligatoire pour la pratique). Tous les prix sont TTC.</p>
 
-            <h2>3. Réservation</h2>
-            <p>La réservation s&apos;effectue en ligne sur le site. Elle est confirmée par email dès validation. Le paiement est réglé directement auprès de l&apos;AUNL, sur place ou selon les modalités communiquées par le club. Aucun paiement en ligne n&apos;est requis pour valider une réservation.</p>
+            <h2>3. Réservation et paiement</h2>
+            <p>La réservation est effective après paiement en ligne sécurisé via Stripe. Une confirmation par email est envoyée immédiatement. Les paiements sont traités par Stripe au bénéfice de l&apos;AUNL.</p>
 
             <h2>4. Formule illimitée</h2>
-            <p>La formule illimitée permet de réserver automatiquement une place à chaque séance, sans démarche hebdomadaire. Elle engage le participant pour une durée minimale de 4 semaines. Après cette période, la résiliation est possible à tout moment depuis la page &quot;Ma formule&quot; ou par email, avec effet à la fin de la semaine en cours. Les modalités de paiement sont définies avec l&apos;AUNL.</p>
+            <p>La formule illimitée permet de réserver automatiquement une place à chaque séance sans démarche hebdomadaire. Elle engage le participant pour une durée minimale de 4 semaines, avec prélèvement hebdomadaire via Stripe. Après cette période, la résiliation est possible à tout moment depuis la page &quot;Ma formule&quot; ou par email, avec effet à la fin de la semaine en cours.</p>
 
             <h2>5. Annulation par le prestataire</h2>
-            <p>En cas d&apos;annulation de séance (vacances scolaires Zone A, force majeure, maladie du coach), les participants inscrits en sont informés par email. Aucun règlement n&apos;est dû pour une séance annulée.</p>
+            <p>En cas d&apos;annulation de séance (vacances scolaires Zone A, force majeure, maladie du coach), les participants inscrits en sont informés par email. Les réservations à l&apos;unité sont remboursées intégralement. Aucun prélèvement n&apos;est effectué pour les abonnés les semaines sans séance.</p>
 
             <h2>6. Annulation par le participant</h2>
-            <p>Toute réservation peut être annulée en ligne jusqu&apos;à 24h avant le début de la séance, depuis la page &quot;Mes séances&quot;. Passé ce délai, l&apos;annulation n&apos;est plus possible et la place est considérée comme utilisée.</p>
+            <p>Toute réservation peut être annulée en ligne jusqu&apos;à 24h avant le début de la séance, depuis la page &quot;Mes séances&quot;. Passé ce délai, l&apos;annulation n&apos;est plus possible et la place est considérée comme utilisée — aucun remboursement ne sera effectué. Les semaines déjà prélevées dans le cadre de la formule illimitée ne sont pas remboursables.</p>
 
             <h2>7. Licence FFA</h2>
-            <p>La pratique de l&apos;Avifit dans un club labellisé FFA nécessite une licence fédérale annuelle. Si le participant n&apos;est pas déjà licencié dans un club FFA, la licence est à régler auprès de l&apos;AUNL. Sa validité est annuelle.</p>
+            <p>La pratique de l&apos;Avifit dans un club labellisé FFA nécessite une licence fédérale annuelle. Elle est ajoutée automatiquement au paiement lors de la première réservation si le participant n&apos;est pas déjà licencié. Sa validité est annuelle.</p>
 
             <h2>8. Responsabilité</h2>
             <p>Le participant atteste être en bonne santé et apte à pratiquer une activité physique intense. Un certificat médical de non-contre-indication à la pratique sportive est fortement recommandé. L&apos;AUNL et le coach déclinent toute responsabilité en cas d&apos;accident résultant d&apos;une contre-indication médicale non déclarée.</p>
