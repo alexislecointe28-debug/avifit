@@ -4,8 +4,10 @@ import Link from 'next/link'
 export const dynamic = 'force-dynamic'
 
 const TARIFS = {
-  exterieur: { seance: 10, coach: 6, club: 4 },
-  adherent:  { seance: 5,  coach: 3, club: 2 },
+  exterieur:          { seance: 10, coach: 600,  club: 400  }, // 10€ → 6€ / 4€
+  adherent:           { seance: 5,  coach: 300,  club: 200  }, // 5€  → 3€ / 2€
+  formule_ext:        { seance: 8,  coach: 480,  club: 320  }, // 8€  → 4.80€ / 3.20€
+  formule_adh:        { seance: 4,  coach: 240,  club: 160  }, // 4€  → 2.40€ / 1.60€
 }
 
 function getMoisEnCours() {
@@ -34,18 +36,22 @@ export default async function AdminPage() {
   let coachMois = 0, clubMois = 0, totalMois = 0
   let nbExtMois = 0, nbAdhMois = 0
 
+  let nbFormuleExtMois = 0, nbFormuleAdhMois = 0
+
   for (const r of resaMoisFiltered) {
     const montant = (r.montant_total as number) ?? 0
     if (montant >= 1000) {
-      coachMois += TARIFS.exterieur.coach * 100
-      clubMois  += TARIFS.exterieur.club  * 100
-      totalMois += montant
-      nbExtMois++
-    } else if (montant >= 500) {
-      coachMois += TARIFS.adherent.coach * 100
-      clubMois  += TARIFS.adherent.club  * 100
-      totalMois += montant
-      nbAdhMois++
+      coachMois += TARIFS.exterieur.coach; clubMois += TARIFS.exterieur.club
+      totalMois += montant; nbExtMois++
+    } else if (montant === 800) {
+      coachMois += TARIFS.formule_ext.coach; clubMois += TARIFS.formule_ext.club
+      totalMois += montant; nbFormuleExtMois++
+    } else if (montant === 500) {
+      coachMois += TARIFS.adherent.coach; clubMois += TARIFS.adherent.club
+      totalMois += montant; nbAdhMois++
+    } else if (montant === 400) {
+      coachMois += TARIFS.formule_adh.coach; clubMois += TARIFS.formule_adh.club
+      totalMois += montant; nbFormuleAdhMois++
     }
   }
 
@@ -63,8 +69,10 @@ export default async function AdminPage() {
     for (const r of (s.reservations as { montant_total: number; statut: string }[] ?? [])) {
       if (r.statut !== 'confirmed') continue
       const m = r.montant_total ?? 0
-      if (m >= 1000) { coachPrev += 600; clubPrev += 400; totalPrev += m }
-      else if (m >= 500) { coachPrev += 300; clubPrev += 200; totalPrev += m }
+      if (m >= 1000)      { coachPrev += TARIFS.exterieur.coach;   clubPrev += TARIFS.exterieur.club;   totalPrev += m }
+      else if (m === 800) { coachPrev += TARIFS.formule_ext.coach;  clubPrev += TARIFS.formule_ext.club;  totalPrev += m }
+      else if (m === 500) { coachPrev += TARIFS.adherent.coach;     clubPrev += TARIFS.adherent.club;     totalPrev += m }
+      else if (m === 400) { coachPrev += TARIFS.formule_adh.coach;  clubPrev += TARIFS.formule_adh.club;  totalPrev += m }
     }
   }
 
@@ -92,7 +100,7 @@ export default async function AdminPage() {
         <div className="flex items-center justify-between mb-5">
           <div>
             <h2 className="text-base font-bold">Répartition financière — mois en cours</h2>
-            <p className="text-xs text-gray-400 mt-0.5">{nbExtMois + nbAdhMois} réservations · {nbExtMois} extérieur · {nbAdhMois} adhérent AUNL</p>
+            <p className="text-xs text-gray-400 mt-0.5">{nbExtMois + nbAdhMois + nbFormuleExtMois + nbFormuleAdhMois} réservations · {nbExtMois} séance ext · {nbAdhMois} séance adh · {nbFormuleExtMois} formule ext · {nbFormuleAdhMois} formule adh</p>
           </div>
           <span className="text-xs font-semibold bg-brand-50 text-brand px-3 py-1 rounded-full border border-brand-100 capitalize">{mois.label}</span>
         </div>
