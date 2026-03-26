@@ -167,15 +167,21 @@ export default async function HomePage() {
           <div className="max-w-6xl mx-auto">
             <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">L&apos;ambiance</p>
             <h2 className="text-4xl font-bold tracking-tight mb-8">À l&apos;AUNL.</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <div className="relative overflow-hidden rounded-2xl aspect-[4/3] col-span-2 md:col-span-1 md:row-span-2 md:aspect-auto md:min-h-[400px]">
-                <Image src="/photo-unl-seance.jpg" alt="Séance collective sur ergomètre Concept2 — AUNL" fill className="object-cover hover:scale-105 transition-transform duration-500" />
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="relative overflow-hidden rounded-2xl aspect-[4/3] col-span-2 md:col-span-1 md:row-span-2 md:aspect-auto md:min-h-[500px]">
+                <Image src="/photo-seance-1.jpg" alt="Séance Avifit AUNL" fill className="object-cover object-center hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
-                <Image src="/photo-unl-ergo.jpg" alt="Ergomètres Concept2 — AUNL" fill className="object-cover hover:scale-105 transition-transform duration-500" />
+                <Image src="/photo-seance-2.jpg" alt="Séance Avifit AUNL" fill className="object-cover hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
-                <Image src="/photo-ergo-collectif.webp" alt="Séance Avifit collective" fill className="object-cover hover:scale-105 transition-transform duration-500" />
+                <Image src="/photo-seance-5.jpg" alt="Séance Avifit AUNL" fill className="object-cover hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
+                <Image src="/photo-seance-3.jpg" alt="Séance Avifit AUNL" fill className="object-cover hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
+                <Image src="/photo-seance-4.jpg" alt="Séance Avifit AUNL" fill className="object-cover hover:scale-105 transition-transform duration-500" />
               </div>
             </div>
           </div>
