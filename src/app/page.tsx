@@ -396,6 +396,8 @@ export default async function HomePage() {
                   <a href="/mon-abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Ma formule</a>
                   <a href="/faq" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">FAQ</a>
                   <a href="/cgv" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">CGV</a>
+                  <a href="/mentions-legales" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Mentions légales</a>
+                  <a href="/politique-confidentialite" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Confidentialité</a>
                 </div>
               </div>
 

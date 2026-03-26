@@ -19,20 +19,25 @@ export default function ReservationForm({ seance }: Props) {
   const [promoStatus, setPromoStatus] = useState<{ valid: boolean; gratuit?: boolean; error?: string; description?: string } | null>(null)
   const [checkingPromo, setCheckingPromo] = useState(false)
   const [remembered, setRemembered] = useState(false)
+  const [consent, setConsent] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const promoDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // 🧠 Charger depuis localStorage au montage
+  // 🧠 Charger depuis localStorage si consentement précédent
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('avifit_user')
-      if (saved) {
-        const { prenom: p, nom: n, email: e, avecLicence: l } = JSON.parse(saved)
-        if (p) setPrenom(p)
-        if (n) setNom(n)
-        if (e) setEmail(e)
-        if (typeof l === 'boolean') setAvecLicence(l)
-        setRemembered(true)
+      const hasConsent = localStorage.getItem('avifit_consent') === 'true'
+      if (hasConsent) {
+        setConsent(true)
+        const saved = localStorage.getItem('avifit_user')
+        if (saved) {
+          const { prenom: p, nom: n, email: e, avecLicence: l } = JSON.parse(saved)
+          if (p) setPrenom(p)
+          if (n) setNom(n)
+          if (e) setEmail(e)
+          if (typeof l === 'boolean') setAvecLicence(l)
+          setRemembered(true)
+        }
       }
     } catch {}
   }, [])
@@ -81,8 +86,13 @@ export default function ReservationForm({ seance }: Props) {
     setError('')
     setLoading(true)
 
-    // 💾 Sauvegarder dans localStorage
-    try { localStorage.setItem('avifit_user', JSON.stringify({ prenom, nom, email, avecLicence })) } catch {}
+    // 💾 Sauvegarder dans localStorage (seulement si consentement)
+    try {
+      if (consent) {
+        localStorage.setItem('avifit_consent', 'true')
+        localStorage.setItem('avifit_user', JSON.stringify({ prenom, nom, email, avecLicence }))
+      }
+    } catch {}
 
     try {
       // Promo gratuite
@@ -203,6 +213,23 @@ export default function ReservationForm({ seance }: Props) {
           <p className="mt-2 text-xs text-red-600 font-medium">{promoStatus.error}</p>
         )}
       </div>
+
+      {/* Consentement mémorisation */}
+      <label className="flex items-start gap-3 cursor-pointer bg-white rounded-2xl border border-gray-200 p-4">
+        <div className="relative flex-shrink-0 mt-0.5">
+          <input type="checkbox" checked={consent} onChange={e => {
+            setConsent(e.target.checked)
+            if (!e.target.checked) { try { localStorage.removeItem('avifit_user'); localStorage.removeItem('avifit_consent') } catch {} }
+          }} className="sr-only" />
+          <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${consent ? 'bg-brand border-brand' : 'border-gray-300'}`}>
+            {consent && <span className="text-white text-xs font-bold">✓</span>}
+          </div>
+        </div>
+        <div>
+          <span className="text-sm font-semibold text-gray-900">Mémoriser mes infos pour la prochaine fois</span>
+          <p className="text-xs text-gray-400 mt-0.5">Nom, prénom et email sauvegardés sur votre appareil uniquement. <a href="/politique-confidentialite" className="text-brand hover:underline" target="_blank">En savoir plus</a></p>
+        </div>
+      </label>
 
       {/* Total + CTA */}
       <div className="bg-white rounded-2xl border border-gray-200 p-5">
