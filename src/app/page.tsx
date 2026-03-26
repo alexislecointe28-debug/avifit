@@ -391,14 +391,7 @@ export default async function HomePage() {
                   <a href="/cgv" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">CGV</a>
                 </div>
               </div>
-              <div>
-                <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Aussi par Alexis</div>
-                <div className="flex flex-col gap-2">
-                  <a href="https://rowning.vercel.app" target="_blank" rel="noopener noreferrer" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">
-                    RoWning — Offre entreprise →
-                  </a>
-                </div>
-              </div>
+
               <div>
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Label</div>
                 <div className="text-xs text-gray-500 font-medium">Labellisé Avifit® · FFA<br />Aviron Union Nautique de Lyon</div>
