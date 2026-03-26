@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
+import TarifsSection from '@/components/TarifsSection'
 import { createServiceClient } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
@@ -275,63 +276,7 @@ export default async function HomePage() {
         </section>
 
         {/* TARIFS */}
-        <section id="tarifs" className="bg-white border-b border-gray-200 py-16 px-6">
-          <div className="max-w-6xl mx-auto">
-            <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Tarifs</p>
-            <h2 className="text-4xl font-bold mb-10 tracking-tight">Simple et transparent</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[
-                {
-                  name: 'Séance unique', desc: 'Grand public · à la séance', price: '10€', unit: 'par séance',
-                  items: ['1 séance 1h', 'Réservation en ligne', 'Confirmation email', 'Licence FFA si besoin (+45€)'],
-                  featured: false,
-                },
-                {
-                  name: 'Formule illimitée', desc: 'Votre place réservée auto chaque semaine', price: '8€', unit: '/ semaine · 1 mois min', href: '/abonnement',
-                  items: ['Votre place réservée automatiquement', '8€ prélevés chaque semaine', 'Sans engagement après 1 mois', 'Licence FFA si besoin (+45€)'],
-                  featured: true,
-                },
-                {
-                  name: 'Adhérent AUNL', desc: 'Licencié FFA · tarif club', price: '5€', unit: 'par séance (4€/sem en formule illimitée)',
-                  items: ['Licence FFA déjà incluse', 'Tarif automatique à la réservation', 'Séance ou formule illimitée'],
-                  featured: false,
-                },
-              ].map((p) => (
-                <div key={p.name} className={`rounded-2xl p-7 ${p.featured ? 'border-2 border-brand' : 'border border-gray-200'}`}>
-                  {p.featured && (
-                    <span className="inline-block bg-brand-50 text-brand-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">
-                      Meilleure valeur
-                    </span>
-                  )}
-                  <div className="text-base font-semibold mb-1">{p.name}</div>
-                  <div className="text-xs text-gray-400 mb-5">{p.desc}</div>
-                  <div className="text-4xl font-bold tracking-tight">{p.price}</div>
-                  <div className="text-xs text-gray-400 mt-1 mb-5">{p.unit}</div>
-                  <div className="h-px bg-gray-100 mb-5" />
-                  <ul className="flex flex-col gap-2.5 mb-6">
-                    {p.items.map((item) => (
-                      <li key={item} className="flex items-center gap-2.5 text-sm text-gray-700 font-medium">
-                        <span className="w-4 h-4 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                          <span className="w-1.5 h-1.5 rounded-full bg-green-600" />
-                        </span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    href={('href' in p && p.href) ? p.href : '/planning'}
-                    className={`block w-full text-center py-2.5 rounded-lg text-sm font-medium transition-colors ${p.featured ? 'bg-brand text-white hover:bg-brand-700' : 'border border-brand text-brand hover:bg-brand-50'}`}
-                  >
-                    {('href' in p && p.href) ? "S'abonner" : 'Réserver'}
-                  </Link>
-                </div>
-              ))}
-            </div>
-            <p className="text-xs text-gray-400 mt-4">
-              * Licence FFA annuelle 45€ requise si non-licencié — ajoutée au checkout. Adhérents AUNL : tarif 5€/4€ appliqué automatiquement à la réservation.
-            </p>
-          </div>
-        </section>
+        <TarifsSection />
 
         {/* CTA */}
         {/* LE COACH */}
