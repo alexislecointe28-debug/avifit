@@ -8,7 +8,6 @@ export const dynamic = 'force-dynamic'
 
 export default async function EditSeancePage({ params }: { params: { id: string } }) {
   const supabase = createServiceClient()
-  const { data: coachsList } = await supabase.from('coachs').select('id, prenom, nom').eq('actif', true).order('prenom')
 
   const [{ data: seance }, { data: reservations }] = await Promise.all([
     supabase.from('seances').select('*').eq('id', params.id).single(),
