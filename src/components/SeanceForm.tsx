@@ -4,12 +4,14 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Seance } from '@/types'
 
+interface CoachOption { id: string; prenom: string; nom: string }
 interface Props {
   seance?: Seance
   mode: 'create' | 'edit'
+  coachs?: CoachOption[]
 }
 
-export default function SeanceForm({ seance, mode }: Props) {
+export default function SeanceForm({ seance, mode, coachs = [] }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -23,6 +25,7 @@ export default function SeanceForm({ seance, mode }: Props) {
     places_max: seance?.places_max ?? 10,
     prix: seance ? seance.prix / 100 : 10,
     statut: seance?.statut ?? 'disponible',
+    coach_id: '',  // sera mis à jour depuis la DB si edit
   })
 
   async function handleSubmit(e: React.FormEvent) {
@@ -67,6 +70,20 @@ export default function SeanceForm({ seance, mode }: Props) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-5 max-w-xl">
 
       <div className="bg-white rounded-xl border border-gray-200 p-6 flex flex-col gap-4">
+        {/* Coach */}
+        {coachs.length > 0 && (
+          <div>
+            <label className="text-xs font-bold text-gray-600 mb-1.5 block uppercase tracking-wide">Coach</label>
+            <select value={form.coach_id} onChange={e => setForm(f => ({ ...f, coach_id: e.target.value }))}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm font-medium focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand">
+              <option value="">— Non attribué —</option>
+              {coachs.map(c => (
+                <option key={c.id} value={c.id}>{c.prenom} {c.nom}</option>
+              ))}
+            </select>
+          </div>
+        )}
+
         {/* Date */}
         <div>
           <label className="text-xs font-bold text-gray-600 mb-1.5 block uppercase tracking-wide">Date</label>

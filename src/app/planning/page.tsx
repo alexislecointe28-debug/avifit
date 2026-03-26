@@ -123,6 +123,7 @@ export default async function PlanningPage() {
                         <div className="flex items-center gap-4 text-xs text-gray-400 mb-3">
                           <span>1h · 10 personnes max</span>
                           <span>{(seance.prix / 100).toFixed(0)}€ / séance</span>
+
                         </div>
                         <div className="flex items-center gap-3">
                           <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">

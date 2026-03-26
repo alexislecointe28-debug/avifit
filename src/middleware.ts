@@ -1,15 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const COOKIE_NAME = 'avifit_admin'
-const COOKIE_VALUE = 'authenticated'
+const ADMIN_COOKIE = 'avifit_admin'
+const ADMIN_VALUE = 'authenticated'
+const COACH_COOKIE = 'avifit_coach'
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
+  // Protection routes admin
   if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
-    const cookie = req.cookies.get(COOKIE_NAME)?.value
-    if (cookie !== COOKIE_VALUE) {
+    const cookie = req.cookies.get(ADMIN_COOKIE)?.value
+    if (cookie !== ADMIN_VALUE) {
       return NextResponse.redirect(new URL('/admin/login', req.url))
+    }
+  }
+
+  // Protection routes coach
+  if (pathname.startsWith('/coach') && !pathname.startsWith('/coach/login')) {
+    const cookie = req.cookies.get(COACH_COOKIE)?.value
+    if (!cookie) {
+      return NextResponse.redirect(new URL('/coach/login', req.url))
     }
   }
 
@@ -17,5 +27,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*', '/coach/:path*'],
 }
