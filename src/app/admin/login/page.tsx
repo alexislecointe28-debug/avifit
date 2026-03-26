@@ -1,15 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
@@ -20,7 +17,7 @@ export default function AdminLoginPage() {
       body: JSON.stringify({ password }),
     })
     if (res.ok) {
-      router.push('/admin')
+      window.location.href = '/admin'
     } else {
       setError('Mot de passe incorrect')
       setLoading(false)
