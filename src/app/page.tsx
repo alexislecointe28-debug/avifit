@@ -345,8 +345,8 @@ export default async function HomePage() {
               <h2 className="text-4xl font-bold tracking-tight mb-5">Alexis Lecointe</h2>
               <div className="flex flex-col gap-3 mb-6">
                 {([
-                  ['🏅', 'CQP IF mention HM', 'Qualification professionnelle'],
-                  ['🚣', 'Rameur de compétition', 'Masters Elite — AUNL Lyon'],
+                  ['🏅', 'CQP IF mention HM (en cours)', 'Qualification professionnelle'],
+                  ['🚣', 'Rameur de compétition', 'Masters — AUNL Lyon'],
                   ['📋', 'Labellisé Avifit® FFA', 'Formateur agréé fédération'],
                   ['📍', 'AUNL — Caluire-et-Cuire', '59 quai Clémenceau'],
                 ] as const).map(([icon, title, sub]) => (
