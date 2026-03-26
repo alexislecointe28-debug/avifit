@@ -60,10 +60,13 @@ export default async function PlanningPage() {
     return debut > cutoff
   })
 
+  // Prochaine séance dispo
+  const prochaineDispo = seancesList.find(s => s.places_reservees < s.places_max)
+
   return (
     <>
       <Navbar />
-      <main className="bg-gray-50 min-h-screen">
+      <main className="bg-gray-50 min-h-screen pb-24 md:pb-0">
         <div className="max-w-4xl mx-auto px-6 py-12">
 
           <div className="mb-10">
@@ -182,6 +185,19 @@ export default async function PlanningPage() {
 
         </div>
       </main>
+
+      {/* Sticky CTA mobile */}
+      {prochaineDispo && (
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 p-4 bg-white border-t border-gray-200 shadow-lg">
+          <a href={`/reserver/${prochaineDispo.id}`}
+            className="block w-full bg-brand text-white font-black py-4 rounded-xl text-center text-base shadow-lg shadow-brand/20 hover:bg-brand-700 transition-colors">
+            Réserver la prochaine séance →
+          </a>
+          <p className="text-xs text-gray-400 text-center mt-1.5">
+            {new Date(prochaineDispo.date + 'T00:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })} · {prochaineDispo.heure_debut.slice(0, 5)} · {prochaineDispo.places_max - prochaineDispo.places_reservees} place(s) dispo
+          </p>
+        </div>
+      )}
     </>
   )
 }

@@ -38,7 +38,7 @@ export default async function ReserverPage({ params }: { params: { id: string } 
     <>
       <Navbar />
       <main className="bg-gray-50 min-h-screen">
-        <div className="max-w-2xl mx-auto px-6 py-12">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-6 sm:py-12">
 
           <div className="flex items-center gap-2 text-xs text-gray-400 mb-8">
             <a href="/planning" className="hover:text-brand transition-colors">Planning</a>
