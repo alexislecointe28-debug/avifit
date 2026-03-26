@@ -18,8 +18,8 @@ export default function CoachManager({ initialCoachs }: { initialCoachs: Coach[]
   const [coachs, setCoachs] = useState<Coach[]>(initialCoachs)
   const [form, setForm] = useState({
     prenom: '', nom: '', email: '', password: '',
-    tarif_seance_ext: '600', tarif_seance_adh: '300',
-    tarif_formule_ext: '480', tarif_formule_adh: '240',
+    tarif_seance_ext: '6', tarif_seance_adh: '3',
+    tarif_formule_ext: '4.80', tarif_formule_adh: '2.40',
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -37,10 +37,10 @@ export default function CoachManager({ initialCoachs }: { initialCoachs: Coach[]
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         prenom: form.prenom, nom: form.nom, email: form.email.toLowerCase(), password: form.password,
-        tarif_seance_ext: parseInt(form.tarif_seance_ext),
-        tarif_seance_adh: parseInt(form.tarif_seance_adh),
-        tarif_formule_ext: parseInt(form.tarif_formule_ext),
-        tarif_formule_adh: parseInt(form.tarif_formule_adh),
+        tarif_seance_ext: Math.round(parseFloat(form.tarif_seance_ext) * 100),
+        tarif_seance_adh: Math.round(parseFloat(form.tarif_seance_adh) * 100),
+        tarif_formule_ext: Math.round(parseFloat(form.tarif_formule_ext) * 100),
+        tarif_formule_adh: Math.round(parseFloat(form.tarif_formule_adh) * 100),
       }),
     })
     const data = await res.json()
@@ -102,24 +102,24 @@ export default function CoachManager({ initialCoachs }: { initialCoachs: Coach[]
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand" placeholder="••••••••" />
             </div>
           </div>
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Règle financière (en centimes)</p>
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Règle financière (en €)</p>
           <div className="grid grid-cols-4 gap-3">
             {[
-              ['Séance ext.', 'tarif_seance_ext', 'sur 10€'],
-              ['Séance adh.', 'tarif_seance_adh', 'sur 5€'],
-              ['Formule ext.', 'tarif_formule_ext', 'sur 8€'],
-              ['Formule adh.', 'tarif_formule_adh', 'sur 4€'],
+              ['Séance ext.', 'tarif_seance_ext', '€ sur 10€'],
+              ['Séance adh.', 'tarif_seance_adh', '€ sur 5€'],
+              ['Formule ext.', 'tarif_formule_ext', '€ sur 8€'],
+              ['Formule adh.', 'tarif_formule_adh', '€ sur 4€'],
             ].map(([label, key, hint]) => (
               <div key={key}>
                 <label className="text-xs font-semibold text-gray-500 mb-1 block">{label} <span className="text-gray-400 font-normal">{hint}</span></label>
-                <input type="number" value={form[key as keyof typeof form]}
+                <input type="number" step="0.01" min="0" value={form[key as keyof typeof form]}
                   onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand" />
               </div>
             ))}
           </div>
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-700">
-            💡 Les tarifs sont en centimes. 600 = 6€. Accès : <strong>avifit.vercel.app/coach/login</strong>
+            💡 Saisir le montant en €. Ex: 6 pour 6€. Accès : <strong>avifit.vercel.app/coach/login</strong>
           </div>
           {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
           <button type="submit" disabled={loading}
@@ -160,8 +160,8 @@ export default function CoachManager({ initialCoachs }: { initialCoachs: Coach[]
                   <div key={key}>
                     <label className="text-xs font-semibold text-gray-500 mb-1 block">{label}</label>
                     <input type="number"
-                      defaultValue={c[key as keyof Coach] as number}
-                      onChange={e => setEditTarifs(t => ({ ...t, [key]: parseInt(e.target.value) }))}
+                      defaultValue={((c[key as keyof Coach] as number) / 100).toFixed(2)}
+                      onChange={e => setEditTarifs(t => ({ ...t, [key]: Math.round(parseFloat(e.target.value) * 100) }))}
                       className="w-full border border-brand rounded-lg px-2 py-1.5 text-sm focus:outline-none" />
                   </div>
                 ))}
