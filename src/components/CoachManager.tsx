@@ -78,7 +78,7 @@ export default function CoachManager({ initialCoachs }: { initialCoachs: Coach[]
       <div className="bg-white rounded-xl border border-gray-200 p-6">
         <h2 className="text-sm font-bold mb-4">Ajouter un coach</h2>
         <form onSubmit={handleCreate} className="flex flex-col gap-3">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-gray-500 mb-1 block">Prénom</label>
               <input required value={form.prenom} onChange={e => setForm(f => ({ ...f, prenom: e.target.value }))}
@@ -90,7 +90,7 @@ export default function CoachManager({ initialCoachs }: { initialCoachs: Coach[]
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand" placeholder="Dupont" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-gray-500 mb-1 block">Email</label>
               <input type="email" required value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
@@ -150,7 +150,7 @@ export default function CoachManager({ initialCoachs }: { initialCoachs: Coach[]
             </div>
 
             {editingId === c.id ? (
-              <div className="grid grid-cols-4 gap-2 mt-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">
                 {[
                   ['Séance ext.', 'tarif_seance_ext'],
                   ['Séance adh.', 'tarif_seance_adh'],

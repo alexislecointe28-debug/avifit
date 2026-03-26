@@ -143,7 +143,7 @@ export default function AdherentManager({ initialAdherents }: Props) {
       </div>
 
       {/* Liste */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
         <div className="p-4 border-b border-gray-100">
           <input
             type="text"

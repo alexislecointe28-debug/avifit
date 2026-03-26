@@ -97,7 +97,7 @@ export default function SeanceForm({ seance, mode, coachs = [] }: Props) {
         </div>
 
         {/* Horaires */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="text-xs font-bold text-gray-600 mb-1.5 block uppercase tracking-wide">Heure début</label>
             <input
@@ -121,7 +121,7 @@ export default function SeanceForm({ seance, mode, coachs = [] }: Props) {
         </div>
 
         {/* Places + Prix */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="text-xs font-bold text-gray-600 mb-1.5 block uppercase tracking-wide">Places max</label>
             <input

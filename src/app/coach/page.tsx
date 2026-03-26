@@ -85,7 +85,7 @@ export default async function CoachDashboard() {
         </div>
 
         {/* Stats du mois */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <div className="bg-white rounded-xl border border-gray-200 p-5">
             <div className="text-3xl font-black text-brand tracking-tight">{fmt(gainsMois)}</div>
             <div className="text-sm text-gray-500 font-medium mt-1">Tes gains ce mois</div>
@@ -103,7 +103,7 @@ export default async function CoachDashboard() {
         {/* Règle financière */}
         <div className="bg-brand-50 border border-brand-100 rounded-xl p-5 mb-8">
           <p className="text-xs font-bold text-brand uppercase tracking-widest mb-3">Ta règle financière</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             {[
               ['Séance ext.', fmt(coach.tarif_seance_ext), 'sur 10€'],
               ['Séance adh.', fmt(coach.tarif_seance_adh), 'sur 5€'],
@@ -134,7 +134,7 @@ export default async function CoachDashboard() {
                 const dispo = (s.places_max as number) - nbInscrits
                 return (
                   <div key={s.id as string} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
-                    <div className="flex items-center gap-4 flex-1">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 flex-1">
                       <div className="text-sm font-semibold text-gray-900 capitalize min-w-[180px]">{dateStr}</div>
                       <div className="text-xs text-gray-400">{(s.heure_debut as string).slice(0, 5)} – {(s.heure_fin as string).slice(0, 5)}</div>
                     </div>

@@ -133,7 +133,7 @@ export default function MesSeancesPage() {
 
                     return (
                       <div key={r.id} className="bg-white rounded-2xl border border-gray-200 p-5">
-                        <div className="flex items-start justify-between gap-4">
+                        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                           <div className="flex-1">
                             <div className="font-semibold text-sm mb-1">{s.titre}</div>
                             <div className="text-xs text-gray-500 font-medium mb-3">

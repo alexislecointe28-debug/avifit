@@ -18,12 +18,12 @@ export default async function AdminAbonnementsPage() {
         <h1 className="text-2xl font-bold tracking-tight mb-1">Abonnements</h1>
         <p className="text-sm text-gray-500 font-medium">{actifs.length} abonné{actifs.length > 1 ? 's' : ''} actif{actifs.length > 1 ? 's' : ''} — {(revenus / 100).toFixed(0)}€/semaine</p>
       </div>
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <div className="bg-white rounded-xl border border-gray-200 p-5"><div className="text-3xl font-bold text-brand">{actifs.length}</div><div className="text-sm text-gray-500 font-medium mt-1">Abonnés actifs</div></div>
         <div className="bg-white rounded-xl border border-gray-200 p-5"><div className="text-3xl font-bold text-green-600">{(revenus / 100).toFixed(0)}€</div><div className="text-sm text-gray-500 font-medium mt-1">Revenus / semaine</div></div>
         <div className="bg-white rounded-xl border border-gray-200 p-5"><div className="text-3xl font-bold text-gray-900">{((revenus / 100) * 4).toFixed(0)}€</div><div className="text-sm text-gray-500 font-medium mt-1">Estimation / mois</div></div>
       </div>
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden overflow-x-auto">
         <table className="w-full text-sm">
           <thead><tr className="border-b border-gray-100 bg-gray-50">
             <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">Abonné</th>

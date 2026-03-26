@@ -105,7 +105,7 @@ export default async function AdminPage() {
           <span className="text-xs font-semibold bg-brand-50 text-brand px-3 py-1 rounded-full border border-brand-100 capitalize">{mois.label}</span>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 mb-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
           <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
             <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Encaissé total</div>
             <div className="text-3xl font-black text-gray-900 tracking-tight">{fmt(totalMois)}</div>
@@ -123,7 +123,7 @@ export default async function AdminPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3 border border-gray-100">
             <div>
               <div className="text-sm font-bold">Séances extérieurs</div>
@@ -152,7 +152,7 @@ export default async function AdminPage() {
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-5">
           <h2 className="text-base font-bold mb-1">Prévisionnel fin de mois</h2>
           <p className="text-xs text-gray-400 mb-5">Basé sur les réservations confirmées pour les séances à venir ce mois</p>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
               <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Total prévu</div>
               <div className="text-2xl font-black text-gray-900">{fmt(totalPrev)}</div>
@@ -170,7 +170,7 @@ export default async function AdminPage() {
       )}
 
       {/* STATS */}
-      <div className="grid grid-cols-2 gap-4 mb-5">
+      <div className="grid grid-cols-2 gap-3 mb-5">
         <div className="bg-white rounded-xl border border-gray-200 p-5">
           <div className="text-3xl font-bold text-brand tracking-tight">{nbSeancesAVenir ?? 0}</div>
           <div className="text-sm text-gray-500 font-medium mt-1">Séances à venir</div>
@@ -201,9 +201,9 @@ export default async function AdminPage() {
               const nbInscrits = reservations?.[0]?.count ?? 0
               const dispo = (s.places_max as number) - nbInscrits
               return (
-                <div key={s.id as string} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
-                  <div className="flex items-center gap-4">
-                    <div className="text-sm font-semibold text-gray-900 capitalize w-32">{dateStr}</div>
+                <div key={s.id as string} className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-100 last:border-0 gap-2">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+                    <div className="text-sm font-semibold text-gray-900 capitalize sm:w-32">{dateStr}</div>
                     <div className="text-sm text-gray-600 font-medium">{s.titre as string}</div>
                     <div className="text-xs text-gray-400 font-medium">{(s.heure_debut as string).slice(0, 5)}</div>
                   </div>

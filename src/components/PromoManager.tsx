@@ -91,7 +91,7 @@ export default function PromoManager({ initialCodes }: { initialCodes: Code[] })
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand"
               placeholder="Séance d'essai offerte — adhérents AUNL" />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-gray-500 mb-1 block">Nb utilisations max</label>
               <input type="number" min="1" value={form.nb_max}

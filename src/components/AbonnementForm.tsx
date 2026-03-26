@@ -80,7 +80,7 @@ export default function AbonnementForm() {
       {/* Coordonnées */}
       <div className="bg-white rounded-2xl border border-gray-200 p-6">
         <p className="text-xs font-bold text-brand uppercase tracking-widest mb-4">Vos coordonnées</p>
-        <div className="grid grid-cols-2 gap-3 mb-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
           <div>
             <label className="text-xs font-semibold text-gray-600 mb-1 block">Prénom *</label>
             <input type="text" required value={prenom} onChange={e => setPrenom(e.target.value)}

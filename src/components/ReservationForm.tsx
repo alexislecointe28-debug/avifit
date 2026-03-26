@@ -106,7 +106,7 @@ export default function ReservationForm({ seance }: Props) {
       {/* Format */}
       <div className="bg-white rounded-2xl border border-gray-200 p-6">
         <p className="text-xs font-bold text-brand uppercase tracking-widest mb-4">Formule</p>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <button type="button" onClick={() => setFormat('seance')}
             className={`p-4 rounded-xl border-2 text-left transition-all ${format === 'seance' ? 'border-brand bg-brand-50' : 'border-gray-200 hover:border-gray-300'}`}>
             <div className="text-sm font-semibold mb-1">Séance unique</div>
@@ -164,7 +164,7 @@ export default function ReservationForm({ seance }: Props) {
       {/* Coordonnées */}
       <div className="bg-white rounded-2xl border border-gray-200 p-6">
         <p className="text-xs font-bold text-brand uppercase tracking-widest mb-4">Vos coordonnées</p>
-        <div className="grid grid-cols-2 gap-3 mb-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
           <div>
             <label className="text-xs font-semibold text-gray-600 mb-1 block">Prénom *</label>
             <input type="text" required value={prenom} onChange={(e) => setPrenom(e.target.value)}

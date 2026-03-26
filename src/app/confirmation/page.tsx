@@ -22,7 +22,7 @@ export default function ConfirmationPage({ searchParams }: Props) {
             <p className="text-sm text-gray-500 font-medium mb-8 leading-relaxed">
               Votre réservation n&apos;a pas été finalisée. Aucun prélèvement n&apos;a été effectué.
             </p>
-            <div className="flex gap-3 justify-center">
+            <div className="flex flex-wrap gap-3 justify-center">
               <Link href="/planning" className="bg-brand text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-brand-700 transition-colors">
                 Réessayer
               </Link>
@@ -61,7 +61,7 @@ export default function ConfirmationPage({ searchParams }: Props) {
                   <div>🔒 Sans engagement après 1 mois · résiliation libre ensuite</div>
                 </div>
               </div>
-              <div className="flex gap-3 justify-center">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <Link href="/" className="bg-brand text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-brand-700 transition-colors">
                   Accueil
                 </Link>
@@ -76,7 +76,7 @@ export default function ConfirmationPage({ searchParams }: Props) {
               <p className="text-gray-500 text-sm font-medium leading-relaxed mb-8">
                 Un email de confirmation vous a été envoyé. On vous accueille à l&apos;AUNL — 59 quai Clémenceau, Caluire-et-Cuire — juste de l&apos;eau à apporter.
               </p>
-              <div className="flex gap-3 justify-center">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <Link href="/planning" className="bg-brand text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-brand-700 transition-colors">
                   Voir le planning
                 </Link>
