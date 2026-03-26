@@ -347,7 +347,7 @@ export default async function HomePage() {
                 {([
                   ['🏅', 'CQP IF mention HM (en cours)', 'Qualification professionnelle'],
                   ['🚣', 'Rameur de compétition', 'Masters — AUNL Lyon'],
-                  ['📋', 'Labellisé Avifit® FFA', 'Formateur agréé fédération'],
+                  ['📋', 'Diplômé Educateur Aviron Indoor FFA', ''],
                   ['📍', 'AUNL — Caluire-et-Cuire', '59 quai Clémenceau'],
                 ] as const).map(([icon, title, sub]) => (
                   <div key={title} className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl border border-gray-100">
