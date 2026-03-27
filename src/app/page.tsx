@@ -75,14 +75,16 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-gray-200/50 overflow-hidden shadow-xl">
-                {/* Header widget */}
-                <div className="px-5 pt-5 pb-3">
-                  <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest">Prochaines séances</p>
+              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden" style={{boxShadow:'0 25px 60px rgba(0,0,0,0.35)'}}>
+
+                {/* Header */}
+                <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+                  <p className="text-xs font-black text-gray-400 uppercase tracking-widest">Prochaines séances</p>
+                  <span className="text-[10px] font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded-full">En ligne</span>
                 </div>
 
                 {/* Liste séances */}
-                <div className="px-3 pb-3">
+                <div className="divide-y divide-gray-100">
                   {prochainesSeances && prochainesSeances.length > 0 ? (
                     prochainesSeances.map((s, i) => {
                       const tag = placesTag(s.places_max, s.places_reservees)
@@ -91,14 +93,14 @@ export default async function HomePage() {
                       const jour = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
                       const jourCapital = jour.charAt(0).toUpperCase() + jour.slice(1)
                       return (
-                        <div key={s.id} className={`flex items-center gap-3 rounded-xl px-3 py-3 mb-1 last:mb-0 ${i === 0 ? 'bg-brand-50 border border-brand-100' : 'hover:bg-gray-50'} transition-colors`}>
+                        <div key={s.id} className={`flex items-center gap-3 px-5 py-3.5 ${i === 0 ? 'bg-brand-50' : 'hover:bg-gray-50'} transition-colors`}>
                           <div className="flex-1 min-w-0">
-                            <div className="text-gray-900 font-bold text-sm leading-none mb-1 truncate">{jourCapital}</div>
-                            <div className="text-gray-500 text-xs font-semibold">{s.heure_debut.slice(0,5)} · 1h</div>
+                            <div className="text-gray-900 font-bold text-sm leading-tight truncate">{jourCapital}</div>
+                            <div className="text-gray-400 text-xs font-medium mt-0.5">{s.heure_debut.slice(0,5)} · 1h</div>
                           </div>
                           <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full shrink-0 ${tag.cls}`}>{tag.label}</span>
                           {dispo > 0 && (
-                            <Link href={`/reserver/${s.id}`} className="shrink-0 bg-brand text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-brand-700 transition-colors">
+                            <Link href={`/reserver/${s.id}`} className={`shrink-0 text-xs font-bold px-3.5 py-2 rounded-lg transition-colors ${i === 0 ? 'bg-brand text-white hover:bg-brand-700 shadow-sm shadow-brand/30' : 'bg-gray-900 text-white hover:bg-gray-700'}`}>
                               Réserver
                             </Link>
                           )}
@@ -106,23 +108,23 @@ export default async function HomePage() {
                       )
                     })
                   ) : (
-                    <p className="text-sm text-white/40 text-center py-4">Aucune séance programmée</p>
+                    <p className="text-sm text-gray-400 text-center py-6">Aucune séance programmée</p>
                   )}
                 </div>
 
-                <Link href="/planning" className="block text-center text-xs font-bold text-gray-400 hover:text-brand transition-colors py-3 border-t border-gray-100">
-                  Voir tous les créneaux →
+                <Link href="/planning" className="flex items-center justify-center gap-1 text-xs font-bold text-brand hover:text-brand-700 transition-colors py-3.5 border-t border-gray-100 bg-gray-50">
+                  Voir tous les créneaux <span>→</span>
                 </Link>
 
                 {/* Tarifs */}
-                <div className="grid grid-cols-2 border-t border-gray-100">
-                  <Link href="/planning" className="flex flex-col items-center justify-center py-4 hover:bg-gray-50 transition-colors border-r border-gray-100">
-                    <span className="text-2xl font-black text-gray-900 leading-none">10€</span>
-                    <span className="text-[11px] text-gray-400 font-semibold mt-1">la séance</span>
+                <div className="grid grid-cols-2 border-t-2 border-gray-100">
+                  <Link href="/planning" className="flex flex-col items-center justify-center py-4 hover:bg-gray-50 transition-colors border-r-2 border-gray-100">
+                    <span className="text-2xl font-black text-gray-900 tracking-tight">10€</span>
+                    <span className="text-[11px] text-gray-400 font-semibold mt-0.5">la séance</span>
                   </Link>
-                  <Link href="/abonnement" className="flex flex-col items-center justify-center py-4 bg-brand/25 hover:bg-brand/35 transition-colors">
-                    <span className="text-2xl font-black text-gray-900 leading-none">8€<span className="text-sm font-medium text-white/60">/sem</span></span>
-                    <span className="text-[11px] text-brand font-bold mt-1">Formule illimitée</span>
+                  <Link href="/abonnement" className="flex flex-col items-center justify-center py-4 bg-brand hover:bg-brand-700 transition-colors">
+                    <span className="text-2xl font-black text-white tracking-tight">8€<span className="text-sm font-medium opacity-80">/sem</span></span>
+                    <span className="text-[11px] text-brand-200 font-bold mt-0.5">Formule illimitée</span>
                   </Link>
                 </div>
               </div>
