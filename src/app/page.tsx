@@ -75,10 +75,10 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              <div className="bg-gray-950/70 backdrop-blur-md rounded-2xl border border-white/15 overflow-hidden">
+              <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-gray-200/50 overflow-hidden shadow-xl">
                 {/* Header widget */}
                 <div className="px-5 pt-5 pb-3">
-                  <p className="text-[11px] font-black text-white/70 uppercase tracking-widest">Prochaines séances</p>
+                  <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest">Prochaines séances</p>
                 </div>
 
                 {/* Liste séances */}
@@ -91,10 +91,10 @@ export default async function HomePage() {
                       const jour = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
                       const jourCapital = jour.charAt(0).toUpperCase() + jour.slice(1)
                       return (
-                        <div key={s.id} className={`flex items-center gap-3 rounded-xl px-3 py-3 mb-1 last:mb-0 ${i === 0 ? 'bg-brand/40 border border-brand/30' : 'bg-white/8 hover:bg-white/12'} transition-colors`}>
+                        <div key={s.id} className={`flex items-center gap-3 rounded-xl px-3 py-3 mb-1 last:mb-0 ${i === 0 ? 'bg-brand-50 border border-brand-100' : 'hover:bg-gray-50'} transition-colors`}>
                           <div className="flex-1 min-w-0">
-                            <div className="text-white font-bold text-sm leading-none mb-1 truncate drop-shadow">{jourCapital}</div>
-                            <div className="text-white/80 text-xs font-semibold">{s.heure_debut.slice(0,5)} · 1h</div>
+                            <div className="text-gray-900 font-bold text-sm leading-none mb-1 truncate">{jourCapital}</div>
+                            <div className="text-gray-500 text-xs font-semibold">{s.heure_debut.slice(0,5)} · 1h</div>
                           </div>
                           <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full shrink-0 ${tag.cls}`}>{tag.label}</span>
                           {dispo > 0 && (
@@ -110,19 +110,19 @@ export default async function HomePage() {
                   )}
                 </div>
 
-                <Link href="/planning" className="block text-center text-xs font-bold text-white/70 hover:text-white transition-colors py-3 border-t border-white/15">
+                <Link href="/planning" className="block text-center text-xs font-bold text-gray-400 hover:text-brand transition-colors py-3 border-t border-gray-100">
                   Voir tous les créneaux →
                 </Link>
 
                 {/* Tarifs */}
-                <div className="grid grid-cols-2 border-t border-white/15">
-                  <Link href="/planning" className="flex flex-col items-center justify-center py-4 hover:bg-white/10 transition-colors border-r border-white/15">
-                    <span className="text-2xl font-black text-white leading-none">10€</span>
-                    <span className="text-[11px] text-white/70 font-semibold mt-1">la séance</span>
+                <div className="grid grid-cols-2 border-t border-gray-100">
+                  <Link href="/planning" className="flex flex-col items-center justify-center py-4 hover:bg-gray-50 transition-colors border-r border-gray-100">
+                    <span className="text-2xl font-black text-gray-900 leading-none">10€</span>
+                    <span className="text-[11px] text-gray-400 font-semibold mt-1">la séance</span>
                   </Link>
                   <Link href="/abonnement" className="flex flex-col items-center justify-center py-4 bg-brand/25 hover:bg-brand/35 transition-colors">
-                    <span className="text-2xl font-black text-white leading-none">8€<span className="text-sm font-medium text-white/60">/sem</span></span>
-                    <span className="text-[11px] text-brand-200 font-bold mt-1">Formule illimitée</span>
+                    <span className="text-2xl font-black text-gray-900 leading-none">8€<span className="text-sm font-medium text-white/60">/sem</span></span>
+                    <span className="text-[11px] text-brand font-bold mt-1">Formule illimitée</span>
                   </Link>
                 </div>
               </div>
