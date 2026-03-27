@@ -5,7 +5,7 @@ import { isAuthenticated } from '@/lib/admin-auth'
 export async function POST(req: NextRequest) {
   if (!isAuthenticated(req)) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
 
-  const { seanceId, prenom, nom, email, montant } = await req.json()
+  const { seanceId, prenom, nom, email, tel, montant } = await req.json()
   if (!seanceId || !prenom || !nom) return NextResponse.json({ error: 'Prénom et nom requis' }, { status: 400 })
 
   const supabase = createServiceClient()
@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
       client_prenom: prenom,
       client_nom: nom,
       client_email: email || `manuel_${Date.now()}@avifit.local`,
+      client_tel: tel ?? null,
       statut: 'confirmed',
       montant_total: montant ?? 0,
       avec_licence_ffa: false,

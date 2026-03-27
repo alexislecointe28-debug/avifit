@@ -10,6 +10,7 @@ interface Reservation {
   montant_total: number
   avec_licence_ffa: boolean
   source?: string
+  client_tel?: string
 }
 
 interface Props {
@@ -24,6 +25,7 @@ export default function ReservationManuelle({ seanceId, placesMax, inscrits: ini
   const [prenom, setPrenom] = useState('')
   const [nom, setNom] = useState('')
   const [email, setEmail] = useState('')
+  const [tel, setTel] = useState('')
   const [montant, setMontant] = useState('0')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -38,12 +40,12 @@ export default function ReservationManuelle({ seanceId, placesMax, inscrits: ini
     const res = await fetch('/api/admin/reservations/manuelle', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ seanceId, prenom, nom, email, montant: Math.round(parseFloat(montant) * 100) }),
+      body: JSON.stringify({ seanceId, prenom, nom, email, tel, montant: Math.round(parseFloat(montant) * 100) }),
     })
     const data = await res.json()
     if (res.ok) {
       setInscrits(prev => [...prev, data])
-      setPrenom(''); setNom(''); setEmail(''); setMontant('0')
+      setPrenom(''); setNom(''); setEmail(''); setTel(''); setMontant('0')
       setOpen(false)
     } else {
       setError(data.error ?? 'Erreur')
@@ -100,6 +102,12 @@ export default function ReservationManuelle({ seanceId, placesMax, inscrits: ini
                 placeholder="optionnel" />
             </div>
             <div>
+              <label className="text-xs font-semibold text-gray-600 mb-1 block">Téléphone</label>
+              <input type="tel" value={tel} onChange={e => setTel(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand bg-white"
+                placeholder="06 12 34 56 78" />
+            </div>
+            <div>
               <label className="text-xs font-semibold text-gray-600 mb-1 block">Montant payé (€)</label>
               <input type="number" min="0" step="0.5" value={montant} onChange={e => setMontant(e.target.value)}
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand bg-white" />
@@ -138,7 +146,8 @@ export default function ReservationManuelle({ seanceId, placesMax, inscrits: ini
                   <td className="px-4 py-3">
                     <div className="font-semibold text-gray-900">{r.client_prenom} {r.client_nom}</div>
                     <div className="flex items-center gap-2 mt-0.5">
-                      {r.client_email && <span className="text-xs text-gray-400">{r.client_email}</span>}
+                      {r.client_email && !r.client_email.includes('@avifit.local') && <span className="text-xs text-gray-400">{r.client_email}</span>}
+                      {r.client_tel && <span className="text-xs text-gray-400 font-medium">📞 {r.client_tel}</span>}
                       {r.source === 'manuel' && (
                         <span className="text-xs font-semibold bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded">📞 Manuel</span>
                       )}

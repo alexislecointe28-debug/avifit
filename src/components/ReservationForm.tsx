@@ -9,6 +9,7 @@ export default function ReservationForm({ seance }: Props) {
   const [nom, setNom] = useState('')
   const [prenom, setPrenom] = useState('')
   const [email, setEmail] = useState('')
+  const [tel, setTel] = useState('')
   const [avecLicence, setAvecLicence] = useState(false)
   const [format, setFormat] = useState<'seance' | 'abonnement'>('seance')
   const [loading, setLoading] = useState(false)
@@ -90,21 +91,21 @@ export default function ReservationForm({ seance }: Props) {
     try {
       if (consent) {
         localStorage.setItem('avifit_consent', 'true')
-        localStorage.setItem('avifit_user', JSON.stringify({ prenom, nom, email, avecLicence }))
+        localStorage.setItem('avifit_user', JSON.stringify({ prenom, nom, email, tel, avecLicence }))
       }
     } catch {}
 
     try {
       // Promo gratuite
       if (promoStatus?.valid && promoStatus?.gratuit) {
-        const res = await fetch('/api/checkout/gratuit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seanceId: seance.id, nom, prenom, email, codePromo }) })
+        const res = await fetch('/api/checkout/gratuit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seanceId: seance.id, nom, prenom, email, tel, codePromo }) })
         const data = await res.json()
         if (!res.ok) { setError(data.error ?? 'Erreur'); setLoading(false); return }
         window.location.href = '/confirmation?type=promo'
         return
       }
 
-      const res = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seanceId: seance.id, nom, prenom, email, format, avecLicenceFfa: avecLicence }) })
+      const res = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seanceId: seance.id, nom, prenom, email, tel, format, avecLicenceFfa: avecLicence }) })
       const data = await res.json()
       if (!res.ok) { setError(data.error ?? 'Erreur'); setLoading(false); return }
       window.location.href = data.url
@@ -165,6 +166,12 @@ export default function ReservationForm({ seance }: Props) {
             <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
               className="w-full border border-gray-200 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-brand pr-8" placeholder="marie@exemple.fr" />
             {checkingEmail && <span className="absolute right-3 bottom-3 text-xs text-gray-400">⟳</span>}
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-gray-600 mb-1 block">Téléphone</label>
+            <input type="tel" value={tel} onChange={e => setTel(e.target.value)}
+              className="w-full border border-gray-200 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-brand"
+              placeholder="06 12 34 56 78" />
           </div>
           {!checkingEmail && isAdherent === true && (
             <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-xl px-3 py-2">

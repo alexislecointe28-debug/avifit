@@ -3,7 +3,7 @@ import { createServiceClient } from '@/lib/supabase'
 import { sendConfirmationSeance } from '@/lib/emails'
 
 export async function POST(req: NextRequest) {
-  const { seanceId, nom, prenom, email, codePromo } = await req.json()
+  const { seanceId, nom, prenom, email, tel, codePromo } = await req.json()
 
   if (!seanceId || !nom || !prenom || !email || !codePromo) {
     return NextResponse.json({ error: 'Données manquantes' }, { status: 400 })
@@ -53,6 +53,7 @@ export async function POST(req: NextRequest) {
       client_email: email,
       client_nom: nom,
       client_prenom: prenom,
+      client_tel: tel ?? null,
       statut: 'confirmed',
       avec_licence_ffa: false,
       montant_total: 0,
