@@ -11,6 +11,7 @@ const NAV = [
   { href: '/admin/reservations', label: 'Réservations', icon: '✓' },
   { href: '/admin/abonnements', label: 'Abonnements', icon: '🔄' },
   { href: '/admin/adherents', label: 'Adhérents AUNL', icon: '👥' },
+  { href: '/admin/clients', label: 'Clients', icon: '📋' },
   { href: '/admin/coachs', label: 'Coachs', icon: '🏋️' },
   { href: '/admin/promos', label: 'Codes promo', icon: '🎟️' },
 ]
