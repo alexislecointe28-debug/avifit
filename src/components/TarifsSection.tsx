@@ -82,7 +82,7 @@ export default function TarifsSection() {
                 'Place réservée automatiquement',
                 `${formule}€ prélevés chaque semaine`,
                 'Sans engagement après 1 mois',
-                'Annulation possible à tout moment',
+                
               ].map(item => (
                 <li key={item} className="flex items-center gap-2.5 text-sm text-gray-700 font-medium">
                   <span className="w-4 h-4 rounded-full bg-brand-100 flex items-center justify-center flex-shrink-0">
