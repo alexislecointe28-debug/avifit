@@ -223,7 +223,7 @@ export default async function HomePage() {
                   { title: 'Corps entier', desc: 'Jambes, dos, bras, abdos — tout travaille.' },
                   { title: 'Tous niveaux', desc: "Le coach adapte l'intensité à chacun." },
                   { title: 'Zéro impact', desc: 'Idéal pour reprendre le sport.' },
-                  { title: 'Motivation', desc: 'Groupe + musique = adhérence longue durée.' },
+                  { title: 'Motivation', desc: 'En groupe et en musique, on revient chaque semaine.' },
                   { title: 'Progression', desc: 'Données ergo pour suivre vos progrès.' },
                 ].map((b) => (
                   <div key={b.title} className="border-l-[3px] border-brand pl-4 py-3 bg-white rounded-r-lg border border-gray-100">
