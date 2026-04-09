@@ -21,7 +21,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-3">
           <div className="flex flex-col gap-0.5">
             <Image src="/avifit-logo.png" alt="Avifit FFA" width={120} height={40} className="h-9 w-auto object-contain" priority />
-            <span className="text-[10px] text-gray-400 tracking-wide pl-0.5">by Alexis</span>
+            <span className="text-[10px] text-gray-400 tracking-wide pl-0.5">by AUNL</span>
           </div>
           <div className="w-px h-8 bg-gray-200" />
           <Image src="/aunl-logo.png" alt="AUNL" width={36} height={44} className="h-9 w-auto object-contain" />
