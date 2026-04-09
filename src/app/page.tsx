@@ -281,33 +281,93 @@ export default async function HomePage() {
         <TarifsSection />
 
         {/* CTA */}
-        {/* LE COACH */}
+        {/* LES COACHS */}
         <section className="bg-white border-b border-gray-200 py-16 px-6">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
-            <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
-              <Image src="/photo-unl-coach.jpg" alt="Alexis — coach Avifit AUNL" fill className="object-cover object-top hover:scale-105 transition-transform duration-500" />
+          <div className="max-w-6xl mx-auto">
+            <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">L&apos;équipe</p>
+            <div className="flex items-end justify-between mb-8">
+              <h2 className="text-4xl font-bold tracking-tight">Vos coachs</h2>
+              <Link href="/planning" className="hidden sm:inline-block bg-brand text-white font-semibold px-6 py-2.5 rounded-xl text-sm hover:bg-brand-700 transition-colors">
+                Réserver ma séance →
+              </Link>
             </div>
-            <div>
-              <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Le coach</p>
-              <h2 className="text-4xl font-bold tracking-tight mb-5">Alexis Lecointe</h2>
-              <div className="flex flex-col gap-3 mb-6">
-                {([
-                  ['🏅', 'CQP IF mention HM (en cours)', 'Qualification professionnelle'],
-                  ['🚣', 'Rameur de compétition', 'Masters — AUNL Lyon'],
-                  ['📋', 'Diplômé Educateur Aviron Indoor FFA', ''],
-                  ['📍', 'AUNL — Caluire-et-Cuire', '59 quai Clémenceau'],
-                ] as const).map(([icon, title, sub]) => (
-                  <div key={title} className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl border border-gray-100">
-                    <span className="text-xl">{icon}</span>
-                    <div>
-                      <div className="text-sm font-bold">{title}</div>
-                      <div className="text-xs text-gray-500 font-medium">{sub}</div>
-                    </div>
+
+            {/* Carousel scroll horizontal mobile, grille desktop */}
+            <div className="flex gap-5 overflow-x-auto pb-4 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 -mx-6 px-6 sm:mx-0 sm:px-0 snap-x snap-mandatory">
+
+              {/* Alexis — coach principal */}
+              <div className="shrink-0 w-64 sm:w-auto snap-start bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+                <div className="relative aspect-[3/4] overflow-hidden bg-brand-50">
+                  <Image src="/photo-unl-seance.jpg" alt="Alexis Lecointe" fill className="object-cover object-top" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent" />
+                  <div className="absolute bottom-3 left-3">
+                    <span className="text-[10px] font-bold bg-brand text-white px-2 py-0.5 rounded-full">Coach principal</span>
                   </div>
-                ))}
+                </div>
+                <div className="p-4">
+                  <div className="font-bold text-gray-900 text-base">Alexis Lecointe</div>
+                  <div className="text-xs text-gray-400 font-medium mt-0.5">Éducateur Aviron Indoor FFA</div>
+                  <div className="flex flex-wrap gap-1 mt-3">
+                    <span className="text-[10px] font-semibold bg-brand-50 text-brand px-2 py-0.5 rounded-full">🏅 CQP IF HM</span>
+                    <span className="text-[10px] font-semibold bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">🚣 Masters</span>
+                  </div>
+                </div>
               </div>
-              <Link href="/planning" className="inline-block bg-brand text-white font-semibold px-7 py-3 rounded-xl text-sm hover:bg-brand-700 transition-colors">
-                Réserver avec Alexis
+
+              {/* Marie — placeholder */}
+              <div className="shrink-0 w-64 sm:w-auto snap-start bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <Image src="/photo-coach-marie.jpg" alt="Marie" fill className="object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent" />
+                </div>
+                <div className="p-4">
+                  <div className="font-bold text-gray-900 text-base">Marie D.</div>
+                  <div className="text-xs text-gray-400 font-medium mt-0.5">Coach Avifit</div>
+                  <div className="flex flex-wrap gap-1 mt-3">
+                    <span className="text-[10px] font-semibold bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">🎓 BPJEPS</span>
+                    <span className="text-[10px] font-semibold bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">💪 Cardio</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Thomas — placeholder */}
+              <div className="shrink-0 w-64 sm:w-auto snap-start bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <Image src="/photo-coach-thomas.jpg" alt="Thomas" fill className="object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent" />
+                </div>
+                <div className="p-4">
+                  <div className="font-bold text-gray-900 text-base">Thomas K.</div>
+                  <div className="text-xs text-gray-400 font-medium mt-0.5">Coach Avifit</div>
+                  <div className="flex flex-wrap gap-1 mt-3">
+                    <span className="text-[10px] font-semibold bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">🚣 Compétition</span>
+                    <span className="text-[10px] font-semibold bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">🏋️ Force</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sophie — placeholder */}
+              <div className="shrink-0 w-64 sm:w-auto snap-start bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <Image src="/photo-coach-sophie.jpg" alt="Sophie" fill className="object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent" />
+                </div>
+                <div className="p-4">
+                  <div className="font-bold text-gray-900 text-base">Sophie M.</div>
+                  <div className="text-xs text-gray-400 font-medium mt-0.5">Coach Avifit</div>
+                  <div className="flex flex-wrap gap-1 mt-3">
+                    <span className="text-[10px] font-semibold bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">🧘 Récup</span>
+                    <span className="text-[10px] font-semibold bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">❤️ Endurance</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* CTA mobile */}
+            <div className="mt-6 sm:hidden">
+              <Link href="/planning" className="block w-full text-center bg-brand text-white font-bold py-4 rounded-xl text-sm hover:bg-brand-700 transition-colors">
+                Réserver ma séance →
               </Link>
             </div>
           </div>
