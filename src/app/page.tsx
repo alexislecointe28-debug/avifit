@@ -150,6 +150,31 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* VIDEO */}
+        <section className="bg-gray-950 border-b border-gray-800 py-16 px-6">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
+            <div className="flex-1">
+              <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">En vrai</p>
+              <h2 className="text-4xl font-bold tracking-tight text-white mb-4">À quoi ça ressemble ?</h2>
+              <p className="text-base text-gray-400 leading-relaxed">
+                Une séance Avifit à l&apos;AUNL — ambiance, intensité, ergos Concept2. Vois par toi-même ce qui t&apos;attend.
+              </p>
+            </div>
+            <div className="w-full md:w-auto flex justify-center">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl" style={{width: '315px', height: '560px'}}>
+                <iframe
+                  src="https://www.youtube.com/embed/NCpQ98vOt0g"
+                  title="Séance Avifit AUNL"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                  style={{border: 'none'}}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* FFA BANNER */}
         <div className="bg-brand-50 border-y border-brand-200 px-6 py-4">
           <div className="max-w-6xl mx-auto flex items-center gap-4">
