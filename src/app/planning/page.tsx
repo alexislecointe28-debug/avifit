@@ -122,7 +122,20 @@ export default async function PlanningPage() {
                           </span>
 
                         </div>
-                        <div className="text-base font-medium text-gray-800 mb-3">{cleanTitre(seance.titre)}</div>
+                        <div className="flex items-center gap-2 mb-3 flex-wrap">
+                          <div className="text-base font-medium text-gray-800">{cleanTitre(seance.titre)}</div>
+                          {(() => {
+                            const tagMap: Record<string, [string, string]> = {
+                              generale: ['🏋️ Générale', 'bg-gray-100 text-gray-700'],
+                              renfo: ['💪 Renfo', 'bg-orange-100 text-orange-700'],
+                              cardio: ['❤️ Cardio', 'bg-red-100 text-red-700'],
+                              rowning: ['🚣 Rowning', 'bg-blue-100 text-blue-700'],
+                            }
+                            const t = (seance as unknown as Record<string, unknown>).type_seance as string ?? 'generale'
+                            const [label, cls] = tagMap[t] ?? tagMap.generale
+                            return <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${cls}`}>{label}</span>
+                          })()}
+                        </div>
                         <div className="flex items-center gap-4 text-xs text-gray-400 mb-3">
                           <span>1h · 10 personnes max</span>
                           <span>{(seance.prix / 100).toFixed(0)}€ / séance</span>
