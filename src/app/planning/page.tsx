@@ -45,7 +45,7 @@ export default async function PlanningPage() {
   const today = now.toISOString().split('T')[0]
   const { data: seances, error } = await supabase
     .from('seances')
-    .select('*, type_seance')
+    .select('*')
     .gte('date', today)
     .neq('statut', 'annule')
     .order('date', { ascending: true })
