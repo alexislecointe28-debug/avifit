@@ -116,7 +116,7 @@ export default function ReservationForm({ seance }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
 
       {/* Mémorisé */}
       {remembered && (
@@ -128,7 +128,7 @@ export default function ReservationForm({ seance }: Props) {
       )}
 
       {/* Format */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-5">
+      <div className="bg-white rounded-2xl border border-gray-200 p-4">
         <p className="text-xs font-bold text-brand uppercase tracking-widest mb-3">Formule</p>
         <div className="grid grid-cols-2 gap-3">
           {([
@@ -146,7 +146,7 @@ export default function ReservationForm({ seance }: Props) {
       </div>
 
       {/* Coordonnées — simplifié */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-5">
+      <div className="bg-white rounded-2xl border border-gray-200 p-4">
         <p className="text-xs font-bold text-brand uppercase tracking-widest mb-3">Vos coordonnées</p>
         <div className="flex flex-col gap-3">
           <div className="grid grid-cols-2 gap-3">
@@ -183,7 +183,7 @@ export default function ReservationForm({ seance }: Props) {
       </div>
 
       {/* Licence FFA — simplifié, accordéon */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-5">
+      <div className="bg-white rounded-2xl border border-gray-200 p-4">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-bold">Licence FFA</p>
@@ -202,7 +202,7 @@ export default function ReservationForm({ seance }: Props) {
       </div>
 
       {/* Code promo */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-5">
+      <div className="bg-white rounded-2xl border border-gray-200 p-4">
         <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Code promo</p>
         <div className="relative">
           <input type="text" value={codePromo} onChange={e => setCodePromo(e.target.value.toUpperCase())}
@@ -239,7 +239,7 @@ export default function ReservationForm({ seance }: Props) {
       </label>
 
       {/* Total + CTA */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-5">
+      <div className="bg-white rounded-2xl border border-gray-200 p-4">
         <div className="flex justify-between mb-1 text-sm">
           <span className="text-gray-600">{format === 'seance' ? '1 séance' : 'Formule illimitée'}</span>
           <span className="font-semibold">{promoStatus?.valid && promoStatus?.gratuit ? <span className="line-through text-gray-400">{montantBase}€</span> : `${montantBase}€`}</span>

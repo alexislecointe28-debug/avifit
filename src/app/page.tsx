@@ -32,7 +32,7 @@ export default async function HomePage() {
       <main>
 
         {/* HERO — full bleed */}
-        <section className="relative min-h-[92vh] flex flex-col justify-end overflow-hidden">
+        <section className="relative min-h-[100svh] md:min-h-[92vh] flex flex-col justify-end overflow-hidden">
           <div className="absolute inset-0">
             <Image src="/photo-unl-seance.jpg" alt="Séance Avifit AUNL" fill className="object-cover object-center" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/70 to-gray-950/20" />
@@ -46,7 +46,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="relative px-6 md:px-12 pb-12 md:pb-16 max-w-6xl mx-auto w-full">
+          <div className="relative px-4 md:px-12 pb-6 md:pb-16 max-w-6xl mx-auto w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-end">
 
               <div>
@@ -82,7 +82,7 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden" style={{boxShadow:'0 25px 60px rgba(0,0,0,0.35)'}}>
+              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden w-full" style={{boxShadow:'0 25px 60px rgba(0,0,0,0.35)'}}>
 
                 {/* Header */}
                 <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
@@ -158,7 +158,7 @@ export default async function HomePage() {
         </section>
 
         {/* VIDEO */}
-        <section className="bg-gray-950 border-b border-gray-800 py-16 px-6">
+        <section className="bg-gray-950 border-b border-gray-800 py-10 md:py-16 px-6">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
             <div className="flex-1">
               <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">En vrai</p>
@@ -198,10 +198,10 @@ export default async function HomePage() {
         </div>
 
         {/* PHOTOS */}
-        <section className="bg-gray-50 border-b border-gray-200 py-16 px-6">
+        <section className="bg-gray-50 border-b border-gray-200 py-10 md:py-16 px-6">
           <div className="max-w-6xl mx-auto">
             <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">L&apos;ambiance</p>
-            <h2 className="text-4xl font-bold tracking-tight mb-8">À l&apos;AUNL.</h2>
+            <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-6">À l&apos;AUNL.</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {/* Grande photo à gauche — ergos vue sur la Saône */}
               <div className="relative overflow-hidden rounded-2xl col-span-2 md:col-span-1 md:row-span-2 aspect-[4/3] md:aspect-auto md:min-h-[500px]">
@@ -224,11 +224,11 @@ export default async function HomePage() {
         </section>
 
         {/* CONCEPT */}
-        <section id="concept" className="bg-white border-b border-gray-200 py-16 px-6">
+        <section id="concept" className="bg-white border-b border-gray-200 py-10 md:py-16 px-6">
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14">
             <div>
               <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Une séance type</p>
-              <h2 className="text-4xl font-bold mb-4 tracking-tight">Ce qui vous attend</h2>
+              <h2 className="text-2xl md:text-4xl font-bold mb-3 tracking-tight">Ce qui vous attend</h2>
               <p className="text-base text-gray-600 leading-relaxed mb-6">Chaque séance est structurée, rythmée par la musique, et adaptée à votre niveau.</p>
               <div className="flex flex-col gap-3">
                 {[
@@ -249,7 +249,7 @@ export default async function HomePage() {
             </div>
             <div>
               <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Pourquoi l&apos;aviron indoor</p>
-              <h2 className="text-4xl font-bold mb-4 tracking-tight">Un sport vraiment complet</h2>
+              <h2 className="text-2xl md:text-4xl font-bold mb-3 tracking-tight">Un sport vraiment complet</h2>
               <p className="text-base text-gray-600 leading-relaxed mb-6">Sans impact articulaire, accessible dès la première séance, efficace pour tous.</p>
               <div className="grid grid-cols-2 gap-3">
                 {[
@@ -289,10 +289,10 @@ export default async function HomePage() {
         </section>
 
         {/* 3 ÉTAPES */}
-        <section className="bg-gray-50 border-b border-gray-200 py-16 px-6">
+        <section className="bg-gray-50 border-b border-gray-200 py-10 md:py-16 px-6">
           <div className="max-w-6xl mx-auto">
             <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Réserver</p>
-            <h2 className="text-4xl font-bold mb-10 tracking-tight">En 3 étapes</h2>
+            <h2 className="text-2xl md:text-4xl font-bold mb-6 tracking-tight">En 3 étapes</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {[
                 { n: '1', title: 'Choisissez un créneau', desc: 'Planning en temps réel avec les places disponibles. Réservez en 2 minutes.' },
@@ -314,11 +314,11 @@ export default async function HomePage() {
 
         {/* CTA */}
         {/* LES COACHS */}
-        <section className="bg-white border-b border-gray-200 py-16 px-6">
+        <section className="bg-white border-b border-gray-200 py-10 md:py-16 px-6">
           <div className="max-w-6xl mx-auto">
             <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">L&apos;équipe</p>
             <div className="flex items-end justify-between mb-8">
-              <h2 className="text-4xl font-bold tracking-tight">Vos coachs</h2>
+              <h2 className="text-2xl md:text-4xl font-bold tracking-tight">Vos coachs</h2>
               <Link href="/planning" className="hidden sm:inline-block bg-brand text-white font-semibold px-6 py-2.5 rounded-xl text-sm hover:bg-brand-700 transition-colors">
                 Réserver ma séance →
               </Link>
@@ -405,8 +405,8 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="bg-brand py-20 px-6 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4 tracking-tight">Première séance ?</h2>
+        <section className="bg-brand py-12 md:py-20 px-6 text-center">
+          <h2 className="text-2xl md:text-4xl font-bold text-white mb-4 tracking-tight">Première séance ?</h2>
           <p className="text-brand-200 text-base mb-8 max-w-md mx-auto leading-relaxed">
             Aucun prérequis. Aucun matériel. Le coach s&apos;adapte à votre niveau dès la première venue.
           </p>

@@ -10,10 +10,10 @@ export default function TarifsSection() {
   const formule = adherent ? 4 : 8
 
   return (
-    <section id="tarifs" className="bg-white border-b border-gray-200 py-16 px-6">
+    <section id="tarifs" className="bg-white border-b border-gray-200 py-10 md:py-16 px-6">
       <div className="max-w-4xl mx-auto">
         <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Tarifs</p>
-        <h2 className="text-4xl font-bold mb-8 tracking-tight">Simple et transparent</h2>
+        <h2 className="text-2xl md:text-4xl font-bold mb-6 tracking-tight">Simple et transparent</h2>
 
         {/* Toggle adhérent */}
         <div className="flex justify-center mb-10">

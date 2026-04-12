@@ -1,3 +1,4 @@
+import ScrollToTop from '@/components/ScrollToTop'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -21,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body>{children}<ScrollToTop /></body>
     </html>
   )
 }
