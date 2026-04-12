@@ -3,7 +3,8 @@ import { createServiceClient } from '@/lib/supabase'
 import type { Seance } from '@/types'
 import Link from 'next/link'
 
-export const revalidate = 60
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr + 'T00:00:00')
