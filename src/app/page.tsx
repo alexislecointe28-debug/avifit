@@ -112,7 +112,7 @@ export default async function HomePage() {
                             </div>
                             <div className="text-gray-400 text-xs font-medium mt-0.5">{s.heure_debut.slice(0,5)} · 1h</div>
                           </div>
-                          <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full shrink-0 ${tag.cls}`}>{tag.label}</span>
+                          {tag && <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full shrink-0 ${tag.cls}`}>{tag.label}</span>}
                           {dispo > 0 && (
                             <Link href={`/reserver/${s.id}`} className={`shrink-0 text-xs font-bold px-3.5 py-2 rounded-lg transition-colors ${i === 0 ? 'bg-brand text-white hover:bg-brand-700 shadow-sm shadow-brand/30' : 'bg-gray-900 text-white hover:bg-gray-700'}`}>
                               Réserver
