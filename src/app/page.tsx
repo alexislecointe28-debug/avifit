@@ -101,7 +101,15 @@ export default async function HomePage() {
                       return (
                         <div key={s.id} className={`flex items-center gap-3 px-5 py-3.5 ${i === 0 ? 'bg-brand-50' : 'hover:bg-gray-50'} transition-colors`}>
                           <div className="flex-1 min-w-0">
-                            <div className="text-gray-900 font-bold text-sm leading-tight truncate">{jourCapital}</div>
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <div className="text-gray-900 font-bold text-sm leading-tight truncate">{jourCapital}</div>
+                              {(() => {
+                                const tagMap: Record<string, [string, string]> = { generale: ['🏋️ Générale', 'bg-gray-100 text-gray-600'], renfo: ['💪 Renfo', 'bg-orange-100 text-orange-700'], cardio: ['❤️ Cardio', 'bg-red-100 text-red-700'], rowning: ['🚣 Rowning', 'bg-blue-100 text-blue-700'] }
+                                const t = (s as unknown as Record<string, unknown>).type_seance as string ?? 'generale'
+                                const [label, cls] = tagMap[t] ?? tagMap.generale
+                                return <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${cls}`}>{label}</span>
+                              })()}
+                            </div>
                             <div className="text-gray-400 text-xs font-medium mt-0.5">{s.heure_debut.slice(0,5)} · 1h</div>
                           </div>
                           <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full shrink-0 ${tag.cls}`}>{tag.label}</span>
