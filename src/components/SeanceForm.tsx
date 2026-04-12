@@ -25,6 +25,7 @@ export default function SeanceForm({ seance, mode, coachs = [] }: Props) {
     places_max: seance?.places_max ?? 10,
     prix: seance ? seance.prix / 100 : 10,
     statut: seance?.statut ?? 'disponible',
+    type_seance: 'generale',
     coach_id: '',  // sera mis à jour depuis la DB si edit
   })
 
@@ -83,6 +84,23 @@ export default function SeanceForm({ seance, mode, coachs = [] }: Props) {
             </select>
           </div>
         )}
+
+        {/* Type de séance */}
+        <div>
+          <label className="text-xs font-bold text-gray-600 mb-1.5 block uppercase tracking-wide">Type de séance</label>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {(['generale', 'renfo', 'cardio', 'rowning'] as const).map((t) => {
+              const labels: Record<string, string> = { generale: '🏋️ Générale', renfo: '💪 Renfo', cardio: '❤️ Cardio', rowning: '🚣 Rowning' }
+              return (
+                <button key={t} type="button"
+                  onClick={() => setForm(f => ({ ...f, type_seance: t }))}
+                  className={`py-2 px-3 rounded-lg border text-sm font-semibold transition-colors ${form.type_seance === t ? 'bg-brand text-white border-brand' : 'border-gray-200 text-gray-600 hover:border-brand hover:text-brand'}`}>
+                  {labels[t]}
+                </button>
+              )
+            })}
+          </div>
+        </div>
 
         {/* Date */}
         <div>

@@ -87,7 +87,6 @@ export default async function HomePage() {
                 {/* Header */}
                 <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
                   <p className="text-xs font-black text-gray-400 uppercase tracking-widest">Prochaines séances</p>
-                  <span className="text-[10px] font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded-full">En ligne</span>
                 </div>
 
                 {/* Liste séances */}
