@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   if (!isAuthenticated(req)) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
   const body = await req.json()
-  const { titre, type, date, heure_debut, heure_fin, places_max, prix } = body
+  const { titre, type, date, heure_debut, heure_fin, places_max, prix, type_seance } = body
 
   if (!titre || !type || !date || !heure_debut || !heure_fin) {
     return NextResponse.json({ error: 'Champs manquants' }, { status: 400 })
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   const supabase = createServiceClient()
   const { data, error } = await supabase
     .from('seances')
-    .insert({ titre, type, date, heure_debut, heure_fin, places_max: places_max ?? 10, prix: prix ?? 1000, statut: 'disponible' })
+    .insert({ titre, type, date, heure_debut, heure_fin, places_max: places_max ?? 10, prix: prix ?? 1000, statut: 'disponible', type_seance: type_seance ?? 'generale' })
     .select()
     .single()
 

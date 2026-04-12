@@ -8,7 +8,7 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   if (!isAuthenticated(req)) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
   const body = await req.json()
-  const { titre, type, date, heure_debut, heure_fin, places_max, prix, statut } = body
+  const { titre, type, date, heure_debut, heure_fin, places_max, prix, statut, type_seance } = body
 
   const supabase = createServiceClient()
 
@@ -17,7 +17,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
   const { data, error } = await supabase
     .from('seances')
-    .update({ titre, type, date, heure_debut, heure_fin, places_max, prix, statut })
+    .update({ titre, type, date, heure_debut, heure_fin, places_max, prix, statut, type_seance: type_seance ?? 'generale' })
     .eq('id', params.id)
     .select()
     .single()
