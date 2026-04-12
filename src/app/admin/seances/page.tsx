@@ -1,9 +1,13 @@
 import { createServiceClient } from '@/lib/supabase'
 import Link from 'next/link'
+import { cookies } from 'next/headers'
+import { unstable_noStore as noStore } from 'next/cache'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminSeancesPage() {
+  noStore()
+  cookies() // force bypass Vercel prerender cache
   const supabase = createServiceClient()
   const { data: seances } = await supabase
     .from('seances')
