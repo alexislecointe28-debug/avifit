@@ -38,8 +38,8 @@ export default async function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/70 to-gray-950/20" />
           </div>
 
-          {/* Badge FFA */}
-          <div className="absolute top-6 left-6 md:left-12">
+          {/* Badge FFA — mobile dans le flux, desktop absolu */}
+          <div className="absolute top-6 left-6 md:left-12 hidden md:block">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full border border-white/20">
               <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
               Labellisé Avifit® · FFA
@@ -50,6 +50,13 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-end">
 
               <div>
+                {/* Badge mobile dans le flux */}
+                <div className="md:hidden mb-4">
+                  <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full border border-white/20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+                    Labellisé Avifit® · FFA
+                  </div>
+                </div>
                 <h1 className="text-[clamp(52px,8vw,96px)] font-black leading-[0.9] tracking-tight text-white mb-6">
                   L&apos;aviron<br />indoor.<br />
                   <span className="text-brand">Pour tous.</span>
