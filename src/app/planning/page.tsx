@@ -3,6 +3,7 @@ import { createServiceClient } from '@/lib/supabase'
 import type { Seance } from '@/types'
 import Link from 'next/link'
 
+import { unstable_noStore as noStore } from 'next/cache'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
@@ -39,7 +40,9 @@ function isProchaine(date: string, index: number) {
 
 
 
+// noStore appelé dans la fonction
 export default async function PlanningPage() {
+  noStore()
   const supabase = createServiceClient()
 
   const now = new Date()

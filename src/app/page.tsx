@@ -4,6 +4,7 @@ import Link from 'next/link'
 import TarifsSection from '@/components/TarifsSection'
 import { createServiceClient } from '@/lib/supabase'
 
+import { unstable_noStore as noStore } from 'next/cache'
 export const dynamic = 'force-dynamic'
 
 function placesTag(max: number, reservees: number) {
@@ -15,6 +16,7 @@ function placesTag(max: number, reservees: number) {
 }
 
 
+// noStore appelé dans la fonction
 export default async function HomePage() {
   const supabase = createServiceClient()
   const today = new Date().toISOString().split('T')[0]

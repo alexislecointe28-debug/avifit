@@ -25,8 +25,8 @@ export default function SeanceForm({ seance, mode, coachs = [] }: Props) {
     places_max: seance?.places_max ?? 10,
     prix: seance ? seance.prix / 100 : 10,
     statut: seance?.statut ?? 'disponible',
-    type_seance: 'generale',
-    coach_id: '',  // sera mis à jour depuis la DB si edit
+    type_seance: (seance as unknown as Record<string, unknown>)?.type_seance as string ?? 'generale',
+    coach_id: (seance as unknown as Record<string, unknown>)?.coach_id as string ?? '',
   })
 
   async function handleSubmit(e: React.FormEvent) {
