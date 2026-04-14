@@ -38,7 +38,7 @@ export default async function AdminSeancesPage() {
           const statutLabel = s.statut === 'annule' ? 'Annulé' : s.statut === 'complet' || dispo === 0 ? 'Complet' : `${dispo} dispo`
           const statutCls = s.statut === 'annule' ? 'bg-gray-100 text-gray-500' : s.statut === 'complet' || dispo === 0 ? 'bg-red-100 text-red-700' : dispo <= 2 ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'
           return (
-            <div key={s.id} className={`bg-white rounded-xl border border-gray-200 px-4 py-3.5 flex items-center gap-3 ${isPast ? 'opacity-40' : ''}`}>
+            <div key={s.id} className={`rounded-xl border px-4 py-3.5 flex items-center gap-3 ${isPast ? 'bg-gray-50 border-gray-100 opacity-40' : 'bg-white border-gray-200'}`}>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="font-bold text-sm capitalize text-gray-900">{dateStr}</span>
