@@ -1,9 +1,13 @@
 import { createServiceClient } from '@/lib/supabase'
 import type { Reservation } from '@/types'
+import { cookies } from 'next/headers'
+import { unstable_noStore as noStore } from 'next/cache'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminReservationsPage() {
+  noStore()
+  cookies()
   const supabase = createServiceClient()
 
   const { data: reservations } = await supabase
@@ -41,56 +45,34 @@ export default async function AdminReservationsPage() {
         </div>
       </div>
 
-      {/* Table */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-gray-100 bg-gray-50">
-              <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">Client</th>
-              <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">Séance</th>
-              <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">Montant</th>
-              <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">Statut</th>
-              <th className="text-left px-5 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {resa.map((r) => (
-              <tr key={r.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50">
-                <td className="px-5 py-3.5">
-                  <div className="font-semibold text-gray-900">{r.client_prenom} {r.client_nom}</div>
-                  <div className="text-xs text-gray-400 font-medium">{r.client_email}</div>
-                </td>
-                <td className="px-5 py-3.5">
-                  <div className="font-medium text-gray-800">{r.seances?.titre ?? '—'}</div>
-                  {r.seances?.date && (
-                    <div className="text-xs text-gray-400 font-medium">
-                      {new Date(r.seances.date + 'T00:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
-                      {' · '}{r.seances.heure_debut.slice(0,5)}
-                    </div>
-                  )}
-                </td>
-                <td className="px-5 py-3.5 font-semibold text-gray-900">
-                  {(r.montant_total / 100).toFixed(0)}€
-                  {r.avec_licence_ffa && <span className="text-xs text-blue-500 font-medium ml-1">+ licence</span>}
-                </td>
-                <td className="px-5 py-3.5">
-                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                    r.statut === 'confirmed' ? 'bg-green-100 text-green-700' :
-                    r.statut === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                    'bg-gray-100 text-gray-500'
-                  }`}>
-                    {r.statut === 'confirmed' ? 'Confirmé' : r.statut === 'pending' ? 'En attente' : 'Annulé'}
-                  </span>
-                </td>
-                <td className="px-5 py-3.5 text-gray-400 font-medium text-xs">
-                  {new Date(r.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      {/* Cartes réservations */}
+      <div className="flex flex-col gap-2">
+        {resa.map((r) => {
+          const statutCls = r.statut === 'confirmed' ? 'bg-green-100 text-green-700' : r.statut === 'pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-500'
+          const statutLabel = r.statut === 'confirmed' ? 'Confirmé' : r.statut === 'pending' ? 'En attente' : 'Annulé'
+          return (
+            <div key={r.id} className="bg-white rounded-xl border border-gray-200 px-4 py-3.5">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-sm text-gray-900">{r.client_prenom} {r.client_nom}</div>
+                  <div className="text-xs text-gray-400 mt-0.5">{r.client_email}</div>
+                </div>
+                <div className="text-right shrink-0">
+                  <div className="font-bold text-sm text-gray-900">{(r.montant_total / 100).toFixed(0)}€</div>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${statutCls}`}>{statutLabel}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 mt-2 text-xs text-gray-400 flex-wrap">
+                {r.seances?.titre && <span className="font-medium text-gray-600">{r.seances.titre}</span>}
+                {r.seances?.date && <span>{new Date(r.seances.date + 'T00:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} · {r.seances.heure_debut.slice(0,5)}</span>}
+                <span>{new Date(r.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}</span>
+                {r.avec_licence_ffa && <span className="font-bold text-blue-600">FFA</span>}
+              </div>
+            </div>
+          )
+        })}
         {resa.length === 0 && (
-          <div className="text-center py-12 text-sm text-gray-400 font-medium">Aucune réservation</div>
+          <div className="text-center py-12 bg-white rounded-xl border border-gray-200 text-sm text-gray-400 font-medium">Aucune réservation</div>
         )}
       </div>
     </div>

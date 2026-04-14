@@ -61,41 +61,6 @@ export default async function EditSeancePage({ params }: { params: { id: string 
         </div>
       </div>
 
-      {/* Liste des inscrits */}
-      <div className="mt-8">
-        <h2 className="text-base font-bold mb-4">
-          Inscrits <span className="text-brand">{reservations?.length ?? 0}/{s.places_max}</span>
-        </h2>
-        {(!reservations || reservations.length === 0) ? (
-          <div className="bg-white rounded-xl border border-gray-200 px-5 py-8 text-center">
-            <p className="text-sm text-gray-400 font-medium">Aucun inscrit pour le moment</p>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2">
-            {reservations.map((r, i) => (
-              <div key={r.id} className="bg-white rounded-xl border border-gray-200 px-4 py-3 flex items-center gap-3">
-                <div className="w-7 h-7 rounded-full bg-brand-50 flex items-center justify-center shrink-0">
-                  <span className="text-xs font-bold text-brand">{i + 1}</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-bold text-sm text-gray-900">{r.client_prenom} {r.client_nom}</div>
-                  <div className="text-xs text-gray-400 mt-0.5 flex flex-wrap gap-x-3 gap-y-0.5">
-                    <span>{r.client_email}</span>
-                    {r.client_tel && <span>📞 {r.client_tel}</span>}
-                  </div>
-                </div>
-                <div className="text-right shrink-0">
-                  <div className="text-sm font-bold text-gray-900">{(r.montant_total / 100).toFixed(0)}€</div>
-                  <div className="flex gap-1 mt-1 justify-end flex-wrap">
-                    {r.avec_licence_ffa && <span className="text-[10px] font-bold bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-full">FFA</span>}
-                    {r.source === 'manuel' && <span className="text-[10px] font-bold bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full">📞 Manuel</span>}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
     </div>
   )
 }

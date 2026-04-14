@@ -29,12 +29,40 @@ export default function SeanceForm({ seance, mode, coachs = [] }: Props) {
     coach_id: (seance as unknown as Record<string, unknown>)?.coach_id as string ?? '',
   })
 
+  // Récurrence (mode create uniquement)
+  const [recurrence, setRecurrence] = useState(false)
+  const [recurrenceFin, setRecurrenceFin] = useState('')
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     setLoading(true)
 
     const payload = { ...form, prix: Math.round(form.prix * 100) }
+
+    if (mode === 'create' && recurrence && recurrenceFin && form.date) {
+      // Créer plusieurs séances par récurrence hebdomadaire
+      const dates: string[] = []
+      const current = new Date(form.date + 'T00:00:00')
+      const end = new Date(recurrenceFin + 'T00:00:00')
+      while (current <= end) {
+        dates.push(current.toISOString().split('T')[0])
+        current.setDate(current.getDate() + 7)
+      }
+      let allOk = true
+      for (const date of dates) {
+        const res = await fetch('/api/admin/seances', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...payload, date }),
+        })
+        if (!res.ok) { allOk = false; break }
+      }
+      if (allOk) { router.push('/admin/seances'); router.refresh() }
+      else { setError('Erreur lors de la création des séances'); setLoading(false) }
+      return
+    }
+
     const url = mode === 'create' ? '/api/admin/seances' : `/api/admin/seances/${seance?.id}`
     const method = mode === 'create' ? 'POST' : 'PUT'
 
@@ -182,6 +210,29 @@ export default function SeanceForm({ seance, mode, coachs = [] }: Props) {
           </div>
         )}
       </div>
+
+      {/* Récurrence - mode create uniquement */}
+      {mode === 'create' && (
+        <div className="bg-gray-50 rounded-xl border border-gray-200 p-4">
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" checked={recurrence} onChange={e => setRecurrence(e.target.checked)}
+              className="w-4 h-4 rounded accent-brand" />
+            <span className="text-sm font-semibold text-gray-800">Répéter chaque semaine</span>
+          </label>
+          {recurrence && (
+            <div className="mt-3">
+              <label className="text-xs font-bold text-gray-600 mb-1.5 block uppercase tracking-wide">Jusqu&apos;au</label>
+              <input type="date" value={recurrenceFin} min={form.date} onChange={e => setRecurrenceFin(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand" />
+              {recurrenceFin && form.date && (
+                <p className="text-xs text-brand font-semibold mt-2">
+                  {Math.floor((new Date(recurrenceFin).getTime() - new Date(form.date).getTime()) / (7 * 24 * 3600 * 1000)) + 1} séance(s) à créer
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
 
