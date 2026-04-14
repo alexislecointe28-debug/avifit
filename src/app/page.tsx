@@ -18,6 +18,7 @@ function placesTag(max: number, reservees: number) {
 
 // noStore appelé dans la fonction
 export default async function HomePage() {
+  noStore()
   const supabase = createServiceClient()
   const today = new Date().toISOString().split('T')[0]
   const { data: prochainesSeances } = await supabase
