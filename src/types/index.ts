@@ -13,6 +13,7 @@ export interface Seance {
   places_reservees: number
   prix: number
   statut: SeanceStatut
+  type_seance?: string
   created_at: string
 }
 

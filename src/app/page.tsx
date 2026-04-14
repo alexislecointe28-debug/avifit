@@ -108,7 +108,7 @@ export default async function HomePage() {
                               <div className="text-gray-900 font-bold text-sm leading-tight truncate">{jourCapital}</div>
                               {(() => {
                                 const tagMap: Record<string, [string, string]> = { generale: ['🏋️ Générale', 'bg-gray-100 text-gray-600'], renfo: ['💪 Renfo', 'bg-orange-100 text-orange-700'], cardio: ['❤️ Cardio', 'bg-red-100 text-red-700'], rowning: ['🚣 Rowning', 'bg-blue-100 text-blue-700'] }
-                                const t = (s as unknown as Record<string, unknown>).type_seance as string ?? 'generale'
+                                const t = (s as unknown as {type_seance?: string}).type_seance ?? 'generale'
                                 const [label, cls] = tagMap[t] ?? tagMap.generale
                                 return <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${cls}`}>{label}</span>
                               })()}
