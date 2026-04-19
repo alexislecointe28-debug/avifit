@@ -37,5 +37,8 @@ export async function POST(req: NextRequest) {
 
   if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 })
 
+  // Décrémenter places_reservees
+  await supabase.rpc('decrement_places', { seance_id: resa.seance_id })
+
   return NextResponse.json({ ok: true })
 }
