@@ -23,7 +23,10 @@ export default function ConfirmationPage({ searchParams }: Props) {
               Votre réservation n&apos;a pas été finalisée. Aucun prélèvement n&apos;a été effectué.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Link href="/planning" className="bg-brand text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-brand-700 transition-colors">
+              <Link href="/mes-seances" className="inline-block bg-white border border-brand text-brand font-semibold px-6 py-3 rounded-xl text-sm hover:bg-brand-50 transition-colors mb-3 w-full text-center">
+              Voir mes séances · Annuler si besoin
+            </Link>
+            <Link href="/planning" className="bg-brand text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-brand-700 transition-colors">
                 Réessayer
               </Link>
               <Link href="/" className="border border-gray-200 text-gray-600 font-medium px-6 py-2.5 rounded-lg text-sm hover:bg-gray-50 transition-colors">
@@ -77,7 +80,10 @@ export default function ConfirmationPage({ searchParams }: Props) {
                 Un email de confirmation vous a été envoyé. On vous accueille à l&apos;AUNL — 59 quai Clémenceau, Caluire-et-Cuire — juste de l&apos;eau à apporter.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
-                <Link href="/planning" className="bg-brand text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-brand-700 transition-colors">
+                <Link href="/mes-seances" className="inline-block bg-white border border-brand text-brand font-semibold px-6 py-3 rounded-xl text-sm hover:bg-brand-50 transition-colors mb-3 w-full text-center">
+              Voir mes séances · Annuler si besoin
+            </Link>
+            <Link href="/planning" className="bg-brand text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-brand-700 transition-colors">
                   Voir le planning
                 </Link>
                 <Link href="/" className="border border-gray-200 text-gray-600 font-medium px-6 py-2.5 rounded-lg text-sm hover:bg-gray-50 transition-colors">

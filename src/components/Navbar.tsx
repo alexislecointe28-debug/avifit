@@ -9,6 +9,7 @@ const LINKS = [
   { href: '/planning', label: 'Planning' },
   { href: '/#tarifs', label: 'Tarifs' },
   { href: '/abonnement', label: 'Formule illimitée' },
+  { href: '/mes-seances', label: 'Mes séances' },
 ]
 
 export default function Navbar() {
