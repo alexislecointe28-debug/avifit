@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar'
-import AbonnementForm from '@/components/AbonnementForm'
+import PassForm from '@/components/PassForm'
 
-export default function AbonnementPage() {
+export default function PassPage() {
   return (
     <>
       <Navbar />
@@ -10,26 +10,26 @@ export default function AbonnementPage() {
           <div className="flex items-center gap-2 text-xs text-gray-400 mb-8">
             <a href="/" className="hover:text-brand transition-colors">Accueil</a>
             <span>›</span>
-            <span className="text-gray-600">Formule illimitée</span>
+            <span className="text-gray-600">Pass Séances</span>
           </div>
 
           <div className="mb-8">
-            <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Formule illimitée</p>
-            <h1 className="text-3xl font-bold tracking-tight mb-3">Inscrivez-vous une fois.<br />Venez quand vous voulez.</h1>
+            <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Pass Séances</p>
+            <h1 className="text-3xl font-bold tracking-tight mb-3">6 séances.<br />1 mois. Profitez.</h1>
             <p className="text-sm text-gray-600 font-medium leading-relaxed">
-              Votre place est réservée automatiquement à chaque séance. Vous n&apos;avez plus jamais à y penser.
+              Achetez votre pass et réservez librement vos séances pendant 30 jours. Aucun prélèvement automatique.
             </p>
           </div>
 
           {/* Récap offre */}
           <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-5">
             <div className="grid grid-cols-2 gap-4">
-              {[
-                ['📅', 'Chaque séance', 'Votre place vous attend — rien à faire'],
-                ['💳', '8€ / semaine', 'Prélevé automatiquement'],
-                ['🔒', 'Sans engagement', 'après 1 mois minimum'],
-                ['✉️', 'Confirmation email', 'Rappel avant chaque séance'],
-              ].map(([icon, title, desc]) => (
+              {([
+                ['🎟️', '6 séances incluses', 'À utiliser librement'],
+                ['📅', 'Valable 30 jours', 'À partir de la date d\'achat'],
+                ['💳', 'Paiement unique', 'Aucun prélèvement récurrent'],
+                ['✉️', 'Confirmation email', 'Votre pass activé immédiatement'],
+              ] as const).map(([icon, title, desc]) => (
                 <div key={title} className="flex gap-3 items-start">
                   <span className="text-lg">{icon}</span>
                   <div>
@@ -41,7 +41,7 @@ export default function AbonnementPage() {
             </div>
           </div>
 
-          <AbonnementForm />
+          <PassForm />
         </div>
       </main>
     </>

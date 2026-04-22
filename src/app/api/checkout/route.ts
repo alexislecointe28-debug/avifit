@@ -33,8 +33,47 @@ export async function POST(req: NextRequest) {
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
+    // Vérifier pass actif
+    const today = new Date().toISOString().split('T')[0]
+    const { data: passActif } = await supabase
+      .from('pass_seances')
+      .select('id, nb_seances_restantes')
+      .eq('client_email', email.toLowerCase().trim())
+      .eq('statut', 'actif')
+      .gte('expire_le', today)
+      .gt('nb_seances_restantes', 0)
+      .order('expire_le', { ascending: true })
+      .limit(1)
+      .single()
+
     // ─── SÉANCE UNIQUE ───────────────────────────────────────────
     if (format === 'seance') {
+      // Si pass actif → réservation gratuite via API dédiée
+      if (passActif) {
+        // Créer la réservation directement (gratuite)
+        const { error: resaError } = await supabase.from('reservations').insert({
+          seance_id: seanceId,
+          client_nom: nom,
+          client_prenom: prenom,
+          client_email: email.toLowerCase().trim(),
+          montant_total: 0,
+          avec_licence_ffa: avecLicenceFfa ?? false,
+          statut: 'confirmed',
+          source: 'pass',
+        })
+        if (resaError) return NextResponse.json({ error: resaError.message }, { status: 500 })
+
+        // Incrémenter places_reservees
+        await supabase.from('seances').update({ places_reservees: seance.places_reservees + 1 }).eq('id', seanceId)
+
+        // Décrémenter séances du pass
+        await supabase.from('pass_seances')
+          .update({ nb_seances_restantes: passActif.nb_seances_restantes - 1 })
+          .eq('id', passActif.id)
+
+        return NextResponse.json({ url: `${appUrl}/confirmation?type=pass_seance` })
+      }
+
       const prixSeance = estAdherent ? 500 : 1000
 
       type LineItem = {

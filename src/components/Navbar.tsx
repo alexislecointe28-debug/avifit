@@ -10,6 +10,7 @@ const LINKS = [
   { href: '/#tarifs', label: 'Tarifs' },
   { href: '/abonnement', label: 'Formule illimitée' },
   { href: '/mes-seances', label: 'Mes séances' },
+  { href: '/mon-pass', label: 'Mon pass' },
 ]
 
 export default function Navbar() {

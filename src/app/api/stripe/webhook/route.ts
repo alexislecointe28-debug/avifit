@@ -27,10 +27,32 @@ export async function POST(req: NextRequest) {
     const session = event.data.object as Stripe.Checkout.Session
 
     if (session.mode === 'payment') {
-      // Confirmer la réservation existante
-      await supabase.from('reservations')
-        .update({ statut: 'confirmed', stripe_payment_id: session.payment_intent as string })
-        .eq('stripe_session_id', session.id)
+      const meta = session.metadata ?? {}
+
+      if (meta.type === 'pass_seances') {
+        // Créer le pass en DB
+        const debut = new Date()
+        const expire = new Date()
+        expire.setDate(expire.getDate() + 30)
+
+        await supabase.from('pass_seances').insert({
+          client_email: meta.client_email,
+          client_nom: meta.client_nom,
+          client_prenom: meta.client_prenom,
+          nb_seances_total: 6,
+          nb_seances_restantes: 6,
+          statut: 'actif',
+          est_adherent: meta.est_adherent === 'true',
+          stripe_payment_id: session.payment_intent as string,
+          achete_le: debut.toISOString().split('T')[0],
+          expire_le: expire.toISOString().split('T')[0],
+        })
+      } else {
+        // Confirmer la réservation existante
+        await supabase.from('reservations')
+          .update({ statut: 'confirmed', stripe_payment_id: session.payment_intent as string })
+          .eq('stripe_session_id', session.id)
+      }
     }
 
     if (session.mode === 'subscription') {

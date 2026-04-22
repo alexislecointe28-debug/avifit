@@ -13,6 +13,8 @@ export default function ReservationForm({ seance }: Props) {
   const [avecLicence, setAvecLicence] = useState(false)
   const [format, setFormat] = useState<'seance' | 'abonnement'>('seance')
   const [loading, setLoading] = useState(false)
+  const [passActif, setPassActif] = useState<{ nb_seances_restantes: number } | null>(null)
+  const [checkingPass, setCheckingPass] = useState(false)
   const [error, setError] = useState('')
   const [isAdherent, setIsAdherent] = useState<boolean | null>(null)
   const [checkingEmail, setCheckingEmail] = useState(false)
@@ -62,6 +64,14 @@ export default function ReservationForm({ seance }: Props) {
         const res = await fetch('/api/check-adherent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) })
         const data = await res.json()
         setIsAdherent(data.adherent)
+        // Vérifier pass actif
+        setCheckingPass(true)
+        try {
+          const passRes = await fetch('/api/pass/mon-pass', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) })
+          const passData = await passRes.json()
+          setPassActif(passRes.ok ? passData.pass : null)
+        } catch { setPassActif(null) }
+        finally { setCheckingPass(false) }
       } catch { setIsAdherent(null) }
       finally { setCheckingEmail(false) }
     }, 600)

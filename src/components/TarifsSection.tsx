@@ -66,12 +66,12 @@ export default function TarifsSection() {
             </Link>
           </div>
 
-          {/* Formule illimitée */}
+          {/* Pass 6 séances */}
           <div className="rounded-2xl border-2 border-brand p-7 flex flex-col relative overflow-hidden">
             <div className="absolute top-4 right-4">
               <span className="bg-brand text-white text-xs font-bold px-3 py-1 rounded-full">Meilleure offre</span>
             </div>
-            <div className="text-base font-semibold mb-1">Formule illimitée</div>
+            <div className="text-base font-semibold mb-1">Pass 6 séances</div>
             <div className="text-xs text-gray-400 mb-6">Votre place réservée automatiquement</div>
             <div className="mb-6">
               <span className="text-5xl font-black tracking-tight text-brand">{formule}€</span>
