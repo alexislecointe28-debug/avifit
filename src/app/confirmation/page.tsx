@@ -7,6 +7,8 @@ interface Props {
 
 export default function ConfirmationPage({ searchParams }: Props) {
   const isAbonnement = searchParams.type === 'abonnement'
+  const isPass = searchParams.type === 'pass'
+  const isPassSeance = searchParams.type === 'pass_seance'
   const isCancelled = searchParams.cancelled === '1'
 
   if (isCancelled) {
