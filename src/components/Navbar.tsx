@@ -65,6 +65,10 @@ export default function Navbar() {
             className="mt-3 bg-brand text-white text-sm font-semibold px-5 py-3 rounded-lg text-center hover:bg-brand-700 transition-colors">
             Réserver une séance
           </Link>
+          <Link href="/coach/login" onClick={() => setOpen(false)}
+            className="mt-2 text-xs text-center text-gray-400 hover:text-gray-600 font-medium py-2">
+            🏋️ Accès coach
+          </Link>
         </div>
       )}
     </nav>
