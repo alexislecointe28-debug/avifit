@@ -32,7 +32,7 @@ export default async function CoachDashboard() {
   // Séances à venir de ce coach
   const { data: seancesAVenir } = await supabase
     .from('seances')
-    .select('*, reservations(count)')
+    .select('*, reservations(id, client_prenom, client_nom, statut)')
     .eq('coach_id', session.id)
     .gte('date', today)
     .neq('statut', 'annule')
@@ -129,24 +129,35 @@ export default async function CoachDashboard() {
               {seancesAVenir.map((s: Record<string, unknown>) => {
                 const date = new Date((s.date as string) + 'T00:00:00')
                 const dateStr = date.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
-                const reservations = s.reservations as { count: number }[]
-                const nbInscrits = reservations?.[0]?.count ?? 0
+                const reservations = (s.reservations as { id: string; client_prenom: string; client_nom: string; statut: string }[] ?? []).filter(r => r.statut === 'confirmed')
+                const nbInscrits = reservations.length
                 const dispo = (s.places_max as number) - nbInscrits
                 return (
-                  <div key={s.id as string} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 flex-1">
-                      <div className="text-sm font-semibold text-gray-900 capitalize min-w-[180px]">{dateStr}</div>
-                      <div className="text-xs text-gray-400">{(s.heure_debut as string).slice(0, 5)} – {(s.heure_fin as string).slice(0, 5)}</div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm font-medium text-gray-600">{nbInscrits}/{s.places_max as number} inscrits</span>
+                  <div key={s.id as string} className="border border-gray-100 rounded-xl p-4 mb-2 last:mb-0">
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <div className="text-sm font-bold text-gray-900 capitalize">{dateStr}</div>
+                        <div className="text-xs text-gray-400 mt-0.5">{(s.heure_debut as string).slice(0, 5)} – {(s.heure_fin as string).slice(0, 5)}</div>
+                      </div>
                       <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
                         dispo === 0 ? 'bg-red-100 text-red-700' :
                         dispo <= 2 ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'
                       }`}>
-                        {dispo === 0 ? 'Complet' : `${dispo} dispo`}
+                        {nbInscrits}/{s.places_max as number} inscrits
                       </span>
                     </div>
+                    {nbInscrits > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-2">
+                        {reservations.map(r => (
+                          <span key={r.id} className="text-[11px] font-semibold bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full">
+                            {r.client_prenom} {r.client_nom.charAt(0)}.
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {nbInscrits === 0 && (
+                      <p className="text-xs text-gray-300 mt-1">Aucun inscrit pour le moment</p>
+                    )}
                   </div>
                 )
               })}
