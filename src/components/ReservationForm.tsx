@@ -13,7 +13,9 @@ export default function ReservationForm({ seance }: Props) {
   const [avecLicence, setAvecLicence] = useState(false)
   const [format, setFormat] = useState<'seance' | 'abonnement'>('seance')
   const [loading, setLoading] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [passActif, setPassActif] = useState<{ nb_seances_restantes: number } | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [checkingPass, setCheckingPass] = useState(false)
   const [error, setError] = useState('')
   const [isAdherent, setIsAdherent] = useState<boolean | null>(null)
