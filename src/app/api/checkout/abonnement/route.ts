@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
+import { stripe, PRICES } from '@/lib/stripe'
 import { createServiceClient } from '@/lib/supabase'
 
 export async function POST(req: NextRequest) {
@@ -11,25 +11,27 @@ export async function POST(req: NextRequest) {
     }
 
     const supabase = createServiceClient()
+    const emailClean = email.toLowerCase().trim()
 
-    // Vérifier si déjà abonné
+    // Vérifier si déjà abonné actif
     const { data: existingAbo } = await supabase
       .from('abonnements')
       .select('id')
-      .eq('client_email', email.toLowerCase().trim())
+      .eq('client_email', emailClean)
       .eq('statut', 'active')
       .single()
 
     if (existingAbo) {
-      return NextResponse.json({ error: 'Vous avez déjà un abonnement actif.' }, { status: 409 })
+      return NextResponse.json({ error: 'Vous avez déjà un pass mensuel actif.' }, { status: 409 })
     }
 
     // Vérifier adhérent
     const { data: adherentData } = await supabase
-      .from('adherents').select('id').eq('email', email.toLowerCase().trim()).single()
+      .from('adherents').select('id').eq('email', emailClean).single()
     const estAdherent = !!adherentData
 
-    const prixSemaine = estAdherent ? 400 : 800
+    const priceId = estAdherent ? PRICES.abonnement.priceIdAdherent : PRICES.abonnement.priceId
+    const montantMois = estAdherent ? PRICES.abonnement.adherent : PRICES.abonnement.amount
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
     // Créer ou récupérer le customer Stripe
@@ -43,20 +45,9 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // Créer le prix récurrent hebdomadaire
-    const price = await stripe.prices.create({
-      unit_amount: prixSemaine,
-      currency: 'eur',
-      recurring: { interval: 'week', interval_count: 1 },
-      product_data: {
-        name: estAdherent ? 'Abonnement mercredi Avifit — Adhérent AUNL' : 'Abonnement mercredi Avifit',
-      },
-    })
-
-    // En mode subscription, les price_data sans recurring dans line_items
-    // sont automatiquement ajoutés à la 1ère facture uniquement — jamais reconduits
+    // Line items : abonnement récurrent + éventuelle licence one-shot
     const lineItems: { price?: string; price_data?: object; quantity: number }[] = [
-      { price: price.id, quantity: 1 },
+      { price: priceId, quantity: 1 },
     ]
 
     if (avecLicenceFfa) {
@@ -64,8 +55,8 @@ export async function POST(req: NextRequest) {
         price_data: {
           currency: 'eur',
           product_data: { name: 'Licence FFA annuelle (une seule fois)' },
-          unit_amount: 4500,
-          // Pas de "recurring" → Stripe l'ajoute uniquement sur la 1ère facture
+          unit_amount: PRICES.licence_ffa.amount,
+          // Pas de "recurring" → ajouté uniquement sur la 1ère facture
         },
         quantity: 1,
       })
@@ -81,10 +72,10 @@ export async function POST(req: NextRequest) {
         metadata: {
           client_nom: nom,
           client_prenom: prenom,
-          client_email: email,
+          client_email: emailClean,
           estAdherent: String(estAdherent),
           avec_licence_ffa: String(avecLicenceFfa),
-          montant_semaine: String(prixSemaine),
+          montant_mois: String(montantMois),
         },
       },
       success_url: `${appUrl}/confirmation?type=abonnement`,

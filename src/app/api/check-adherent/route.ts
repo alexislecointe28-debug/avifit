@@ -3,14 +3,18 @@ import { createServiceClient } from '@/lib/supabase'
 
 export async function POST(req: NextRequest) {
   const { email } = await req.json()
-  if (!email) return NextResponse.json({ adherent: false })
+  if (!email) return NextResponse.json({ adherent: false, aboActif: false })
 
   const supabase = createServiceClient()
-  const { data } = await supabase
-    .from('adherents')
-    .select('id')
-    .eq('email', email.toLowerCase().trim())
-    .single()
+  const emailClean = email.toLowerCase().trim()
 
-  return NextResponse.json({ adherent: !!data })
+  const [adherentRes, aboRes] = await Promise.all([
+    supabase.from('adherents').select('id').eq('email', emailClean).single(),
+    supabase.from('abonnements').select('id').eq('client_email', emailClean).eq('statut', 'active').limit(1).maybeSingle(),
+  ])
+
+  return NextResponse.json({
+    adherent: !!adherentRes.data,
+    aboActif: !!aboRes.data,
+  })
 }

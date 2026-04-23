@@ -11,10 +11,12 @@ export const PRICES = {
     label: 'Séance Avifit',
   },
   abonnement: {
-    amount: 800,        // 8€/semaine
-    adherent: 400,      // 4€/semaine
-    label: 'Formule illimitée Avifit',
-    minimum_weeks: 4,   // 1 mois minimum
+    // Pass mensuel illimité — prélèvement Stripe récurrent, sans engagement
+    priceId: 'price_1TPFUm06PYdTakrbhg1IU4Yi',         // 49€/mois plein tarif
+    priceIdAdherent: 'price_1TPFWC06PYdTakrbCOVtQi0n', // 29€/mois adhérent AUNL
+    amount: 4900,        // 49€/mois
+    adherent: 2900,      // 29€/mois
+    label: 'Pass mensuel Avifit',
   },
   licence_ffa: {
     amount: 4500,       // 45€

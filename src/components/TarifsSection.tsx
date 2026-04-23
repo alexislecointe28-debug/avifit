@@ -7,7 +7,7 @@ export default function TarifsSection() {
   const [adherent, setAdherent] = useState(false)
 
   const seance = adherent ? 5 : 10
-  const formule = adherent ? 4 : 8
+  const pass = adherent ? 29 : 49
 
   return (
     <section id="tarifs" className="bg-white border-b border-gray-200 py-10 md:py-16 px-6">
@@ -66,23 +66,23 @@ export default function TarifsSection() {
             </Link>
           </div>
 
-          {/* Pass 6 séances */}
+          {/* Pass mensuel illimité */}
           <div className="rounded-2xl border-2 border-brand p-7 flex flex-col relative overflow-hidden">
             <div className="absolute top-4 right-4">
               <span className="bg-brand text-white text-xs font-bold px-3 py-1 rounded-full">Meilleure offre</span>
             </div>
-            <div className="text-base font-semibold mb-1">Pass 6 séances</div>
-            <div className="text-xs text-gray-400 mb-6">Votre place réservée automatiquement</div>
+            <div className="text-base font-semibold mb-1">Pass mensuel illimité</div>
+            <div className="text-xs text-gray-400 mb-6">Accès à toutes les séances du mois</div>
             <div className="mb-6">
-              <span className="text-5xl font-black tracking-tight text-brand">{formule}€</span>
-              <span className="text-sm text-gray-400 ml-2">/ semaine</span>
+              <span className="text-5xl font-black tracking-tight text-brand">{pass}€</span>
+              <span className="text-sm text-gray-400 ml-2">/ mois</span>
             </div>
             <ul className="flex flex-col gap-2.5 mb-8 flex-1">
               {[
-                'Place réservée automatiquement',
-                `${formule}€ prélevés chaque semaine`,
-                'Sans engagement après 1 mois',
-                
+                'Accès illimité à toutes les séances',
+                'Inscription à chaque séance (vous gardez le contrôle)',
+                `${pass}€ prélevés chaque mois`,
+                'Sans engagement · résiliable à tout moment',
               ].map(item => (
                 <li key={item} className="flex items-center gap-2.5 text-sm text-gray-700 font-medium">
                   <span className="w-4 h-4 rounded-full bg-brand-100 flex items-center justify-center flex-shrink-0">
@@ -94,7 +94,7 @@ export default function TarifsSection() {
             </ul>
             <Link href="/abonnement"
               className="block w-full text-center py-3 rounded-xl text-sm font-semibold transition-colors bg-brand text-white hover:bg-brand-700">
-              S&apos;abonner
+              Souscrire
             </Link>
           </div>
 

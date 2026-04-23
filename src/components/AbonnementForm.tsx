@@ -13,8 +13,9 @@ export default function AbonnementForm() {
   const [checkingEmail, setCheckingEmail] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const PRIX = { semaine: isAdherent ? 4 : 8, licence: 45 }
-  const montantAujourdhui = PRIX.semaine + (avecLicence ? PRIX.licence : 0)
+  const PRIX_PASS = isAdherent === true ? 29 : 49
+  const PRIX_LICENCE = 45
+  const total = PRIX_PASS + (avecLicence ? PRIX_LICENCE : 0)
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
@@ -54,31 +55,10 @@ export default function AbonnementForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-
-      {/* Licence FFA */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6">
-        <p className="text-xs font-bold text-brand uppercase tracking-widest mb-4">Licence FFA</p>
-        <div className="flex flex-col gap-3">
-          {([
-            { value: false, label: 'Je suis déjà licencié FFA', sub: 'Licencié AUNL ou autre club FFA', prix: 'Inclus', prixClass: 'text-green-600' },
-            { value: true, label: "Je n'ai pas de licence FFA", sub: 'Licence annuelle obligatoire — prélevée une seule fois', prix: `+${PRIX.licence}€`, prixClass: 'text-gray-900' },
-          ] as const).map((opt) => (
-            <label key={String(opt.value)}
-              className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${avecLicence === opt.value ? 'border-brand bg-brand-50' : 'border-gray-200'}`}>
-              <input type="radio" name="licence" checked={avecLicence === opt.value} onChange={() => setAvecLicence(opt.value)} className="accent-brand" />
-              <div className="flex-1">
-                <div className="text-sm font-semibold">{opt.label}</div>
-                <div className="text-xs text-gray-400 font-medium">{opt.sub}</div>
-              </div>
-              <span className={`text-sm font-bold ${opt.prixClass}`}>{opt.prix}</span>
-            </label>
-          ))}
-        </div>
-      </div>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
       {/* Coordonnées */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6">
+      <div className="bg-white rounded-2xl border border-gray-200 p-5">
         <p className="text-xs font-bold text-brand uppercase tracking-widest mb-4">Vos coordonnées</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
           <div>
@@ -102,36 +82,59 @@ export default function AbonnementForm() {
           {!checkingEmail && isAdherent === true && (
             <div className="mt-2 flex items-center gap-2 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
               <span className="text-green-600 text-sm">✓</span>
-              <span className="text-xs font-semibold text-green-700">Adhérent AUNL — 4€/semaine</span>
+              <span className="text-xs font-semibold text-green-700">Adhérent AUNL — tarif préférentiel 29€/mois</span>
             </div>
           )}
         </div>
       </div>
 
-      {/* Total */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6">
-        <div className="flex justify-between mb-2 text-sm">
-          <span className="text-gray-600 font-medium">Formule illimitée</span>
-          <span className="font-semibold">{PRIX.semaine}€/semaine</span>
+      {/* Licence FFA */}
+      <div className="bg-white rounded-2xl border border-gray-200 p-5">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-bold">Licence FFA</p>
+            <p className="text-xs text-gray-400 mt-0.5">{avecLicence ? '+45€ ajoutés (non-licencié)' : 'Déjà licencié — inclus'}</p>
+          </div>
+          <button type="button" onClick={() => setAvecLicence(!avecLicence)}
+            className={`relative w-12 h-6 rounded-full transition-colors ${avecLicence ? 'bg-brand' : 'bg-gray-200'}`}>
+            <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${avecLicence ? 'translate-x-7' : 'translate-x-1'}`} />
+          </button>
         </div>
         {avecLicence && (
+          <p className="text-xs text-gray-500 mt-2 bg-gray-50 rounded-lg p-2">
+            Licence FFA annuelle obligatoire si vous n&apos;êtes pas encore membre d&apos;un club FFA. Prélevée une seule fois avec la 1ère mensualité.
+          </p>
+        )}
+      </div>
+
+      {/* Total */}
+      <div className="bg-white rounded-2xl border border-gray-200 p-5">
+        <div className="flex justify-between mb-2 text-sm">
+          <span className="text-gray-600 font-medium">Pass mensuel illimité</span>
+          <span className="font-semibold">{PRIX_PASS}€/mois</span>
+        </div>
+        {isAdherent === true && (
+          <div className="flex justify-between mb-2 text-sm text-green-600">
+            <span className="font-medium">Tarif adhérent AUNL</span>
+            <span className="font-semibold">-20€</span>
+          </div>
+        )}
+        {avecLicence && (
           <div className="flex justify-between mb-2 text-sm">
-            <span className="text-gray-600 font-medium">Licence FFA annuelle</span>
-            <span className="font-semibold">{PRIX.licence}€ <span className="text-xs text-gray-400">(une fois)</span></span>
+            <span className="text-gray-600">Licence FFA (une fois)</span>
+            <span className="font-semibold">{PRIX_LICENCE}€</span>
           </div>
         )}
         <div className="h-px bg-gray-100 my-3" />
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center justify-between mb-1">
           <span className="font-bold">Aujourd&apos;hui</span>
-          <span className="text-2xl font-bold tracking-tight">{montantAujourdhui}€</span>
+          <span className="text-2xl font-bold tracking-tight">{total}€</span>
         </div>
-        <p className="text-xs text-gray-400 mb-5">
-          Puis {PRIX.semaine}€/semaine · Engagement 4 semaines minimum · Résiliation libre ensuite
-        </p>
+        <p className="text-xs text-gray-400 mb-5">Puis {PRIX_PASS}€/mois · Sans engagement · Résiliable à tout moment</p>
         {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3 mb-4 font-medium">{error}</div>}
         <button type="submit" disabled={loading}
           className="w-full bg-brand text-white font-bold py-3.5 rounded-xl hover:bg-brand-700 transition-colors disabled:opacity-60 text-sm">
-          {loading ? 'Redirection…' : `Activer ma formule — ${montantAujourdhui}€ →`}
+          {loading ? 'Redirection…' : `Souscrire au pass mensuel — ${total}€ →`}
         </button>
         <p className="text-xs text-gray-400 text-center mt-3 font-medium">Paiement sécurisé · Stripe · Confirmation par email</p>
       </div>

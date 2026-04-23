@@ -14,20 +14,9 @@ export async function POST(req: NextRequest) {
     .eq('statut', 'active')
     .single()
 
-  if (!abo) return NextResponse.json({ error: 'Aucun abonnement actif trouvé pour cet email' }, { status: 404 })
+  if (!abo) return NextResponse.json({ error: 'Aucun pass mensuel actif trouvé pour cet email' }, { status: 404 })
 
-  // Vérifier engagement minimum
-  const finEngagement = new Date(abo.fin_engagement)
-  const today = new Date()
-
-  if (today < finEngagement) {
-    const joursRestants = Math.ceil((finEngagement.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
-    return NextResponse.json({
-      error: `Engagement minimum non atteint. Résiliation possible dans ${joursRestants} jour(s) (le ${finEngagement.toLocaleDateString('fr-FR')}).`
-    }, { status: 400 })
-  }
-
-  // Résilier sur Stripe à la fin de la période en cours
+  // Pass mensuel sans engagement — résiliation effective à la fin de la période en cours
   await stripe.subscriptions.update(abo.stripe_subscription_id, {
     cancel_at_period_end: true,
   })
@@ -35,6 +24,6 @@ export async function POST(req: NextRequest) {
   await supabase.from('abonnements').update({ statut: 'cancelled' }).eq('id', abo.id)
 
   return NextResponse.json({
-    message: "Votre abonnement a bien été résilié. Il reste actif jusqu'à la fin de la semaine en cours."
+    message: "Votre pass mensuel a bien été résilié. Il reste actif jusqu'à la fin du mois en cours.",
   })
 }

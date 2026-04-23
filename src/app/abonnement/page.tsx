@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar'
-import PassForm from '@/components/PassForm'
+import AbonnementForm from '@/components/AbonnementForm'
 
-export default function PassPage() {
+export default function AbonnementPage() {
   return (
     <>
       <Navbar />
@@ -10,14 +10,14 @@ export default function PassPage() {
           <div className="flex items-center gap-2 text-xs text-gray-400 mb-8">
             <a href="/" className="hover:text-brand transition-colors">Accueil</a>
             <span>›</span>
-            <span className="text-gray-600">Pass Séances</span>
+            <span className="text-gray-600">Pass mensuel</span>
           </div>
 
           <div className="mb-8">
-            <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Pass Séances</p>
-            <h1 className="text-3xl font-bold tracking-tight mb-3">6 séances.<br />1 mois. Profitez.</h1>
+            <p className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Pass mensuel illimité</p>
+            <h1 className="text-3xl font-bold tracking-tight mb-3">Toutes les séances.<br />Un seul prélèvement.</h1>
             <p className="text-sm text-gray-600 font-medium leading-relaxed">
-              Achetez votre pass et réservez librement vos séances pendant 30 jours. Aucun prélèvement automatique.
+              Accès illimité à toutes les séances Avifit pour 49€/mois (29€ pour les adhérents AUNL). Vous vous inscrivez à chaque séance depuis le planning — votre place est offerte par le pass.
             </p>
           </div>
 
@@ -25,10 +25,10 @@ export default function PassPage() {
           <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-5">
             <div className="grid grid-cols-2 gap-4">
               {([
-                ['🎟️', '6 séances incluses', 'À utiliser librement'],
-                ['📅', 'Valable 30 jours', 'À partir de la date d\'achat'],
-                ['💳', 'Paiement unique', 'Aucun prélèvement récurrent'],
-                ['✉️', 'Confirmation email', 'Votre pass activé immédiatement'],
+                ['♾️', 'Accès illimité', 'Toutes les séances du mois'],
+                ['📅', 'Inscription par séance', 'Vous gardez le contrôle'],
+                ['💳', 'Prélèvement mensuel', '49€/mois · 29€ adhérent AUNL'],
+                ['🚪', 'Sans engagement', 'Résiliable à tout moment'],
               ] as const).map(([icon, title, desc]) => (
                 <div key={title} className="flex gap-3 items-start">
                   <span className="text-lg">{icon}</span>
@@ -41,7 +41,7 @@ export default function PassPage() {
             </div>
           </div>
 
-          <PassForm />
+          <AbonnementForm />
         </div>
       </main>
     </>

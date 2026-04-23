@@ -72,7 +72,7 @@ export default async function HomePage() {
                     Réserver une séance
                   </Link>
                   <Link href="/abonnement" className="bg-white/10 backdrop-blur-sm text-white text-sm font-semibold px-7 py-3.5 rounded-xl border border-white/20 hover:bg-white/20 transition-colors">
-                    Pass 6 séances — 49€
+                    Pass mensuel — 49€/mois
                   </Link>
                 </div>
                 <div className="flex gap-8 mt-10 pt-8 border-t border-white/10">
@@ -140,8 +140,8 @@ export default async function HomePage() {
                     <span className="text-[11px] text-gray-400 font-semibold mt-0.5">la séance</span>
                   </Link>
                   <Link href="/abonnement" className="flex flex-col items-center justify-center py-4 bg-brand hover:bg-brand-700 transition-colors">
-                    <span className="text-2xl font-black text-white tracking-tight">8€<span className="text-sm font-medium opacity-80">/sem</span></span>
-                    <span className="text-[11px] text-brand-200 font-bold mt-0.5">Pass 6 séances</span>
+                    <span className="text-2xl font-black text-white tracking-tight">49€<span className="text-sm font-medium opacity-80">/mois</span></span>
+                    <span className="text-[11px] text-brand-200 font-bold mt-0.5">Pass mensuel</span>
                   </Link>
                 </div>
               </div>
@@ -306,7 +306,7 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {[
                 { n: '1', title: 'Choisissez un créneau', desc: 'Planning en temps réel avec les places disponibles. Réservez en 2 minutes.' },
-                { n: '2', title: 'Payez en ligne', desc: "Séance à l'unité (10€) ou formule illimitée (49€). Paiement sécurisé Stripe. Licence FFA ajoutée si besoin." },
+                { n: '2', title: 'Payez en ligne', desc: "Séance à l'unité (10€) ou pass mensuel illimité (49€/mois). Paiement sécurisé Stripe. Licence FFA ajoutée si besoin." },
                 { n: '3', title: 'Venez transpirer', desc: "Confirmation par email. On vous accueille à l'AUNL — 59 quai Clémenceau, Caluire-et-Cuire. Juste de l'eau à apporter." },
               ].map((s) => (
                 <div key={s.n} className="bg-white rounded-xl border border-gray-200 p-6">
@@ -434,7 +434,7 @@ export default async function HomePage() {
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Navigation</div>
                 <div className="flex flex-col gap-2">
                   <a href="/planning" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Planning</a>
-                  <a href="/abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Pass 6 séances</a>
+                  <a href="/abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Pass mensuel</a>
                   <a href="/#tarifs" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Tarifs</a>
                 </div>
               </div>
@@ -442,7 +442,7 @@ export default async function HomePage() {
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Mon compte</div>
                 <div className="flex flex-col gap-2">
                   <a href="/mes-seances" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Mes séances</a>
-                  <a href="/mon-abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Ma formule</a>
+                  <a href="/mon-abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Mon pass</a>
                   <a href="/faq" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">FAQ</a>
                   <a href="/cgv" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">CGV</a>
                   <a href="/mentions-legales" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Mentions légales</a>

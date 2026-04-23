@@ -13,10 +13,7 @@ export default function ReservationForm({ seance }: Props) {
   const [avecLicence, setAvecLicence] = useState(false)
   const [format, setFormat] = useState<'seance' | 'abonnement'>('seance')
   const [loading, setLoading] = useState(false)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [passActif, setPassActif] = useState<{ nb_seances_restantes: number } | null>(null)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [checkingPass, setCheckingPass] = useState(false)
+  const [aboActif, setAboActif] = useState<boolean>(false)
   const [error, setError] = useState('')
   const [isAdherent, setIsAdherent] = useState<boolean | null>(null)
   const [checkingEmail, setCheckingEmail] = useState(false)
@@ -49,11 +46,12 @@ export default function ReservationForm({ seance }: Props) {
 
   const PRIX = {
     seance: isAdherent ? 5 : 10,
-    abonnement: isAdherent ? 4 : 8,
+    abonnement: isAdherent ? 29 : 49,
     licence: 45,
   }
   const montantBase = format === 'seance' ? PRIX.seance : PRIX.abonnement
-  const montantTotal = promoStatus?.valid && promoStatus?.gratuit ? 0 :
+  const abonnementCouvreSeance = aboActif && format === 'seance'
+  const montantTotal = (promoStatus?.valid && promoStatus?.gratuit) || abonnementCouvreSeance ? 0 :
     montantBase + (avecLicence ? PRIX.licence : 0)
 
   // Vérif adhérent
@@ -66,14 +64,7 @@ export default function ReservationForm({ seance }: Props) {
         const res = await fetch('/api/check-adherent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) })
         const data = await res.json()
         setIsAdherent(data.adherent)
-        // Vérifier pass actif
-        setCheckingPass(true)
-        try {
-          const passRes = await fetch('/api/pass/mon-pass', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) })
-          const passData = await passRes.json()
-          setPassActif(passRes.ok ? passData.pass : null)
-        } catch { setPassActif(null) }
-        finally { setCheckingPass(false) }
+        setAboActif(!!data.aboActif)
       } catch { setIsAdherent(null) }
       finally { setCheckingEmail(false) }
     }, 600)
@@ -145,7 +136,7 @@ export default function ReservationForm({ seance }: Props) {
         <div className="grid grid-cols-2 gap-3">
           {([
             { value: 'seance', label: 'Séance unique', prix: `${PRIX.seance}€`, sub: 'Je paie à chaque fois' },
-            { value: 'abonnement', label: 'Formule illimitée', prix: `${PRIX.abonnement}€/sem`, sub: 'Place auto · 1 mois min' },
+            { value: 'abonnement', label: 'Pass mensuel', prix: `${PRIX.abonnement}€/mois`, sub: 'Illimité · sans engagement' },
           ] as const).map((f) => (
             <button key={f.value} type="button" onClick={() => setFormat(f.value)}
               className={`p-4 rounded-xl border-2 text-left transition-all ${format === f.value ? 'border-brand bg-brand-50' : 'border-gray-200 hover:border-gray-300'}`}>
@@ -189,6 +180,12 @@ export default function ReservationForm({ seance }: Props) {
             <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-xl px-3 py-2">
               <span className="text-green-600">✓</span>
               <span className="text-xs font-semibold text-green-700">Adhérent AUNL — tarif réduit appliqué</span>
+            </div>
+          )}
+          {!checkingEmail && aboActif && (
+            <div className="flex items-center gap-2 bg-brand-50 border border-brand-100 rounded-xl px-3 py-2">
+              <span className="text-brand">✓</span>
+              <span className="text-xs font-semibold text-brand">Pass mensuel actif — inscription gratuite</span>
             </div>
           )}
         </div>
@@ -253,8 +250,8 @@ export default function ReservationForm({ seance }: Props) {
       {/* Total + CTA */}
       <div className="bg-white rounded-2xl border border-gray-200 p-4">
         <div className="flex justify-between mb-1 text-sm">
-          <span className="text-gray-600">{format === 'seance' ? '1 séance' : 'Formule illimitée'}</span>
-          <span className="font-semibold">{promoStatus?.valid && promoStatus?.gratuit ? <span className="line-through text-gray-400">{montantBase}€</span> : `${montantBase}€`}</span>
+          <span className="text-gray-600">{format === 'seance' ? '1 séance' : 'Pass mensuel illimité'}</span>
+          <span className="font-semibold">{(promoStatus?.valid && promoStatus?.gratuit) || abonnementCouvreSeance ? <span className="line-through text-gray-400">{montantBase}€</span> : `${montantBase}€`}</span>
         </div>
         {avecLicence && !promoStatus?.gratuit && (
           <div className="flex justify-between mb-1 text-sm">
@@ -265,12 +262,15 @@ export default function ReservationForm({ seance }: Props) {
         <div className="h-px bg-gray-100 my-3" />
         <div className="flex items-center justify-between mb-4">
           <span className="font-bold">Total</span>
-          <span className="text-2xl font-black tracking-tight text-brand">{promoStatus?.valid && promoStatus?.gratuit ? '0€ 🎉' : `${montantTotal}€`}</span>
+          <span className="text-2xl font-black tracking-tight text-brand">{(promoStatus?.valid && promoStatus?.gratuit) || abonnementCouvreSeance ? '0€ 🎉' : `${montantTotal}€`}</span>
         </div>
         {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3 mb-3 font-medium">{error}</div>}
         <button type="submit" disabled={loading}
           className="w-full bg-brand text-white font-black py-4 rounded-xl hover:bg-brand-700 transition-colors disabled:opacity-60 text-base shadow-lg shadow-brand/20">
-          {loading ? 'Redirection…' : promoStatus?.valid && promoStatus?.gratuit ? '✓ Réserver gratuitement' : `Payer ${montantTotal}€ →`}
+          {loading ? 'Redirection…' :
+            abonnementCouvreSeance ? '✓ Réserver (pass mensuel)' :
+            promoStatus?.valid && promoStatus?.gratuit ? '✓ Réserver gratuitement' :
+            `Payer ${montantTotal}€ →`}
         </button>
         <p className="text-xs text-gray-400 text-center mt-2">🔒 Paiement sécurisé · Apple Pay & Google Pay acceptés</p>
       </div>

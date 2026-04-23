@@ -52,24 +52,24 @@ export default function ConfirmationPage({ searchParams }: Props) {
 
           {isAbonnement ? (
             <>
-              <h1 className="text-2xl font-bold mb-3 tracking-tight">Formule illimitée activée !</h1>
+              <h1 className="text-2xl font-bold mb-3 tracking-tight">Pass mensuel activé !</h1>
               <p className="text-gray-500 text-sm font-medium leading-relaxed mb-6">
-                Votre place est désormais réservée automatiquement chaque semaine. Un email de confirmation vous a été envoyé.
+                Vous avez désormais accès illimité à toutes les séances Avifit. Inscrivez-vous à chaque séance depuis le planning — votre place est offerte par le pass. Un email de confirmation vous a été envoyé.
               </p>
               <div className="bg-brand-50 border border-brand-100 rounded-xl p-4 mb-8 text-left">
                 <div className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Rappel</div>
                 <div className="text-sm text-gray-600 font-medium space-y-1">
-                  <div>📅 Votre place réservée chaque semaine</div>
-                  <div>💳 8€/semaine prélevés automatiquement</div>
-                  <div>🔒 Sans engagement après 1 mois · résiliation libre ensuite</div>
+                  <div>♾️ Accès illimité à toutes les séances</div>
+                  <div>💳 49€/mois prélevés automatiquement (29€ adhérent AUNL)</div>
+                  <div>🔒 Sans engagement · résiliable à tout moment</div>
                 </div>
               </div>
               <div className="flex flex-wrap gap-3 justify-center">
-                <Link href="/" className="bg-brand text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-brand-700 transition-colors">
-                  Accueil
+                <Link href="/planning" className="bg-brand text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-brand-700 transition-colors">
+                  Voir le planning
                 </Link>
                 <Link href="/mon-abonnement" className="border border-gray-200 text-gray-600 font-medium px-6 py-2.5 rounded-lg text-sm hover:bg-gray-50 transition-colors">
-                  Mon abonnement
+                  Mon pass
                 </Link>
               </div>
             </>

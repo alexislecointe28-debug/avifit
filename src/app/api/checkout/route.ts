@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
+import { stripe, PRICES } from '@/lib/stripe'
 import { createServiceClient } from '@/lib/supabase'
 
 export async function POST(req: NextRequest) {
@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
     }
 
     const supabase = createServiceClient()
+    const emailClean = email.toLowerCase().trim()
 
     // Vérifier la séance
     const { data: seance, error: seanceError } = await supabase
@@ -28,53 +29,42 @@ export async function POST(req: NextRequest) {
 
     // Vérifier adhérent côté serveur
     const { data: adherentData } = await supabase
-      .from('adherents').select('id').eq('email', email.toLowerCase().trim()).single()
+      .from('adherents').select('id').eq('email', emailClean).single()
     const estAdherent = !!adherentData
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
-    // Vérifier pass actif
-    const today = new Date().toISOString().split('T')[0]
-    const { data: passActif } = await supabase
-      .from('pass_seances')
-      .select('id, nb_seances_restantes')
-      .eq('client_email', email.toLowerCase().trim())
-      .eq('statut', 'actif')
-      .gte('expire_le', today)
-      .gt('nb_seances_restantes', 0)
-      .order('expire_le', { ascending: true })
+    // Vérifier pass mensuel actif → réservation gratuite illimitée
+    const { data: aboActif } = await supabase
+      .from('abonnements')
+      .select('id')
+      .eq('client_email', emailClean)
+      .eq('statut', 'active')
       .limit(1)
       .single()
 
     // ─── SÉANCE UNIQUE ───────────────────────────────────────────
     if (format === 'seance') {
-      // Si pass actif → réservation gratuite via API dédiée
-      if (passActif) {
-        // Créer la réservation directement (gratuite)
+      // Si pass mensuel actif → réservation gratuite, pas de décrément
+      if (aboActif) {
         const { error: resaError } = await supabase.from('reservations').insert({
           seance_id: seanceId,
           client_nom: nom,
           client_prenom: prenom,
-          client_email: email.toLowerCase().trim(),
+          client_email: emailClean,
           montant_total: 0,
           avec_licence_ffa: avecLicenceFfa ?? false,
           statut: 'confirmed',
-          source: 'pass',
+          source: 'abonnement',
         })
         if (resaError) return NextResponse.json({ error: resaError.message }, { status: 500 })
 
-        // Incrémenter places_reservees
         await supabase.from('seances').update({ places_reservees: seance.places_reservees + 1 }).eq('id', seanceId)
 
-        // Décrémenter séances du pass
-        await supabase.from('pass_seances')
-          .update({ nb_seances_restantes: passActif.nb_seances_restantes - 1 })
-          .eq('id', passActif.id)
-
-        return NextResponse.json({ url: `${appUrl}/confirmation?type=pass_seance` })
+        return NextResponse.json({ url: `${appUrl}/confirmation?type=abonnement_seance` })
       }
 
-      const prixSeance = estAdherent ? 500 : 1000
+      const prixSeance = estAdherent ? PRICES.seance.adherent : PRICES.seance.amount
 
       type LineItem = {
         price_data: { currency: string; product_data: { name: string; description?: string }; unit_amount: number }
@@ -97,7 +87,7 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: 'eur',
             product_data: { name: 'Licence FFA annuelle' },
-            unit_amount: 4500,
+            unit_amount: PRICES.licence_ffa.amount,
           },
           quantity: 1,
         })
@@ -126,11 +116,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ url: session.url })
     }
 
-    // ─── ABONNEMENT MERCREDI ─────────────────────────────────────
+    // ─── PASS MENSUEL ─────────────────────────────────────────────
     if (format === 'abonnement') {
-      const prixSemaine = estAdherent ? 400 : 800
+      const priceId = estAdherent ? PRICES.abonnement.priceIdAdherent : PRICES.abonnement.priceId
+      const montantMois = estAdherent ? PRICES.abonnement.adherent : PRICES.abonnement.amount
 
-      // Créer ou récupérer le customer Stripe
       const customers = await stripe.customers.list({ email, limit: 1 })
       let customer = customers.data[0]
       if (!customer) {
@@ -141,25 +131,13 @@ export async function POST(req: NextRequest) {
         })
       }
 
-      // Créer le prix récurrent Stripe (hebdomadaire)
-      const price = await stripe.prices.create({
-        unit_amount: prixSemaine,
-        currency: 'eur',
-        recurring: { interval: 'week', interval_count: 1 },
-        product_data: {
-          name: estAdherent ? 'Abonnement mercredi Avifit — Tarif adhérent AUNL' : 'Abonnement mercredi Avifit',
-        },
-      })
-
-      // Line items pour le checkout — abonnement + éventuelle licence one-shot
       type SubLineItem = { price: string; quantity: number }
       type OneTimeItem = { price_data: { currency: string; product_data: { name: string }; unit_amount: number }; quantity: number }
-
-      const lineItems: (SubLineItem | OneTimeItem)[] = [{ price: price.id, quantity: 1 }]
+      const lineItems: (SubLineItem | OneTimeItem)[] = [{ price: priceId, quantity: 1 }]
 
       if (avecLicenceFfa) {
         lineItems.push({
-          price_data: { currency: 'eur', product_data: { name: 'Licence FFA annuelle' }, unit_amount: 4500 },
+          price_data: { currency: 'eur', product_data: { name: 'Licence FFA annuelle' }, unit_amount: PRICES.licence_ffa.amount },
           quantity: 1,
         })
       }
@@ -170,15 +148,14 @@ export async function POST(req: NextRequest) {
         line_items: lineItems,
         mode: 'subscription',
         subscription_data: {
-          trial_period_days: undefined,
           metadata: {
             seance_id: seanceId,
             client_nom: nom,
             client_prenom: prenom,
-            client_email: email,
+            client_email: emailClean,
             estAdherent: String(estAdherent),
             avec_licence_ffa: String(avecLicenceFfa),
-            montant_semaine: String(prixSemaine),
+            montant_mois: String(montantMois),
           },
         },
         success_url: `${appUrl}/confirmation?session_id={CHECKOUT_SESSION_ID}&type=abonnement`,
