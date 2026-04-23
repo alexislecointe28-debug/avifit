@@ -7,6 +7,7 @@ interface Props {
 
 export default function ConfirmationPage({ searchParams }: Props) {
   const isAbonnement = searchParams.type === 'abonnement'
+  const isCoachPro = searchParams.type === 'coach_pro'
   const isCancelled = searchParams.cancelled === '1'
 
   if (isCancelled) {
@@ -70,6 +71,29 @@ export default function ConfirmationPage({ searchParams }: Props) {
                 </Link>
                 <Link href="/mon-abonnement" className="border border-gray-200 text-gray-600 font-medium px-6 py-2.5 rounded-lg text-sm hover:bg-gray-50 transition-colors">
                   Mon pass
+                </Link>
+              </div>
+            </>
+          ) : isCoachPro ? (
+            <>
+              <h1 className="text-2xl font-bold mb-3 tracking-tight">Heures réservées !</h1>
+              <p className="text-gray-500 text-sm font-medium leading-relaxed mb-6">
+                Votre achat est confirmé. Un email récapitulatif vous a été envoyé. Contactez-nous pour réserver vos créneaux.
+              </p>
+              <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-8 text-left">
+                <div className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Prochaines étapes</div>
+                <div className="text-sm text-gray-600 font-medium space-y-1">
+                  <div>📧 Consultez votre email de confirmation</div>
+                  <div>📅 Contactez-nous pour réserver vos créneaux</div>
+                  <div>🏋️ Venez avec vos clients aux horaires convenus</div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-3 justify-center">
+                <Link href="/mon-credit-coach" className="bg-gray-900 text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-gray-700 transition-colors">
+                  Voir mon crédit heures
+                </Link>
+                <Link href="/coachs-pro" className="border border-gray-200 text-gray-600 font-medium px-6 py-2.5 rounded-lg text-sm hover:bg-gray-50 transition-colors">
+                  Espace coachs pro
                 </Link>
               </div>
             </>

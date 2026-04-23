@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { createServiceClient } from '@/lib/supabase'
-import { sendConfirmationAbonnement } from '@/lib/emails'
+import { sendConfirmationAbonnement, sendConfirmationCoachPro } from '@/lib/emails'
 import Stripe from 'stripe'
 
 export async function POST(req: NextRequest) {
@@ -26,8 +26,46 @@ export async function POST(req: NextRequest) {
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
 
-    // Paiement unique (séance) → confirmer la réservation
+    // Paiement unique (séance ou coach pro)
     if (session.mode === 'payment') {
+      const meta = session.metadata ?? {}
+
+      // ─── COACH PRO : créer crédit heures ──────────────────────
+      if (meta.type === 'coach_pro') {
+        const debut = new Date()
+        const expire = new Date()
+        expire.setDate(expire.getDate() + 30)
+
+        await supabase.from('coach_credits').insert({
+          coach_email: meta.coach_email,
+          coach_nom: meta.coach_nom,
+          coach_prenom: meta.coach_prenom,
+          coach_tel: meta.coach_tel,
+          coach_structure: meta.coach_structure,
+          type_achat: meta.type_pack,
+          nb_heures_total: parseInt(meta.nb_heures),
+          nb_heures_restantes: parseInt(meta.nb_heures),
+          montant: parseInt(meta.montant),
+          statut: 'actif',
+          stripe_payment_id: session.payment_intent as string,
+          achete_le: debut.toISOString().split('T')[0],
+          expire_le: expire.toISOString().split('T')[0],
+        })
+
+        if (meta.coach_email) {
+          await sendConfirmationCoachPro({
+            to: meta.coach_email,
+            prenom: meta.coach_prenom ?? '',
+            typeAchat: meta.type_pack as 'seance' | 'pack_10' | 'pack_20',
+            nbHeures: parseInt(meta.nb_heures),
+            montant: parseInt(meta.montant),
+            expireLe: expire.toISOString().split('T')[0],
+          }).catch(console.error)
+        }
+        return NextResponse.json({ received: true })
+      }
+
+      // ─── SÉANCE CLASSIQUE : confirmer réservation ─────────────
       await supabase.from('reservations')
         .update({ statut: 'confirmed', stripe_payment_id: session.payment_intent as string })
         .eq('stripe_session_id', session.id)

@@ -172,3 +172,72 @@ export async function sendRappelSeance({
 </html>`,
   })
 }
+
+// ─── CONFIRMATION COACH PRO ───────────────────────────────────────────────────
+export async function sendConfirmationCoachPro({
+  to, prenom, typeAchat, nbHeures, montant, expireLe,
+}: {
+  to: string; prenom: string
+  typeAchat: 'seance' | 'pack_10' | 'pack_20'
+  nbHeures: number; montant: number; expireLe: string
+}) {
+  const labels: Record<string, string> = {
+    seance: 'Séance à l\'unité (1h)',
+    pack_10: 'Pack 10 heures',
+    pack_20: 'Pack 20 heures',
+  }
+  await resend.emails.send({
+    from: FROM,
+    to,
+    subject: `✓ Accès salle confirmé — Avifit AUNL Coachs Pro`,
+    html: `
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#F7F6F2;font-family:Inter,Arial,sans-serif;">
+  <div style="max-width:560px;margin:40px auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #E5E7EB;">
+    <div style="background:#111827;padding:32px;text-align:center;">
+      <div style="font-size:32px;margin-bottom:8px;">🏋️</div>
+      <h1 style="color:#fff;margin:0;font-size:22px;font-weight:700;">Accès salle confirmé</h1>
+      <p style="color:#9CA3AF;margin:8px 0 0;font-size:14px;">Coachs Pro · AUNL Lyon</p>
+    </div>
+    <div style="padding:32px;">
+      <p style="color:#374151;font-size:15px;margin:0 0 24px;">Bonjour <strong>${prenom}</strong>,</p>
+      <p style="color:#374151;font-size:15px;margin:0 0 24px;">Votre achat est confirmé. Contactez-nous pour réserver vos créneaux.</p>
+
+      <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:10px;padding:20px;margin-bottom:24px;">
+        <div style="font-size:12px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">Récapitulatif</div>
+        <div style="display:flex;justify-content:space-between;font-size:14px;color:#374151;margin-bottom:8px;">
+          <span>${labels[typeAchat]}</span><span>${montant / 100}€</span>
+        </div>
+        <div style="height:1px;background:#E5E7EB;margin:10px 0;"></div>
+        <div style="font-size:14px;color:#374151;margin-bottom:6px;">⏱️ <strong>${nbHeures} heure${nbHeures > 1 ? 's' : ''}</strong> disponible${nbHeures > 1 ? 's' : ''}</div>
+        <div style="font-size:14px;color:#374151;">📅 Valable jusqu'au <strong>${new Date(expireLe + 'T00:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</strong></div>
+      </div>
+
+      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:20px;margin-bottom:24px;">
+        <div style="font-size:14px;font-weight:700;color:#1E40AF;margin-bottom:10px;">Prochaines étapes</div>
+        <div style="font-size:14px;color:#374151;margin-bottom:6px;">1. Consultez les créneaux disponibles sur votre espace</div>
+        <div style="font-size:14px;color:#374151;margin-bottom:6px;">2. Contactez-nous pour réserver : <a href="mailto:avifit@aunl.fr" style="color:#2563EB">avifit@aunl.fr</a></div>
+        <div style="font-size:14px;color:#374151;">3. Accès salle avec vos clients le jour J</div>
+      </div>
+
+      <div style="text-align:center;margin-bottom:24px;">
+        <a href="${process.env.NEXT_PUBLIC_APP_URL}/mon-credit-coach"
+          style="display:inline-block;background:#111827;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;">
+          Voir mon crédit heures →
+        </a>
+      </div>
+
+      <div style="background:#F9FAFB;border-radius:8px;padding:16px;font-size:13px;color:#6B7280;">
+        <strong>Rappels :</strong> Max 2 coachs simultanément · Max 3 clients/coach · Réservation nominative uniquement · Respect du matériel obligatoire
+      </div>
+    </div>
+    <div style="background:#F9FAFB;padding:16px;text-align:center;border-top:1px solid #E5E7EB;">
+      <p style="font-size:12px;color:#9CA3AF;margin:0;">Avifit AUNL Lyon · 59 quai Clémenceau, Caluire-et-Cuire</p>
+    </div>
+  </div>
+</body>
+</html>`,
+  })
+}

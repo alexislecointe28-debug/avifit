@@ -436,6 +436,7 @@ export default async function HomePage() {
                   <a href="/planning" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Planning</a>
                   <a href="/abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Pass mensuel</a>
                   <a href="/#tarifs" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Tarifs</a>
+                  <a href="/coachs-pro" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Coachs Pro</a>
                 </div>
               </div>
               <div>

@@ -10,6 +10,7 @@ const LINKS = [
   { href: '/#tarifs', label: 'Tarifs' },
   { href: '/abonnement', label: 'Pass mensuel' },
   { href: '/mes-seances', label: 'Mes séances' },
+  { href: '/coachs-pro', label: 'Coachs Pro' },
 ]
 
 export default function Navbar() {
