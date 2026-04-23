@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar'
 import CoachProForm from '@/components/CoachProForm'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function CoachsProPage() {
   const CRENEAUX = [
@@ -45,6 +46,24 @@ export default function CoachsProPage() {
                 <span key={tag} className="text-xs font-semibold bg-white/10 text-gray-300 px-3 py-1.5 rounded-full border border-white/10">{tag}</span>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Galerie photos */}
+        <section className="bg-gray-900 pb-10 px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-3 gap-3">
+              <div className="relative overflow-hidden rounded-xl aspect-[4/3]">
+                <Image src="/salle-1.jpg" alt="Salle musculation AUNL — vue générale" fill className="object-cover hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="relative overflow-hidden rounded-xl aspect-[4/3]">
+                <Image src="/salle-2.jpg" alt="Salle musculation AUNL — machines et ergomètres" fill className="object-cover hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="relative overflow-hidden rounded-xl aspect-[4/3]">
+                <Image src="/salle-3.jpg" alt="Salle musculation AUNL — vue en hauteur" fill className="object-cover hover:scale-105 transition-transform duration-500" />
+              </div>
+            </div>
+            <p className="text-xs text-gray-500 text-center mt-3">Salle de musculation AUNL · 59 quai Clémenceau, Caluire-et-Cuire</p>
           </div>
         </section>
 
