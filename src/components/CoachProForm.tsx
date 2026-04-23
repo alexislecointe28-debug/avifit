@@ -76,24 +76,24 @@ export default function CoachProForm() {
         <div className="flex flex-col gap-3">
           {PACKS.map(p => (
             <button key={p.key} type="button" onClick={() => setPack(p.key)}
-              className={`w-full text-left p-4 rounded-xl border-2 transition-all relative ${pack === p.key ? 'border-gray-900 bg-gray-50' : 'border-gray-200 hover:border-gray-300'}`}>
-              {p.badge && (
-                <span className={`absolute top-3 right-3 text-xs font-bold px-2.5 py-1 rounded-full ${p.badge === 'Meilleure offre' ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-700'}`}>
-                  {p.badge}
-                </span>
-              )}
+              className={`w-full text-left p-4 rounded-xl border-2 transition-all ${pack === p.key ? 'border-gray-900 bg-gray-50' : 'border-gray-200 hover:border-gray-300'}`}>
               <div className="flex items-center gap-3">
                 <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${pack === p.key ? 'border-gray-900 bg-gray-900' : 'border-gray-300'}`}>
                   {pack === p.key && <div className="w-2 h-2 bg-white rounded-full m-auto mt-[3px]" />}
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-baseline gap-2">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-bold text-gray-900">{p.label}</span>
                     <span className="text-sm text-gray-400">{p.heures}h</span>
+                    {p.badge && (
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${p.badge === 'Meilleure offre' ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-700'}`}>
+                        {p.badge}
+                      </span>
+                    )}
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">{p.desc}</div>
                 </div>
-                <div className="text-right">
+                <div className="text-right flex-shrink-0">
                   <div className="text-xl font-black text-gray-900">{p.prix}</div>
                   <div className="text-xs text-gray-400">{p.prixHeure}</div>
                 </div>
