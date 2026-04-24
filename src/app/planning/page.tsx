@@ -25,10 +25,8 @@ function cleanTitre(titre: string) {
 function tagConfig(seance: Seance) {
   const dispo = seance.places_max - seance.places_reservees
   if (seance.statut === 'complet' || dispo === 0) return { label: 'Complet', cls: 'bg-red-100 text-red-700' }
-  if (dispo === 1) return { label: 'Dernière place !', cls: 'bg-red-100 text-red-700' }
-  if (dispo === 2) return { label: 'Plus que 2 places', cls: 'bg-orange-100 text-orange-700' }
-  if (dispo <= 4) return { label: `${dispo} places`, cls: 'bg-yellow-100 text-yellow-700' }
-  return { label: `${dispo} places`, cls: 'bg-green-100 text-green-700' }
+  if (dispo === 1) return { label: 'Dernière place !', cls: 'bg-orange-100 text-orange-700' }
+  return null
 }
 
 function isProchaine(date: string, index: number) {
@@ -95,9 +93,7 @@ export default async function PlanningPage() {
             <div className="flex flex-col gap-3">
               {seancesList.map((seance, index) => {
                 const tag = tagConfig(seance)
-                const dispo = seance.places_max - seance.places_reservees
-                const pct = Math.round((seance.places_reservees / seance.places_max) * 100)
-                const isComplet = seance.statut === 'complet' || dispo === 0
+                const isComplet = seance.statut === 'complet' || (seance.places_max - seance.places_reservees) === 0
                 const isNext = isProchaine(seance.date, index)
 
                 return (
@@ -145,23 +141,15 @@ export default async function PlanningPage() {
                           <span>{(seance.prix / 100).toFixed(0)}€ / séance</span>
 
                         </div>
-                        <div className="flex items-center gap-3">
-                          <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                            <div
-                              className={`h-full rounded-full ${isComplet ? 'bg-red-400' : 'bg-brand'}`}
-                              style={{ width: `${pct}%` }}
-                            />
-                          </div>
-                          <span className="text-xs text-gray-400 min-w-[70px] text-right">
-                            {seance.places_reservees}/{seance.places_max} inscrits
-                          </span>
-                        </div>
+
                       </div>
 
                       <div className="flex flex-col items-end gap-3 flex-shrink-0">
-                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${tag.cls}`}>
-                          {tag.label}
-                        </span>
+                        {tag && (
+                          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${tag.cls}`}>
+                            {tag.label}
+                          </span>
+                        )}
                         {isComplet ? (
                           <span className="text-xs text-gray-500 font-medium">Séance complète</span>
                         ) : (
@@ -211,7 +199,7 @@ export default async function PlanningPage() {
             Réserver la prochaine séance →
           </a>
           <p className="text-xs text-gray-400 text-center mt-1.5">
-            {new Date(prochaineDispo.date + 'T00:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })} · {prochaineDispo.heure_debut.slice(0, 5)} · {prochaineDispo.places_max - prochaineDispo.places_reservees} place(s) dispo
+            {new Date(prochaineDispo.date + 'T00:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })} · {prochaineDispo.heure_debut.slice(0, 5)}
           </p>
         </div>
       )}
