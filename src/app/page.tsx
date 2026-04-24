@@ -10,9 +10,8 @@ export const dynamic = 'force-dynamic'
 function placesTag(max: number, reservees: number) {
   const dispo = max - reservees
   if (dispo === 0) return { label: 'Complet', cls: 'bg-red-100 text-red-700' }
-  if (dispo <= 2) return { label: `Plus que ${dispo} place${dispo > 1 ? 's' : ''}`, cls: 'bg-orange-100 text-orange-700' }
-  if (dispo <= 4) return { label: `${dispo} places`, cls: 'bg-yellow-100 text-yellow-700' }
-  return { label: `${dispo} places`, cls: 'bg-green-100 text-green-700' }
+  if (dispo === 1) return { label: 'Dernière place !', cls: 'bg-orange-100 text-orange-700' }
+  return null
 }
 
 
@@ -97,7 +96,7 @@ export default async function HomePage() {
                   {prochainesSeances && prochainesSeances.length > 0 ? (
                     prochainesSeances.map((s, i) => {
                       const tag = placesTag(s.places_max, s.places_reservees)
-                      const dispo = s.places_max - s.places_reservees
+                      const dispo = s.places_max - s.places_reservees  // gardé pour isComplet
                       const d = new Date(s.date + 'T00:00:00')
                       const jour = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
                       const jourCapital = jour.charAt(0).toUpperCase() + jour.slice(1)
