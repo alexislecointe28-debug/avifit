@@ -53,16 +53,16 @@ export default function ConfirmationPage({ searchParams }: Props) {
 
           {isAbonnement ? (
             <>
-              <h1 className="text-2xl font-bold mb-3 tracking-tight">Pass mensuel activé !</h1>
+              <h1 className="text-2xl font-bold mb-3 tracking-tight">Pass saison activé !</h1>
               <p className="text-gray-500 text-sm font-medium leading-relaxed mb-6">
-                Vous avez désormais accès illimité à toutes les séances Avifit. Inscrivez-vous à chaque séance depuis le planning — votre place est offerte par le pass. Un email de confirmation vous a été envoyé.
+                Votre pass est actif jusqu&apos;au 30 juin 2026. Inscrivez-vous à chaque séance depuis le planning — votre place est offerte par le pass. Un email de confirmation vous a été envoyé.
               </p>
               <div className="bg-brand-50 border border-brand-100 rounded-xl p-4 mb-8 text-left">
                 <div className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Rappel</div>
                 <div className="text-sm text-gray-600 font-medium space-y-1">
                   <div>♾️ Accès illimité à toutes les séances</div>
-                  <div>💳 49€/mois prélevés automatiquement (29€ adhérent AUNL)</div>
-                  <div>🔒 Sans engagement · résiliable à tout moment</div>
+                  <div>💳 Licence FFA incluse · Valable jusqu&apos;au 30 juin 2026</div>
+                  <div>🔒 Inscription séance par séance depuis le planning</div>
                 </div>
               </div>
               <div className="flex flex-wrap gap-3 justify-center">

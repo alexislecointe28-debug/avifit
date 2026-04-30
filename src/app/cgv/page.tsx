@@ -14,19 +14,19 @@ export default function CgvPage() {
             <p>Les présentes CGV régissent les réservations et ventes de séances Avifit proposées par Alexis Lecointe, dans les locaux de l&apos;Aviron Union Nautique de Lyon (AUNL), 59 quai Clémenceau, Caluire-et-Cuire. L&apos;encaissement est effectué par l&apos;AUNL.</p>
 
             <h2>2. Tarifs</h2>
-            <p>Séance unitaire : 10€. Pass mensuel illimité : 49€/mois. Tarif adhérent AUNL : 5€/séance ou 29€/mois pour le pass illimité. Licence FFA annuelle : 45€ si non-licencié (obligatoire pour la pratique). Tous les prix sont TTC.</p>
+            <p>Séance unitaire : 10€. Pass saison 1×/semaine : 280€. Pass saison illimité : 399€. Tarifs adhérent AUNL : 5€/séance, 180€/saison 1×, 249€/saison illimitée. Licence FFA incluse dans les passes saison. Licence FFA annuelle : 45€ si non-licencié (obligatoire pour la pratique). Tous les prix sont TTC.</p>
 
             <h2>3. Réservation et paiement</h2>
             <p>La réservation est effective après paiement en ligne sécurisé via Stripe. Une confirmation par email est envoyée immédiatement. Les paiements sont traités par Stripe au bénéfice de l&apos;AUNL.</p>
 
-            <h2>4. Pass mensuel illimité</h2>
-            <p>Le pass mensuel donne accès illimité à toutes les séances Avifit. Le participant doit s&apos;inscrire lui-même à chaque séance depuis le planning — sa place est offerte par le pass (aucun paiement supplémentaire). Le pass est prélevé mensuellement via Stripe, sans engagement. La résiliation est possible à tout moment depuis la page &quot;Mon pass&quot; ou par email, avec effet à la fin du mois en cours (aucun prélèvement supplémentaire).</p>
+            <h2>4. Passes saison</h2>
+            <p>Les passes saison (1×/semaine ou illimité) donnent accès aux séances Avifit du 1er septembre au 30 juin. Le participant s&apos;inscrit à chaque séance depuis le planning. La licence FFA est incluse dans le tarif. Le paiement est unique, effectué à la souscription. En cas de résiliation, aucun remboursement prorata n&apos;est automatique — contacter le club.</p>
 
             <h2>5. Annulation par le prestataire</h2>
             <p>En cas d&apos;annulation de séance (vacances scolaires Zone A, force majeure, maladie du coach), les participants inscrits en sont informés par email. Les réservations à l&apos;unité sont remboursées intégralement. En cas de suspension prolongée affectant le pass mensuel, un ajustement peut être demandé par email.</p>
 
             <h2>6. Annulation par le participant</h2>
-            <p>Toute réservation peut être annulée en ligne jusqu&apos;à 24h avant le début de la séance, depuis la page &quot;Mes séances&quot;. Passé ce délai, l&apos;annulation n&apos;est plus possible et la place est considérée comme utilisée — aucun remboursement ne sera effectué. Les mensualités déjà prélevées dans le cadre du pass mensuel ne sont pas remboursables.</p>
+            <p>Toute réservation peut être annulée en ligne jusqu&apos;à 24h avant le début de la séance, depuis la page &quot;Mes séances&quot;. Passé ce délai, l&apos;annulation n&apos;est plus possible et la place est considérée comme utilisée — aucun remboursement ne sera effectué. Le paiement du pass saison n&apos;est pas remboursable sauf accord exceptionnel du club.</p>
 
             <h2>7. Licence FFA</h2>
             <p>La pratique de l&apos;Avifit dans un club labellisé FFA nécessite une licence fédérale annuelle. Elle est ajoutée automatiquement au paiement lors de la première réservation si le participant n&apos;est pas déjà licencié. Sa validité est annuelle.</p>

@@ -10,22 +10,22 @@ export default function ReservationForm({ seance }: Props) {
   const [prenom, setPrenom] = useState('')
   const [email, setEmail] = useState('')
   const [tel, setTel] = useState('')
-  const [avecLicence, setAvecLicence] = useState(false)
-  const [format, setFormat] = useState<'seance' | 'abonnement'>('seance')
   const [loading, setLoading] = useState(false)
-  const [aboActif, setAboActif] = useState<boolean>(false)
   const [error, setError] = useState('')
   const [isAdherent, setIsAdherent] = useState<boolean | null>(null)
   const [checkingEmail, setCheckingEmail] = useState(false)
+  const [aboActif, setAboActif] = useState(false)
+  // Opt-out FFA : false = on ajoute la licence par défaut pour les non-adhérents
+  const [dejaLicencie, setDejaLicencie] = useState(false)
   const [codePromo, setCodePromo] = useState('')
   const [promoStatus, setPromoStatus] = useState<{ valid: boolean; gratuit?: boolean; error?: string; description?: string } | null>(null)
   const [checkingPromo, setCheckingPromo] = useState(false)
-  const [remembered, setRemembered] = useState(false)
   const [consent, setConsent] = useState(false)
+  const [remembered, setRemembered] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const promoDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // 🧠 Charger depuis localStorage si consentement précédent
+  // Charger depuis localStorage
   useEffect(() => {
     try {
       const hasConsent = localStorage.getItem('avifit_consent') === 'true'
@@ -33,31 +33,29 @@ export default function ReservationForm({ seance }: Props) {
         setConsent(true)
         const saved = localStorage.getItem('avifit_user')
         if (saved) {
-          const { prenom: p, nom: n, email: e, avecLicence: l } = JSON.parse(saved)
+          const { prenom: p, nom: n, email: e, dejaLicencie: dl } = JSON.parse(saved)
           if (p) setPrenom(p)
           if (n) setNom(n)
           if (e) setEmail(e)
-          if (typeof l === 'boolean') setAvecLicence(l)
+          if (typeof dl === 'boolean') setDejaLicencie(dl)
           setRemembered(true)
         }
       }
     } catch {}
   }, [])
 
-  const PRIX = {
-    seance: isAdherent ? 5 : 10,
-    abonnement: isAdherent ? 29 : 49,
-    licence: 45,
-  }
-  const montantBase = format === 'seance' ? PRIX.seance : PRIX.abonnement
-  const abonnementCouvreSeance = aboActif && format === 'seance'
-  const montantTotal = (promoStatus?.valid && promoStatus?.gratuit) || abonnementCouvreSeance ? 0 :
-    montantBase + (avecLicence ? PRIX.licence : 0)
+  const prixSeance = isAdherent ? 5 : 10
+  // Licence ajoutée si : non-adhérent ET n'est pas déjà licencié ET pas de pass saison actif
+  const ajouterLicence = !isAdherent && !dejaLicencie && !aboActif
+  const prixLicence = 45
+  const montantBase = prixSeance
+  const gratuit = (promoStatus?.valid && promoStatus?.gratuit) || aboActif
+  const montantTotal = gratuit ? 0 : montantBase + (ajouterLicence ? prixLicence : 0)
 
-  // Vérif adhérent
+  // Vérif adhérent + abo
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
-    if (!email || !email.includes('@')) { setIsAdherent(null); return }
+    if (!email || !email.includes('@')) { setIsAdherent(null); setAboActif(false); return }
     debounceRef.current = setTimeout(async () => {
       setCheckingEmail(true)
       try {
@@ -65,6 +63,8 @@ export default function ReservationForm({ seance }: Props) {
         const data = await res.json()
         setIsAdherent(data.adherent)
         setAboActif(!!data.aboActif)
+        // Adhérent AUNL = licence incluse dans l'adhésion → on active déjà licencié
+        if (data.adherent) setDejaLicencie(true)
       } catch { setIsAdherent(null) }
       finally { setCheckingEmail(false) }
     }, 600)
@@ -78,8 +78,7 @@ export default function ReservationForm({ seance }: Props) {
       setCheckingPromo(true)
       try {
         const res = await fetch('/api/check-promo', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: codePromo }) })
-        const data = await res.json()
-        setPromoStatus(data)
+        setPromoStatus(await res.json())
       } catch { setPromoStatus(null) }
       finally { setCheckingPromo(false) }
     }, 500)
@@ -90,16 +89,14 @@ export default function ReservationForm({ seance }: Props) {
     setError('')
     setLoading(true)
 
-    // 💾 Sauvegarder dans localStorage (seulement si consentement)
     try {
       if (consent) {
         localStorage.setItem('avifit_consent', 'true')
-        localStorage.setItem('avifit_user', JSON.stringify({ prenom, nom, email, tel, avecLicence }))
+        localStorage.setItem('avifit_user', JSON.stringify({ prenom, nom, email, tel, dejaLicencie }))
       }
     } catch {}
 
     try {
-      // Promo gratuite
       if (promoStatus?.valid && promoStatus?.gratuit) {
         const res = await fetch('/api/checkout/gratuit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seanceId: seance.id, nom, prenom, email, tel, codePromo }) })
         const data = await res.json()
@@ -108,7 +105,7 @@ export default function ReservationForm({ seance }: Props) {
         return
       }
 
-      const res = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seanceId: seance.id, nom, prenom, email, tel, format, avecLicenceFfa: avecLicence }) })
+      const res = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seanceId: seance.id, nom, prenom, email, tel, dejaLicencie }) })
       const data = await res.json()
       if (!res.ok) { setError(data.error ?? 'Erreur'); setLoading(false); return }
       window.location.href = data.url
@@ -125,30 +122,13 @@ export default function ReservationForm({ seance }: Props) {
       {remembered && (
         <div className="flex items-center justify-between bg-brand-50 border border-brand-100 rounded-xl px-4 py-2.5">
           <span className="text-xs font-semibold text-brand">✓ Vos infos ont été retrouvées</span>
-          <button type="button" onClick={() => { setPrenom(''); setNom(''); setEmail(''); setAvecLicence(false); setRemembered(false); localStorage.removeItem('avifit_user') }}
-            className="text-xs text-brand hover:underline font-medium">Changer</button>
+          <button type="button" onClick={() => { setPrenom(''); setNom(''); setEmail(''); setDejaLicencie(false); setRemembered(false); try { localStorage.removeItem('avifit_user') } catch {} }}>
+            <span className="text-xs text-brand hover:underline font-medium">Changer</span>
+          </button>
         </div>
       )}
 
-      {/* Format */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-4">
-        <p className="text-xs font-bold text-brand uppercase tracking-widest mb-3">Formule</p>
-        <div className="grid grid-cols-2 gap-3">
-          {([
-            { value: 'seance', label: 'Séance unique', prix: `${PRIX.seance}€`, sub: 'Je paie à chaque fois' },
-            { value: 'abonnement', label: 'Pass mensuel', prix: `${PRIX.abonnement}€/mois`, sub: 'Illimité · sans engagement' },
-          ] as const).map((f) => (
-            <button key={f.value} type="button" onClick={() => setFormat(f.value)}
-              className={`p-4 rounded-xl border-2 text-left transition-all ${format === f.value ? 'border-brand bg-brand-50' : 'border-gray-200 hover:border-gray-300'}`}>
-              <div className="text-sm font-semibold mb-1">{f.label}</div>
-              <div className={`text-xl font-bold tracking-tight ${format === f.value ? 'text-brand' : 'text-gray-900'}`}>{f.prix}</div>
-              <div className="text-xs text-gray-400 mt-0.5">{f.sub}</div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Coordonnées — simplifié */}
+      {/* Coordonnées */}
       <div className="bg-white rounded-2xl border border-gray-200 p-4">
         <p className="text-xs font-bold text-brand uppercase tracking-widest mb-3">Vos coordonnées</p>
         <div className="flex flex-col gap-3">
@@ -173,42 +153,47 @@ export default function ReservationForm({ seance }: Props) {
           <div>
             <label className="text-xs font-semibold text-gray-600 mb-1 block">Téléphone</label>
             <input type="tel" value={tel} onChange={e => setTel(e.target.value)}
-              className="w-full border border-gray-200 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-brand"
-              placeholder="06 12 34 56 78" />
+              className="w-full border border-gray-200 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-brand" placeholder="06 12 34 56 78" />
           </div>
+
+          {/* Badges statut */}
           {!checkingEmail && isAdherent === true && (
             <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-xl px-3 py-2">
-              <span className="text-green-600">✓</span>
-              <span className="text-xs font-semibold text-green-700">Adhérent AUNL — tarif réduit appliqué</span>
+              <span className="text-green-600 text-sm">✓</span>
+              <span className="text-xs font-semibold text-green-700">Adhérent AUNL — tarif réduit + licence déjà incluse</span>
             </div>
           )}
           {!checkingEmail && aboActif && (
             <div className="flex items-center gap-2 bg-brand-50 border border-brand-100 rounded-xl px-3 py-2">
-              <span className="text-brand">✓</span>
-              <span className="text-xs font-semibold text-brand">Pass mensuel actif — inscription gratuite</span>
+              <span className="text-brand text-sm">✓</span>
+              <span className="text-xs font-semibold text-brand">Pass saison actif — inscription gratuite</span>
             </div>
           )}
         </div>
       </div>
 
-      {/* Licence FFA — simplifié, accordéon */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-bold">Licence FFA</p>
-            <p className="text-xs text-gray-400 mt-0.5">{avecLicence ? '+45€ ajoutés (non-licencié)' : 'Déjà licencié — inclus'}</p>
+      {/* Licence FFA — opt-out, caché pour adhérents et porteurs de pass saison */}
+      {!isAdherent && !aboActif && (
+        <div className="bg-white rounded-2xl border border-gray-200 p-4">
+          <div className="flex items-start gap-3">
+            <div className="relative flex-shrink-0 mt-0.5">
+              <input type="checkbox" checked={dejaLicencie} onChange={e => setDejaLicencie(e.target.checked)} className="sr-only" />
+              <button type="button" onClick={() => setDejaLicencie(!dejaLicencie)}
+                className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${dejaLicencie ? 'bg-brand border-brand' : 'border-gray-300'}`}>
+                {dejaLicencie && <span className="text-white text-xs font-bold">✓</span>}
+              </button>
+            </div>
+            <div>
+              <span className="text-sm font-semibold text-gray-900">J&apos;ai déjà une licence FFA valide</span>
+              <p className="text-xs text-gray-400 mt-0.5">
+                {dejaLicencie
+                  ? 'Licence non facturée — vous êtes déjà licencié dans un club FFA.'
+                  : 'Non coché = licence ajoutée automatiquement (45€ · obligatoire pour pratiquer).'}
+              </p>
+            </div>
           </div>
-          <button type="button" onClick={() => setAvecLicence(!avecLicence)}
-            className={`relative w-12 h-6 rounded-full transition-colors ${avecLicence ? 'bg-brand' : 'bg-gray-200'}`}>
-            <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${avecLicence ? 'translate-x-7' : 'translate-x-1'}`} />
-          </button>
         </div>
-        {avecLicence && (
-          <p className="text-xs text-gray-500 mt-2 bg-gray-50 rounded-lg p-2">
-            Licence FFA annuelle obligatoire si vous n&apos;êtes pas encore membre d&apos;un club FFA.
-          </p>
-        )}
-      </div>
+      )}
 
       {/* Code promo */}
       <div className="bg-white rounded-2xl border border-gray-200 p-4">
@@ -243,34 +228,37 @@ export default function ReservationForm({ seance }: Props) {
         </div>
         <div>
           <span className="text-sm font-semibold text-gray-900">Mémoriser mes infos pour la prochaine fois</span>
-          <p className="text-xs text-gray-400 mt-0.5">Nom, prénom et email sauvegardés sur votre appareil uniquement. <a href="/politique-confidentialite" className="text-brand hover:underline" target="_blank">En savoir plus</a></p>
+          <p className="text-xs text-gray-400 mt-0.5">Sauvegardé sur votre appareil uniquement.</p>
         </div>
       </label>
 
       {/* Total + CTA */}
       <div className="bg-white rounded-2xl border border-gray-200 p-4">
         <div className="flex justify-between mb-1 text-sm">
-          <span className="text-gray-600">{format === 'seance' ? '1 séance' : 'Pass mensuel illimité'}</span>
-          <span className="font-semibold">{(promoStatus?.valid && promoStatus?.gratuit) || abonnementCouvreSeance ? <span className="line-through text-gray-400">{montantBase}€</span> : `${montantBase}€`}</span>
+          <span className="text-gray-600">Séance Avifit</span>
+          <span className="font-semibold">{gratuit ? <span className="line-through text-gray-400">{montantBase}€</span> : `${montantBase}€`}</span>
         </div>
-        {avecLicence && !promoStatus?.gratuit && (
+        {ajouterLicence && !gratuit && (
           <div className="flex justify-between mb-1 text-sm">
             <span className="text-gray-600">Licence FFA</span>
-            <span className="font-semibold">{PRIX.licence}€</span>
+            <span className="font-semibold">{prixLicence}€</span>
+          </div>
+        )}
+        {(isAdherent || dejaLicencie) && !aboActif && (
+          <div className="flex justify-between mb-1 text-sm text-green-600">
+            <span>Licence FFA</span>
+            <span className="font-semibold">incluse</span>
           </div>
         )}
         <div className="h-px bg-gray-100 my-3" />
         <div className="flex items-center justify-between mb-4">
           <span className="font-bold">Total</span>
-          <span className="text-2xl font-black tracking-tight text-brand">{(promoStatus?.valid && promoStatus?.gratuit) || abonnementCouvreSeance ? '0€ 🎉' : `${montantTotal}€`}</span>
+          <span className="text-2xl font-black tracking-tight text-brand">{gratuit ? '0€ 🎉' : `${montantTotal}€`}</span>
         </div>
         {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3 mb-3 font-medium">{error}</div>}
         <button type="submit" disabled={loading}
           className="w-full bg-brand text-white font-black py-4 rounded-xl hover:bg-brand-700 transition-colors disabled:opacity-60 text-base shadow-lg shadow-brand/20">
-          {loading ? 'Redirection…' :
-            abonnementCouvreSeance ? '✓ Réserver (pass mensuel)' :
-            promoStatus?.valid && promoStatus?.gratuit ? '✓ Réserver gratuitement' :
-            `Payer ${montantTotal}€ →`}
+          {loading ? 'Redirection…' : aboActif ? '✓ Réserver (pass saison)' : gratuit ? '✓ Réserver gratuitement' : `Payer ${montantTotal}€ →`}
         </button>
         <p className="text-xs text-gray-400 text-center mt-2">🔒 Paiement sécurisé · Apple Pay & Google Pay acceptés</p>
       </div>

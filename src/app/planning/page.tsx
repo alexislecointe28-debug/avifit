@@ -179,12 +179,12 @@ export default async function PlanningPage() {
               <div>
                 <div className="text-2xl font-bold text-brand tracking-tight">49€<span className="text-sm font-medium text-gray-400">/mois</span></div>
                 <div className="text-xs text-gray-400 mt-1">
-                  <a href="/abonnement" className="text-brand font-semibold hover:underline">Pass mensuel illimité →</a>
+                  <a href="/abonnement" className="text-brand font-semibold hover:underline">Pass saison →</a>
                 </div>
               </div>
             </div>
             <p className="text-xs text-gray-400 mt-4 pt-4 border-t border-gray-100">
-              Adhérent AUNL : 5€/séance · 29€/mois en pass illimité · Licence FFA +45€ si non-licencié
+              Adhérent AUNL : 5€/séance · dès 180€/saison (adhérent) · Licence FFA +45€ si non-licencié
             </p>
           </div>
 

@@ -71,7 +71,7 @@ export default async function HomePage() {
                     Réserver une séance
                   </Link>
                   <Link href="/abonnement" className="bg-white/10 backdrop-blur-sm text-white text-sm font-semibold px-7 py-3.5 rounded-xl border border-white/20 hover:bg-white/20 transition-colors">
-                    Pass mensuel — 49€/mois
+                    Saison — dès 280€
                   </Link>
                 </div>
                 <div className="flex gap-8 mt-10 pt-8 border-t border-white/10">
@@ -305,7 +305,7 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {[
                 { n: '1', title: 'Choisissez un créneau', desc: 'Planning en temps réel avec les places disponibles. Réservez en 2 minutes.' },
-                { n: '2', title: 'Payez en ligne', desc: "Séance à l'unité (10€) ou pass mensuel illimité (49€/mois). Paiement sécurisé Stripe. Licence FFA ajoutée si besoin." },
+                { n: '2', title: 'Payez en ligne', desc: "Séance à l'unité (10€) ou pass saison (dès 280€, licence FFA incluse). Paiement sécurisé Stripe." },
                 { n: '3', title: 'Venez transpirer', desc: "Confirmation par email. On vous accueille à l'AUNL — 59 quai Clémenceau, Caluire-et-Cuire. Juste de l'eau à apporter." },
               ].map((s) => (
                 <div key={s.n} className="bg-white rounded-xl border border-gray-200 p-6">
@@ -433,7 +433,7 @@ export default async function HomePage() {
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Navigation</div>
                 <div className="flex flex-col gap-2">
                   <a href="/planning" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Planning</a>
-                  <a href="/abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Pass mensuel</a>
+                  <a href="/abonnement" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Pass saison</a>
                   <a href="/#tarifs" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Tarifs</a>
                   <a href="/coachs-pro" className="text-xs text-gray-500 hover:text-brand font-medium transition-colors">Coachs Pro</a>
                 </div>

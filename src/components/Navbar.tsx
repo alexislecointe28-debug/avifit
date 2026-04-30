@@ -8,7 +8,7 @@ const LINKS = [
   { href: '/#concept', label: 'Concept' },
   { href: '/planning', label: 'Planning' },
   { href: '/#tarifs', label: 'Tarifs' },
-  { href: '/abonnement', label: 'Pass mensuel' },
+  { href: '/abonnement', label: 'Pass saison' },
   { href: '/mes-seances', label: 'Mes séances' },
   { href: '/coachs-pro', label: 'Coachs Pro' },
 ]

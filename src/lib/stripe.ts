@@ -10,16 +10,23 @@ export const PRICES = {
     adherent: 500,      // 5€
     label: 'Séance Avifit',
   },
-  abonnement: {
-    // Pass mensuel illimité — prélèvement Stripe récurrent, sans engagement
-    priceId: 'price_1TPFUm06PYdTakrbhg1IU4Yi',         // 49€/mois plein tarif
-    priceIdAdherent: 'price_1TPFWC06PYdTakrbCOVtQi0n', // 29€/mois adhérent AUNL
-    amount: 4900,        // 49€/mois
-    adherent: 2900,      // 29€/mois
-    label: 'Pass mensuel Avifit',
+  // Passes saison — paiement unique, licence FFA toujours incluse
+  saison_1x: {
+    amount: 28000,      // 280€
+    adherent: 18000,    // 180€
+    label: 'Saison Avifit 1×/semaine',
+    finSaison: '2026-06-30',
+  },
+  saison_illimitee: {
+    amount: 39900,      // 399€
+    adherent: 24900,    // 249€
+    label: 'Saison Avifit illimitée',
+    finSaison: '2026-06-30',
   },
   licence_ffa: {
     amount: 4500,       // 45€
     label: 'Licence FFA annuelle',
   },
 } as const
+
+export type SaisonKey = 'saison_1x' | 'saison_illimitee'

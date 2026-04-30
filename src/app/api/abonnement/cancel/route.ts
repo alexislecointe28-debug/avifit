@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
 import { createServiceClient } from '@/lib/supabase'
 
 export async function POST(req: NextRequest) {
@@ -7,23 +6,23 @@ export async function POST(req: NextRequest) {
   if (!email) return NextResponse.json({ error: 'Email requis' }, { status: 400 })
 
   const supabase = createServiceClient()
+  const today = new Date().toISOString().split('T')[0]
+
   const { data: abo } = await supabase
     .from('abonnements')
     .select('*')
     .eq('client_email', email.toLowerCase().trim())
     .eq('statut', 'active')
+    .gte('fin_engagement', today)
     .single()
 
-  if (!abo) return NextResponse.json({ error: 'Aucun pass mensuel actif trouvé pour cet email' }, { status: 404 })
+  if (!abo) return NextResponse.json({ error: 'Aucun pass de saison actif trouvé pour cet email' }, { status: 404 })
 
-  // Pass mensuel sans engagement — résiliation effective à la fin de la période en cours
-  await stripe.subscriptions.update(abo.stripe_subscription_id, {
-    cancel_at_period_end: true,
-  })
-
+  // Saison = paiement unique, pas de résiliation Stripe automatique
+  // On marque l'abo comme annulé en DB uniquement
   await supabase.from('abonnements').update({ statut: 'cancelled' }).eq('id', abo.id)
 
   return NextResponse.json({
-    message: "Votre pass mensuel a bien été résilié. Il reste actif jusqu'à la fin du mois en cours.",
+    message: 'Votre pass de saison a bien été annulé. Aucun prélèvement supplémentaire ne sera effectué. Contactez-nous pour un remboursement prorata si besoin.',
   })
 }
