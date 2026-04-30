@@ -139,8 +139,8 @@ export default async function HomePage() {
                     <span className="text-[11px] text-gray-400 font-semibold mt-0.5">la séance</span>
                   </Link>
                   <Link href="/abonnement" className="flex flex-col items-center justify-center py-4 bg-brand hover:bg-brand-700 transition-colors">
-                    <span className="text-2xl font-black text-white tracking-tight">49€<span className="text-sm font-medium opacity-80">/mois</span></span>
-                    <span className="text-[11px] text-brand-200 font-bold mt-0.5">Pass mensuel</span>
+                    <span className="text-2xl font-black text-white tracking-tight">280€<span className="text-sm font-medium opacity-80">/saison</span></span>
+                    <span className="text-[11px] text-brand-200 font-bold mt-0.5">Saison 1×/semaine</span>
                   </Link>
                 </div>
               </div>
