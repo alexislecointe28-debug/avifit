@@ -1,5 +1,4 @@
 import Navbar from '@/components/Navbar'
-import CoachProForm from '@/components/CoachProForm'
 import CalendrierPublicMensuel from '@/components/CalendrierPublicMensuel'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -137,11 +136,7 @@ export default function CoachsProPage() {
             </div>
             </div>
 
-            {/* Formulaire achat */}
-            <div>
-              <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Réservez vos heures</p>
-              <CoachProForm />
-            </div>
+
 
           </div>
         </div>

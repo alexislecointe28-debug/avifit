@@ -76,6 +76,26 @@ export async function POST(req: NextRequest) {
         expire_le: expire.toISOString().split('T')[0],
       })
 
+      // Auto-réserver le slot si présent
+      if (meta.slot_id) {
+        const { data: sl } = await supabase.from('coach_slots').select('nb_reserves, nb_coachs_max').eq('id', meta.slot_id).single()
+        if (sl && sl.nb_reserves < sl.nb_coachs_max) {
+          const { data: inserted } = await supabase.from('coach_credits').select('id').eq('stripe_payment_id', session.payment_intent as string).single()
+          if (inserted) {
+            await supabase.from('coach_reservations').insert({
+              slot_id: meta.slot_id,
+              credit_id: inserted.id,
+              coach_email: meta.coach_email,
+              coach_nom: meta.coach_nom,
+              coach_prenom: meta.coach_prenom,
+              coach_structure: meta.coach_structure,
+              statut: 'confirmed',
+            })
+            await supabase.from('coach_slots').update({ nb_reserves: sl.nb_reserves + 1 }).eq('id', meta.slot_id)
+          }
+        }
+      }
+
       if (meta.coach_email) {
         await sendConfirmationCoachPro({
           to: meta.coach_email,

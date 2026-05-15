@@ -11,7 +11,7 @@ type PackKey = keyof typeof PACKS
 
 export async function POST(req: NextRequest) {
   try {
-    const { nom, prenom, email, tel, structure, typePack, declareAssure } = await req.json()
+    const { nom, prenom, email, tel, structure, typePack, declareAssure, slotId } = await req.json()
 
     if (!nom || !prenom || !email || !tel || !structure || !typePack || !declareAssure) {
       return NextResponse.json({ error: 'Tous les champs sont obligatoires' }, { status: 400 })
@@ -49,6 +49,7 @@ export async function POST(req: NextRequest) {
         coach_email: email.toLowerCase().trim(),
         coach_tel: tel,
         coach_structure: structure,
+        slot_id: slotId ?? null,
       },
       success_url: `${appUrl}/confirmation?type=coach_pro`,
       cancel_url: `${appUrl}/coachs-pro`,

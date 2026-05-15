@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import ModaleReservationCoach from '@/components/ModaleReservationCoach'
 
 type Slot = {
   id: string
@@ -23,6 +24,7 @@ export default function CalendrierPublicMensuel() {
   const [slots, setSlots] = useState<Slot[]>([])
   const [loading, setLoading] = useState(false)
   const [jourSelectionne, setJourSelectionne] = useState<string | null>(null)
+  const [slotModal, setSlotModal] = useState<Slot | null>(null)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -131,8 +133,9 @@ export default function CalendrierPublicMensuel() {
                     const plein = s.nb_reserves >= s.nb_coachs_max
                     return (
                       <span key={s.id}
-                        className={`text-[9px] font-bold px-1 py-0.5 rounded text-center leading-none
-                          ${plein ? 'bg-gray-100 text-gray-400' : 'bg-green-100 text-green-700'}`}>
+                        onClick={e => { if (!plein && !isPast) { e.stopPropagation(); setSlotModal(s) } }}
+                        className={`text-[9px] font-bold px-1 py-0.5 rounded text-center leading-none transition-colors
+                          ${plein ? 'bg-gray-100 text-gray-400 cursor-default' : 'bg-green-100 text-green-700 hover:bg-green-200 cursor-pointer'}`}>
                         {s.heure_debut.slice(0, 5)}
                       </span>
                     )
@@ -172,10 +175,10 @@ export default function CalendrierPublicMensuel() {
                     </span>
                   </div>
                   {!plein && (
-                    <Link href="/mon-credit-coach"
+                    <button onClick={() => setSlotModal(s)}
                       className="bg-gray-900 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-gray-700 transition-colors">
                       Réserver →
-                    </Link>
+                    </button>
                   )}
                 </div>
               )
@@ -183,6 +186,9 @@ export default function CalendrierPublicMensuel() {
           </div>
         </div>
       )}
+
+      {/* Modale réservation */}
+      {slotModal && <ModaleReservationCoach slot={slotModal} onClose={() => setSlotModal(null)} />}
 
       {/* Légende + CTA */}
       <div className="flex items-center justify-between flex-wrap gap-3">
