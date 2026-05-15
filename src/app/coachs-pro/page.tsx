@@ -5,12 +5,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 export default function CoachsProPage() {
-  const CRENEAUX = [
-    { jour: 'Lundi – Vendredi', horaires: '9h – 12h', dispo: true },
-    { jour: 'Lundi – Vendredi', horaires: '14h – 17h', dispo: true },
-    { jour: 'Samedi', horaires: 'Sur demande', dispo: false },
-  ]
-
   const REGLES = [
     'Réservation obligatoire 48h à l\'avance',
     'Maximum 2 coachs simultanément',
@@ -108,25 +102,6 @@ export default function CoachsProPage() {
                     </div>
                   ))}
                 </div>
-              </div>
-
-              {/* Créneaux disponibles */}
-              <div>
-                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Créneaux disponibles</p>
-                <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100 overflow-hidden">
-                  {CRENEAUX.map((c, i) => (
-                    <div key={i} className="flex items-center justify-between px-4 py-3">
-                      <div>
-                        <div className="text-sm font-semibold text-gray-900">{c.jour}</div>
-                        <div className="text-xs text-gray-400">{c.horaires}</div>
-                      </div>
-                      <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${c.dispo ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
-                        {c.dispo ? 'Disponible' : 'Sur demande'}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                <p className="text-xs text-gray-400 mt-2">Les créneaux hors séances Avifit grand public. Contact pour réservation après achat.</p>
               </div>
 
               {/* Règles */}
