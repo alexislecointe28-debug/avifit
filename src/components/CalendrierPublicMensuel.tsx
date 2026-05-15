@@ -24,7 +24,7 @@ export default function CalendrierPublicMensuel() {
   const [slots, setSlots] = useState<Slot[]>([])
   const [loading, setLoading] = useState(false)
   const [jourSelectionne, setJourSelectionne] = useState<string | null>(null)
-  const [slotModal, setSlotModal] = useState<Slot | null>(null)
+  const [slotModal, setSlotModal] = useState<{ slot: Slot; slotsJour: Slot[] } | null>(null)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -133,7 +133,7 @@ export default function CalendrierPublicMensuel() {
                     const plein = s.nb_reserves >= s.nb_coachs_max
                     return (
                       <span key={s.id}
-                        onClick={e => { if (!plein && !isPast) { e.stopPropagation(); setSlotModal(s) } }}
+                        onClick={e => { if (!plein && !isPast) { e.stopPropagation(); setSlotModal({ slot: s, slotsJour: slotsByDate[s.slot_date] ?? [] }) } }}
                         className={`text-[9px] font-bold px-1 py-0.5 rounded text-center leading-none transition-colors
                           ${plein ? 'bg-gray-100 text-gray-400 cursor-default' : 'bg-green-100 text-green-700 hover:bg-green-200 cursor-pointer'}`}>
                         {s.heure_debut.slice(0, 5)}
@@ -175,7 +175,7 @@ export default function CalendrierPublicMensuel() {
                     </span>
                   </div>
                   {!plein && (
-                    <button onClick={() => setSlotModal(s)}
+                    <button onClick={() => setSlotModal({ slot: s, slotsJour: slotsJourSelectionne })}
                       className="bg-gray-900 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-gray-700 transition-colors">
                       Réserver →
                     </button>
@@ -188,7 +188,7 @@ export default function CalendrierPublicMensuel() {
       )}
 
       {/* Modale réservation */}
-      {slotModal && <ModaleReservationCoach slot={slotModal} onClose={() => setSlotModal(null)} />}
+      {slotModal && <ModaleReservationCoach slot={slotModal.slot} slotsJour={slotModal.slotsJour} onClose={() => setSlotModal(null)} />}
 
       {/* Légende + CTA */}
       <div className="flex items-center justify-between flex-wrap gap-3">
