@@ -14,6 +14,7 @@ const NAV = [
   { href: '/admin/clients', label: 'Clients', icon: '📋' },
   { href: '/admin/coachs', label: 'Coachs', icon: '🏋️' },
   { href: '/admin/promos', label: 'Codes promo', icon: '🎟️' },
+  { href: '/admin/coach-slots', label: 'Coachs Pro', icon: '🏋️' },
 ]
 
 export default function AdminSidebar() {
