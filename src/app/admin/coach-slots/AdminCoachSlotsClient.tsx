@@ -9,12 +9,12 @@ type Resa = {
   coach_email: string
   coach_structure: string
   created_at: string
-  coach_slots: { date: string; heure_debut: string; heure_fin: string }
+  coach_slots: { slot_date: string; heure_debut: string; heure_fin: string }
 }
 
 type Slot = {
   id: string
-  date: string
+  slot_date: string
   heure_debut: string
   heure_fin: string
   nb_coachs_max: number
@@ -82,7 +82,7 @@ export default function AdminCoachSlotsClient({ reservations }: { reservations: 
   const dimanche = addDays(lundi, 6)
   const jours = Array.from({ length: 7 }, (_, i) => addDays(lundi, i))
   const slotsByDate: Record<string, Slot[]> = {}
-  slots.forEach(s => { if (!slotsByDate[s.date]) slotsByDate[s.date] = []; slotsByDate[s.date].push(s) })
+  slots.forEach(s => { if (!slotsByDate[s.slot_date]) slotsByDate[s.slot_date] = []; slotsByDate[s.slot_date].push(s) })
 
   const heures = Array.from({ length: 14 }, (_, i) => String(i + 7).padStart(2, '0'))
 
@@ -96,7 +96,7 @@ export default function AdminCoachSlotsClient({ reservations }: { reservations: 
             {reservations.slice(0, 5).map(r => {
               const slot = r.coach_slots
               if (!slot) return null
-              const dateStr = new Date(slot.date + 'T00:00:00').toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })
+              const dateStr = new Date(slot.slot_date + 'T00:00:00').toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })
               return (
                 <div key={r.id} className="flex items-center gap-3 text-sm bg-brand-50 border border-brand-100 rounded-xl px-4 py-2.5">
                   <span className="text-brand font-bold w-28 flex-shrink-0">{dateStr}</span>
@@ -224,7 +224,7 @@ export default function AdminCoachSlotsClient({ reservations }: { reservations: 
           <div className="mt-4 border-t border-gray-100 pt-4">
             <div className="flex items-center justify-between mb-3">
               <span className="font-bold text-gray-900">
-                {new Date(selectedSlot.date + 'T00:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })} · {selectedSlot.heure_debut.slice(0,5)} → {selectedSlot.heure_fin.slice(0,5)}
+                {new Date(selectedSlot.slot_date + 'T00:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })} · {selectedSlot.heure_debut.slice(0,5)} → {selectedSlot.heure_fin.slice(0,5)}
               </span>
               <div className="flex gap-2">
                 <span className="text-sm text-gray-500">{selectedSlot.nb_reserves}/{selectedSlot.nb_coachs_max} coach(s)</span>

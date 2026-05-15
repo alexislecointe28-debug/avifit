@@ -12,11 +12,11 @@ export async function GET(req: NextRequest) {
 
   const { data: slots } = await supabase
     .from('coach_slots')
-    .select('id, date, heure_debut, heure_fin, nb_coachs_max, nb_reserves, statut')
-    .gte('date', lundi)
-    .lte('date', dimanche.toISOString().split('T')[0])
+    .select('id, slot_date, heure_debut, heure_fin, nb_coachs_max, nb_reserves, statut')
+    .gte('slot_date', lundi)
+    .lte('slot_date', dimanche.toISOString().split('T')[0])
     .eq('statut', 'disponible')
-    .order('date').order('heure_debut')
+    .order('slot_date').order('heure_debut')
 
   return NextResponse.json({ slots: slots ?? [] })
 }

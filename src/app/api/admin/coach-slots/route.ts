@@ -14,9 +14,9 @@ export async function GET(req: NextRequest) {
   const { data: slots } = await supabase
     .from('coach_slots')
     .select(`*, coach_reservations(id, coach_nom, coach_prenom, coach_email, coach_structure, statut, created_at)`)
-    .gte('date', lundi)
-    .lte('date', dimanche.toISOString().split('T')[0])
-    .order('date').order('heure_debut')
+    .gte('slot_date', lundi)
+    .lte('slot_date', dimanche.toISOString().split('T')[0])
+    .order('slot_date').order('heure_debut')
 
   return NextResponse.json({ slots: slots ?? [] })
 }
@@ -32,13 +32,13 @@ export async function POST(req: NextRequest) {
   const supabase = createServiceClient()
 
   // Générer les blocs d'1h entre heureDebut et heureFin
-  function genBlocs(dateStr: string): { date: string; heure_debut: string; heure_fin: string }[] {
+  function genBlocs(dateStr: string): { slot_date: string; heure_debut: string; heure_fin: string }[] {
     const blocs = []
     let h = parseInt(heureDebut.split(':')[0])
     const hFin = parseInt(heureFin.split(':')[0])
     while (h < hFin) {
       blocs.push({
-        date: dateStr,
+        slot_date: dateStr,
         heure_debut: `${String(h).padStart(2, '0')}:00`,
         heure_fin: `${String(h + 1).padStart(2, '0')}:00`,
       })
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     return blocs
   }
 
-  const toInsert: { date: string; heure_debut: string; heure_fin: string }[] = []
+  const toInsert: { slot_date: string; heure_debut: string; heure_fin: string }[] = []
   const baseDate = new Date(date + 'T00:00:00')
 
   if (recurrence === 'aucune') {
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Dédupliquer
-  const map = new Map(toInsert.map(s => [`${s.date}-${s.heure_debut}`, s]))
+  const map = new Map(toInsert.map(s => [`${s.slot_date}-${s.heure_debut}`, s]))
   const unique = Array.from(map.values())
 
   const { data, error } = await supabase.from('coach_slots').insert(unique).select()

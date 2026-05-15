@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 
 type Slot = {
   id: string
-  date: string
+  slot_date: string
   heure_debut: string
   heure_fin: string
   nb_coachs_max: number
@@ -90,8 +90,8 @@ export default function CalendrierCoachPro({ email }: { email: string }) {
   // Grouper les slots par jour
   const slotsByDate: Record<string, Slot[]> = {}
   slots.forEach(s => {
-    if (!slotsByDate[s.date]) slotsByDate[s.date] = []
-    slotsByDate[s.date].push(s)
+    if (!slotsByDate[s.slot_date]) slotsByDate[s.slot_date] = []
+    slotsByDate[s.slot_date].push(s)
   })
 
   const resasBySlot = new Map(resas.map(r => [r.slot_id, r]))

@@ -14,8 +14,8 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
   if (!resa) return NextResponse.json({ error: 'Réservation introuvable' }, { status: 404 })
 
   // Vérifier délai 2h avant
-  const slot = resa.coach_slots as { date: string; heure_debut: string }
-  const debut = new Date(`${slot.date}T${slot.heure_debut}`)
+  const slot = resa.coach_slots as { slot_date: string; heure_debut: string }
+  const debut = new Date(`${slot.slot_date}T${slot.heure_debut}`)
   const cutoff = new Date(Date.now() + 2 * 60 * 60 * 1000)
   if (debut <= cutoff) {
     return NextResponse.json({ error: 'Annulation impossible moins de 2h avant le créneau' }, { status: 409 })

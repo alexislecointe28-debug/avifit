@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
 
   // Email admin
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
-  const dateStr = new Date(slot.date + 'T00:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
+  const dateStr = new Date(slot.slot_date + 'T00:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
   
   try {
     const { Resend } = await import('resend')
