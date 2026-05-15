@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar'
 import CoachProForm from '@/components/CoachProForm'
+import CalendrierPublicMensuel from '@/components/CalendrierPublicMensuel'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -68,9 +69,10 @@ export default function CoachsProPage() {
         </section>
 
         <div className="max-w-6xl mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="flex flex-col gap-10">
 
-            {/* Colonne gauche — infos */}
+            {/* Infos + Calendrier */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             <div className="flex flex-col gap-8">
 
               {/* Concept */}
@@ -153,12 +155,17 @@ export default function CoachsProPage() {
 
             </div>
 
-            {/* Colonne droite — formulaire */}
+            {/* Calendrier disponibilités */}
             <div>
-              <div className="sticky top-24">
-                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Réservez vos heures</p>
-                <CoachProForm />
-              </div>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Disponibilités</p>
+              <CalendrierPublicMensuel />
+            </div>
+            </div>
+
+            {/* Formulaire achat */}
+            <div>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Réservez vos heures</p>
+              <CoachProForm />
             </div>
 
           </div>
